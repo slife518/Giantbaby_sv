@@ -20,11 +20,5 @@ class Topic extends CI_Controller {
         $this->load->view('get', array('topic'=>$topic));
         $this->load->view('footer');
     }
-
-    function records(){
-      $this->load->view('head');
-      $this->load->view('records');
-      $this->load->view('footer');
-    }
 }
 ?>

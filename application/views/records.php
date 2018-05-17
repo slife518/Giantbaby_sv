@@ -14,7 +14,7 @@
                         <a href="http://creative-tim.com">
                              <div class="logo-container">
                                 <div class="logo">
-                                    <img src="get-shit-done-1.4.1/assets/img/new_logo.png">
+                                    <img src="/etc/assets/img/new_logo.png">
                                 </div>
                                 <div class="brand">
                                     Records
@@ -98,16 +98,6 @@
                   </div>
                 </div>
             </div>
-    <script src="get-shit-done-1.4.1/jquery/jquery-1.10.2.js" type="text/javascript"></script>
-  	<script src="get-shit-done-1.4.1/assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
-  	<script src="get-shit-done-1.4.1/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
-  	<script src="get-shit-done-1.4.1/assets/js/gsdk-checkbox.js"></script>
-  	<script src="get-shit-done-1.4.1/assets/js/gsdk-radio.js"></script>
-  	<script src="get-shit-done-1.4.1/assets/js/gsdk-bootstrapswitch.js"></script>
-  	<script src="get-shit-done-1.4.1/assets/js/get-shit-done.js"></script>
-    <script src="get-shit-done-1.4.1/assets/js/custom.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-    <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript">
     $( function() {
             $('.btn-tooltip').tooltip();
