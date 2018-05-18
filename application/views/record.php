@@ -1,50 +1,8 @@
-        <div id="navbar-full">
-            <div class="container">
-                <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation">
-
-                  <div class="container">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a href="http://creative-tim.com">
-                             <div class="logo-container">
-                                <div class="logo">
-                                    <img src="/etc/assets/img/new_logo.png">
-                                </div>
-                                <div class="brand">
-                                    Records
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                      <ul class="nav navbar-nav navbar-right">
-                            <li><a href="components.html">Components</a></li>
-
-                            <li><a href="http://www.creative-tim.com/product/get-shit-done-kit" class="btn btn-round btn-default">기록보기</a></li>
-                       </ul>
-
-                    </div><!-- /.navbar-collapse -->
-                  </div><!-- /.container-fluid -->
-                </nav>
-            </div><!--  end container-->
-        </div>
+<form action="/index.php/record/index" method="post">
+  <?php echo validation_errors(); ?>
         <div class="main">
             <div class="container tim-container">
                 <div id="inputs">
-                    <div class="tim-title">
-                        <h3>.</h3>
-                    </div>
-                    <div class="tim-title">
-                        <h3>기록하기</h3>
-                    </div>
                     <div>
                       <h6>날짜</h6>
                     </div>
@@ -52,7 +10,7 @@
                       <div>
                         <div class="col-md-3 col-xs-7">
                           	<div>
-                              <input type="text" value="" placeholder="2017.05.14" class="form-control" id="eatDateTime"  />
+                              <input type="text" value="" placeholder="2017.05.14" class="form-control" id="record_date"  />
                           </div>
                         </div>
                       </div>
@@ -63,7 +21,7 @@
                     <div class="row">
                       <div>
                         <div class="col-md-2 col-xs-5">
-                            <input type="number" id="eatMl" value="200" class="form-control"/>
+                            <input type="number" id="milk" value="200" class="form-control"/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="glyphicon glyphicon-arrow-up btn-round button" id="upQuantity">10</button>
@@ -79,7 +37,7 @@
                     <div class="row">
                       <div>
                         <div class="col-md-2 col-xs-5">
-                            <input type="number" id="eatRice" value="50" class="form-control"/>
+                            <input type="number" id="rice" value="50" class="form-control"/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="glyphicon glyphicon-arrow-up btn-round button" id="upRiceQuantity">10</button>
@@ -90,14 +48,11 @@
                       </div>
                     </div>
                     <p></p><p></p><p></p>
-                    <div class="row">
-                      <div class="col-md-6 col-xs-6 col-md-offset-3 col-xs-offset-3">
-                         <button type="button" class="btn btn-block btn-lg btn-info btn-simple">저장하기</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              </div>
+              <input type="submit" class="btn btn-block btn-lg btn-info btn-simple" value="저장하기" />
             </div>
+        </div>
+    </form>
     <script type="text/javascript">
     $( function() {
             $('.btn-tooltip').tooltip();
