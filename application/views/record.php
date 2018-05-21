@@ -2,18 +2,26 @@
   <?php echo validation_errors(); ?>
         <div class="main">
             <div class="container tim-container">
-                <div id="inputs">
-                    <div>
-                      <h6>날짜</h6>
+                <div name="inputs">
+                    <div class="row">
+                      <div class="col-md-2 col-xs-5">
+                        <h6>날짜</h6>
+                      </div>
+                      <div class="col-md-2 col-xs-5">
+                        <h6>시간</h6>
+                      </div>
                     </div>
                     <div class="row">
-                      <div>
-                        <div class="col-md-3 col-xs-7">
+                        <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" value="" placeholder="2017.05.14" class="form-control" id="record_date"  />
-                          </div>
+                              <input type="text" class="form-control" id="record_date" name="record_date"  />
+                            </div>
                         </div>
-                      </div>
+                        <div class="col-md-2 col-xs-5">
+                          	<div>
+                              <input type="text" value="" placeholder="11:10:54" class="form-control" id="record_time" name="record_time"  />
+                            </div>
+                        </div>
                     </div>
                     <div>
                       <h6>분유(ml)</h6>
@@ -21,7 +29,7 @@
                     <div class="row">
                       <div>
                         <div class="col-md-2 col-xs-5">
-                            <input type="number" id="milk" value="200" class="form-control"/>
+                            <input type="number" id="milk" name="milk" value="200" class="form-control"/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="glyphicon glyphicon-arrow-up btn-round button" id="upQuantity">10</button>
@@ -37,7 +45,7 @@
                     <div class="row">
                       <div>
                         <div class="col-md-2 col-xs-5">
-                            <input type="number" id="rice" value="50" class="form-control"/>
+                            <input type="number" id="rice" name="rice" value="50" class="form-control"/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="glyphicon glyphicon-arrow-up btn-round button" id="upRiceQuantity">10</button>
@@ -53,8 +61,8 @@
             </div>
         </div>
     </form>
-    <script type="text/javascript">
-    $( function() {
+<script type="text/javascript">
+$( function() {
             $('.btn-tooltip').tooltip();
             $('.label-tooltip').tooltip();
             $('.pick-class-label').click(function(){
@@ -84,28 +92,38 @@
                 interval: 4000
             });
 
-            $("#eatDateTime").datetimepicker();
+            $('#record_date').datetimepicker({
+                            format: 'YYYY/MM/DD'
+            });
 
+            $('#record_time').datetimepicker({
+                            format: 'hh:mm:ss'
+            });
             $('#upQuantity').on('click', function () {
-               var aaa = parseInt($("#eatMl").val()) + 10;
-               $("#eatMl").val(aaa);
+               var aaa = parseInt($("#milk").val()) + 10;
+               $("#milk").val(aaa);
             })
             $('#downQuantity').on('click', function () {
-              var bbb = parseInt($("#eatMl").val()) - 10;
-              $("#eatMl").val(bbb);
+              var bbb = parseInt($("#milk").val()) - 10;
+              $("#milk").val(bbb);
             })
             $('#upRiceQuantity').on('click', function () {
-               var aaa = parseInt($("#eatRice").val()) + 10;
-               $("#eatRice").val(aaa);
+               var aaa = parseInt($("#rice").val()) + 10;
+               $("#rice").val(aaa);
             })
             $('#downRiceQuantity').on('click', function () {
-              var bbb = parseInt($("#eatRice").val()) - 10;
-              $("#eatRice").val(bbb);
+              var bbb = parseInt($("#rice").val()) - 10;
+              $("#rice").val(bbb);
             })
 
-            $( ".widget input[type=submit], .widget a, .widget button" ).button();
-            $("button, input, a" ).click( function( event ) {
-              event.preventDefault();
-            } );
-    } );
-  </script>
+            // $( ".widget input[type=submit], .widget a, .widget button" ).button();
+            // $("button, input, a" ).click( function( event ) {
+            //   event.preventDefault();
+            // } );
+
+            $("form").on("submit", function(event) {
+            //   event.preventDefault();
+               //alert($('#record_date').val());               // process form
+            });
+} );
+</script>

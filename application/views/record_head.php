@@ -61,7 +61,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                   <li><a href="components.html">Components</a></li>
 
-                                  <li><a href="/index.php/records/gets" class="btn btn-round btn-default">기록보기</a></li>
+                                  <li><a href="/index.php/record/record_list" class="btn btn-round btn-default">기록보기</a></li>
                              </ul>
 
                           </div><!-- /.navbar-collapse -->
@@ -80,4 +80,4 @@
                         </div>
                       </div>
                    </div>
-              </div>              
+              </div>
