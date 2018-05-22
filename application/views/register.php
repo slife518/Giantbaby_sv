@@ -22,6 +22,9 @@
               <label class="control-label" for="re_password">비밀번호 확인</label>
               <input class="form-control" type="password" id="re_password" name="re_password" value="<?php echo set_value('re_password'); ?>"   placeholder="비밀번호 확인">
             </div>
+            <div class="form-group">
+              <p id="error"></p>
+            </div>
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary" value="회원가입" />
