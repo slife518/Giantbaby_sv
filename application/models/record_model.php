@@ -7,7 +7,7 @@ class Record_model extends CI_Model {
     }
 
     function gets(){
-        return $this->db->query("SELECT * FROM aaa_record  ORDER BY record_date DESC")->result();   //result_array 로도 가능
+        return $this->db->query("SELECT * FROM aaa_record  ORDER BY record_date DESC, record_time DESC")->result();   //result_array 로도 가능
     }
 
     function get($record_id){
@@ -23,6 +23,12 @@ class Record_model extends CI_Model {
             'rice'=>$rice
         ));
         return $this->db->insert_id();
+    }
+
+    function checkid($id, $password){
+      log_message('debug', 'id check start');
+      return $this->db->get_where('user', array('id'=>$id, 'password'=>$password))->row();
+
     }
 }
 

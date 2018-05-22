@@ -10,6 +10,7 @@
             	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
               <meta name="viewport" content="width=device-width" />
               <link href="/etc/bootstrap3/css/bootstrap.css" rel="stylesheet" />
+              <link href="dist/css/fs-modal.min.css" rel="stylesheet">
             	<link href="/etc/assets/css/gsdk.css" rel="stylesheet" />
               <link href="/etc/assets/css/demo.css" rel="stylesheet" />
                 <!--     Font Awesome     -->
@@ -19,6 +20,9 @@
               <script src="/etc/jquery/jquery-1.10.2.js" type="text/javascript"></script>
               <script src="/etc/assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
               <script src="/etc/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
+
+              <script src="dist/js/fs-modal.min.js"></script>
+              
               <script src="/etc/assets/js/gsdk-checkbox.js"></script>
               <script src="/etc/assets/js/gsdk-radio.js"></script>
               <script src="/etc/assets/js/gsdk-bootstrapswitch.js"></script>
@@ -28,9 +32,13 @@
               <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
             </head>
-
-
             <body>
+              <?php
+                if($this->session->flashdata('message')){
+               ?>
+               <script> alert(<?=$this->session->flashdata('message')?> );</script>
+               <?php }
+                ?>
               <div id="navbar-full">
                   <div class="container">
                       <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation">
@@ -60,8 +68,19 @@
                           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-right">
                                   <li><a href="components.html">Components</a></li>
-
                                   <li><a href="/index.php/record/record_list" class="btn btn-round btn-default">기록보기</a></li>
+                                  <?php
+                                  if($this->session->userdata('is_login')){
+                                  ?>
+                                    <li><a href="/index.php/auth/login" class="btn btn-round btn-default">로그아웃</a></li>
+                                  <?php
+                                  } else {
+                                  ?>
+                                    <li><a href="/index.php/auth/login" class="btn btn-round btn-default">로그인</a></li>
+                                    <li><a href="/index.php/auth/register" class="btn btn-round btn-default">회원가입</a></li>
+                                  <?php
+                                }
+                                  ?>
                              </ul>
 
                           </div><!-- /.navbar-collapse -->

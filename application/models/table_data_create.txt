@@ -51,3 +51,12 @@ INSERT INTO `aaa_record` (`id`, `record_date`, `milk`, `rice`, `author`, `descri
 INSERT INTO `aaa_record` (`id`, `record_date`, `milk`, `rice`, `author`, `description`, `created`) VALUES (NULL, NOW(), '230', '20', 'slife705@naver.com', NULL, CURRENT_TIMESTAMP);
 INSERT INTO `aaa_record` (`id`, `record_date`, `milk`, `rice`, `author`, `description`, `created`) VALUES (NULL, NOW(), '250', '10', 'slife705@naver.com', NULL, CURRENT_TIMESTAMP);
 INSERT INTO `aaa_record` (`id`, `record_date`, `milk`, `rice`, `author`, `description`, `created`) VALUES (NULL, NOW(), '200', '80', 'slife705@naver.com', NULL, CURRENT_TIMESTAMP);
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_idx` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

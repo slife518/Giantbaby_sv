@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
-| Base Site URL
+| Base Site URL  (production)
 |--------------------------------------------------------------------------
 |
 | URL to your CodeIgniter root. Typically this will be your base URL,
@@ -23,7 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = ' ';
+// $config['base_url'] = '';
+$config['base_url'] = 'http://localhost:8080/dev.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -324,10 +325,13 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
+// $config['encryption_key'] = '';
 $config['encryption_key'] = 'qwertyuiopasdfghjklmnbvcxz,.1234';
 
-$config['session_use_database'] = TRUE;
-$config['session_table_name'] = 'ci_sessions';
+$config['authentication'] = array(
+  'id'=> 'slife705@naver.com',
+  'password'=> 'slife0'
+);
 /*
 |--------------------------------------------------------------------------
 | Session Variables
@@ -383,8 +387,7 @@ $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = NULL;
-$config['sess_match_ip'] = TRUE;
-$config['sess_match_useragent'] = TRUE;
+$config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
 
