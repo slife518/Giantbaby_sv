@@ -14,12 +14,12 @@
                     <div class="row">
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" class="form-control" id="record_date" name="record_date"  />
+                              <input type="text" class="form-control" id="record_date" name="record_date"  value="<?php echo date("Y-m-d"); ?>"/>
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" value="" placeholder="11:10:54" class="form-control" id="record_time" name="record_time"  />
+                              <input type="text" value="" placeholder="11:10:54" class="form-control" id="record_time" name="record_time" value="<?php echo date("H-M-S"); ?>" />
                             </div>
                         </div>
                     </div>

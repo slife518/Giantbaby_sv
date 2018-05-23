@@ -1,13 +1,13 @@
 <!DOCTYPE html>
         <html>
             <head>
+
               <meta charset="utf-8" />
               <link rel="apple-touch-icon" sizes="76x76" href="/etc/assets/img/apple-icon.png">
             	<link rel="icon" type="image/png" href="/etc/assets/img/favicon.png">
             	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
             	<title>기록하기</title>
-            	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-              <meta name="viewport" content="width=device-width" />
+              <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
               <link href="/etc/bootstrap3/css/bootstrap.min.css" rel="stylesheet" />
               <link href="dist/css/fs-modal.min.css" rel="stylesheet">
               <link href="/etc/assets/css/demo.css" rel="stylesheet" />
@@ -65,7 +65,7 @@
                           <!-- Collect the nav links, forms, and other content for toggling -->
                           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-right">
-                                  <li><a href="components.html">Components</a></li>
+                                  <li>목록</li>
                                   <?php
                                   if($this->session->userdata('is_login')){
                                   ?>

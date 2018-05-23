@@ -16,19 +16,19 @@
            ?>
               <tr>
                   <td>
-                    <a href="/index.php/record/get/"<?=$entry->id?>><?=$entry->record_date?></a>
+                    <a href="/index.php/record/index/<?=$entry->id?>"><?=$entry->record_date?></a>
                   </td>
                   <td class="rb-user">
-                    <a href="/index.php/record/get/"<?=$entry->id?>><?=$entry->record_time?></a>
+                    <a href="/index.php/record/index/<?=$entry->id?>"><?=$entry->record_time?></a>
                   </td>
                   <td class="rb-hit">
-                      <a href="/index.php/record/get/"<?=$entry->id?>><?=$entry->milk?></a>
+                    <a href="/index.php/record/index/<?=$entry->id?>"><?=$entry->milk?></a>
                   </td>
                   <td class="rb-time">
-                      <a href="/index.php/record/get/"<?=$entry->id?>><?=$entry->rice?></a>
+                    <a href="/index.php/record/index/<?=$entry->id?>"><?=$entry->rice?></a>
                   </td>
                   <td class="rb-time">
-                      <a href="/index.php/record/get/"<?=$entry->id?>><?=$entry->nickname?></a>
+                    <a href="/index.php/record/index/<?=$entry->id?>"><?=$entry->nickname?></a>
                   </td>
                 </tr>
           <?php
@@ -43,7 +43,11 @@
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 <script>
 $( function() {
-    $('#record_list').DataTable();
+    $('#record_list').DataTable({
+        "ordering": false,
+        "lengthChange":     false,
+        "searching" : false
+    });
 } );
 
 </script>
