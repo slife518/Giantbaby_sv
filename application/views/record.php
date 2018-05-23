@@ -101,18 +101,30 @@ $( function() {
             });
             $('#upQuantity').on('click', function () {
                var aaa = parseInt($("#milk").val()) + 10;
+               if(aaa < 0){
+                 aaa = 0;
+               }
                $("#milk").val(aaa);
             })
             $('#downQuantity').on('click', function () {
               var bbb = parseInt($("#milk").val()) - 10;
+              if(bbb < 0){
+                bbb = 0;
+              }
               $("#milk").val(bbb);
             })
             $('#upRiceQuantity').on('click', function () {
                var aaa = parseInt($("#rice").val()) + 10;
+                if(aaa < 0){
+                  aaa = 0;
+                }
                $("#rice").val(aaa);
             })
             $('#downRiceQuantity').on('click', function () {
               var bbb = parseInt($("#rice").val()) - 10;
+              if(bbb < 0){
+                bbb = 0;
+              }
               $("#rice").val(bbb);
             })
 

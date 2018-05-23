@@ -1,6 +1,8 @@
 cd /Applications/mampstack-7.0.23-0/mysql/bin
 ./mysql -u root -p
 
+var_dump($this->db->last_query());   // 마지막 쿼리문 화면에 출력
+
 use a01
 
 CREATE TABLE IF NOT EXISTS  `ci_sessions` (
@@ -14,10 +16,10 @@ CREATE TABLE IF NOT EXISTS  `ci_sessions` (
 );
 
 
-CREATE DATABASE opentutorials CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE a01 CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-use opentutorials;
+use a01;
 
 CREATE TABLE topic (
     id  int(11) NOT NULL AUTO_INCREMENT,
@@ -38,7 +40,8 @@ INSERT INTO `topic` (title,description,created) VALUES ('JSON', '<h2>JSON이란?
 
 CREATE TABLE aaa_record (
     id  int(11) NOT NULL AUTO_INCREMENT,
-    record_date datetime NOT NULL,
+    record_date date NOT NULL,
+    record_time time NOT NULL,
     milk varchar(3),
     rice varchar(3),
     author varchar(50),
@@ -56,7 +59,13 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
+  'nickname' varchar(20),
   `created` datetime NOT NULL,
+  `updated` datetime,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_idx` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+---->
+ALTER TABLE `user` ADD `updated` DATETIME NULL AFTER `created`;

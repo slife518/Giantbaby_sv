@@ -1,5 +1,5 @@
 <?php
-class Errors extends CI_controller{
+class Errors extends My_Controller {
     public function notfound(){
         $this->load->view('head');
         $this->load->view('errors/404');

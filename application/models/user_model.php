@@ -11,30 +11,46 @@ class User_model extends CI_Model {
         return $this->db->query("SELECT * FROM user")->result();
     }
 
-    function get($option)
+    function get($email)
     {
-        $result = $this->db->get_where('user', array('email'=>$option['email']))->row();
-        var_dump($this->db->last_query());
+        // $result = $this->db->get_where('user', array('email'=>$option['email']))->row();
+        $this->db->where('email', $email);
+        $result = $this->db->get('user')->row();
+        //var_dump($this->db->last_query());
         return $result;
     }
 
     function add($option)
     {
-      log_message('debug', 'aa회원가입정보저장시');
         $this->db->set('email', $option['email']);
         $this->db->set('password', $option['password']);
         $this->db->set('nickname', $option['nickname']);
         $this->db->set('created', 'NOW()', false);
         $this->db->insert('user', $data);
-
-   log_message('debug', 'add_dddddd');
         $result = $this->db->insert_id();
-    log_message('debug', 'add_ccecece');
+        return $result;
+    }
+
+    function update($option)
+    {
+        $this->db->set('email', $option['email']);
+        $this->db->set('nickname', $option['nickname']);
+        $this->db->set('updated', 'NOW()', false);
+        if(!empty($option['password']))
+        {
+          $this->db->set('password', $option['password']);
+        }
+        $this->db->where('email',  $option['email']);
+        $this->db->update('user', $data);   //update(테이블, 데이터, where)
+        $this->session->set_userdata('nickname', $option['nickname']);
+        //var_dump($this->db->last_query());
+      //  $result = $this->db->update_id();
+
         return $result;
     }
 
     function getByEmail($option){
-      log_message('debug', $option );
+      //log_message('debug', $option );
       $result = $this->db->get_where('user', array('email'=>$option['email']))->row();
       return $result;
     }

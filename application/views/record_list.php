@@ -1,6 +1,6 @@
 <article id="board_area">
   <div class="table-responsive">
-  <table class="table table-bordered">
+  <table id="record_list" class="table">
     <thead>
         <tr>
             <th scope="col">날짜</th>
@@ -28,7 +28,7 @@
                       <a href="/index.php/record/get/"<?=$entry->id?>><?=$entry->rice?></a>
                   </td>
                   <td class="rb-time">
-                      <a href="/index.php/record/get/"<?=$entry->id?>><?=$entry->author?></a>
+                      <a href="/index.php/record/get/"<?=$entry->id?>><?=$entry->nickname?></a>
                   </td>
                 </tr>
           <?php
@@ -38,3 +38,12 @@
     </table>
   </div>
 </article>
+
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+<script>
+$( function() {
+    $('#record_list').DataTable();
+} );
+
+</script>
