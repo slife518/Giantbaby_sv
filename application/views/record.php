@@ -5,6 +5,26 @@
                 <div name="inputs">
                     <div class="row">
                       <div class="col-md-2 col-xs-5">
+                        <h6>아기이름</h6>
+                      </div>
+                      <div class="col-md-2 col-xs-5">
+                        <h6>생년월일</h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-xs-5">
+                          	<div>
+                              <input type="text" class="form-control" id="name" name="name"  value="<?php var_dump($this->session->userdata('babyname'))?>"/>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-5">
+                          	<div>
+                              <input type="text" class="form-control" id="birthday" name="birthday" value="<?php $this->session->userdata('birthday')?>" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-2 col-xs-5">
                         <h6>날짜</h6>
                       </div>
                       <div class="col-md-2 col-xs-5">

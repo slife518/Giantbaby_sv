@@ -30,12 +30,6 @@
               <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
             </head>
             <body>
-              <?php
-                if($this->session->flashdata('message')){
-               ?>
-               <script> alert(<?=$this->session->flashdata('message')?> );</script>
-               <?php }
-                ?>
               <div id="navbar-full">
                   <div class="container">
                       <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation">
@@ -91,9 +85,6 @@
                     <div id="inputs">
                         <div class="tim-title">
                             <h3>.</h3>
-                        </div>
-                        <div class="tim-title">
-                            <a href="/index.php/record"><h3>기록하기</h3></a>
                         </div>
                       </div>
                    </div>

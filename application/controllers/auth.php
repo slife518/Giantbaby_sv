@@ -37,10 +37,13 @@ class Auth extends My_Controller {
               password_verify($this->input->post('password'), $user->password))
           {
           log_message('debug', '로그인 성공');
+              var_dump($user);
               $this->session->set_userdata('is_login', true);
               $this->session->set_userdata('nickname', $user->nickname);
               $this->session->set_userdata('email', $user->email);
               $this->session->set_userdata('baby_id', $user->baby_id);
+              $this->session->set_userdata('birthday', $user->birthday);
+              $this->session->set_userdata('babyname', $user->babyname);
 
               //$this->session->set_userdata('password', $user->password);
               $this->load->helper('url');

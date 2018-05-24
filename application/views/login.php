@@ -14,7 +14,15 @@
               <label for="exampleInputPassword1">비밀번호</label>
               <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요">
             </div>
+            <div class="form-group">
+            <?php
+              if($this->session->flashdata('message')){
+              ?><?=$this->session->flashdata('message');?>
+            <?php  }?>
+            </div>
         </div>
+
+
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary" value="로그인">
           <a href="/index.php/auth/register" class="btn btn-default">회원가입</a>

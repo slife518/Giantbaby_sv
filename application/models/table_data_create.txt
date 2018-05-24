@@ -69,3 +69,18 @@ CREATE TABLE `user` (
 
 ---->
 ALTER TABLE `user` ADD `updated` DATETIME NULL AFTER `created`;
+
+CREATE TABLE `baby` (
+baby_id int(11) NOT NULL AUTO_INCREMENT,
+birthday varchar(6),
+babyname varchar(13),
+sex varchar(1),
+created  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+updated datetime,
+PRIMARY KEY (baby_id),
+UNIQUE KEY jumin_idx (jumin)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `baby` (`baby_id`, `birthday`, `babyname`, `sex`, `created`, `updated`) VALUES (NULL, '170801', '조민준', '남', CURRENT_TIMESTAMP, NULL);
+----
+---> ALTER TABLE `baby` CHANGE `jumin` `birthday` VARCHAR(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

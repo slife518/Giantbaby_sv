@@ -1,5 +1,8 @@
 <article id="board_area">
   <div class="table-responsive">
+    <div class="tim-title">
+        <a href="/index.php/record"><h3>기록하기</h3></a>
+    </div>
   <table id="record_list" class="table">
     <thead>
         <tr>

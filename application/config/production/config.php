@@ -329,6 +329,7 @@ $config['cache_query_string'] = FALSE;
 */
 // $config['encryption_key'] = '';
 $config['encryption_key'] = 'qwertyuiopasdfghjklmnbvcxz,.1234';
+$config['sess_use_database']    = TRUE; // 세션의 데이터를 데이터베이스에 저장한다.
 
 $config['authentication'] = array(
   'id'=> 'slife518@gmail.com',
@@ -389,10 +390,12 @@ $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = NULL;
-$config['sess_match_ip'] = FALSE;
+$config['sess_match_ip']        = TRUE;
+$config['sess_match_useragent']    = TRUE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
 
+$config['sess_table_name'] = 'ci_sessions';
 /*
 |--------------------------------------------------------------------------
 | Cookie Related Variables

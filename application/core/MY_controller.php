@@ -7,9 +7,10 @@ class MY_Controller extends CI_Controller {
 
     function _head()
     {
+      var_dump($this->session->all_userdata());
       //var_dump($this->session->userdata('session_test'));
       //$this->session->set_userdata('session_test', 'userbane@naver.com');
-      //$l_msg = $f_name . '__실행';
+      //$l_msg = $f_name s. '__실행';
       //log_message('debug', $l_msg);
       $this->load->view('record_head');
     }

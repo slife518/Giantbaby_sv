@@ -51,7 +51,12 @@ class User_model extends CI_Model {
 
     function getByEmail($option){
       //log_message('debug', $option );
-      $result = $this->db->get_where('user', array('email'=>$option['email']))->row();
+      $array1 = $this->db->get_where('user', array('email'=>$option['email']))->row();
+      $array2 = $this->db->query("select * from 'baby' as a left outer join relation as b on a.baby_id = b.baby_id where b.email = " $option['email']) -> result();
+      //log_message('debug', '사용자정보조회');
+      //log_message('debug', $this->db->last_query());
+      //var_dump($result);
+      $result = $array1 + $array2;
       return $result;
     }
   }
