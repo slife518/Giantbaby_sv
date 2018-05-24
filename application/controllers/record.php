@@ -32,12 +32,22 @@ class Record extends My_Controller {
          else
          {
             // print "<script type=\"text/javascript\">alert('Some text');</script>";
-            $record_id = $this->record_model->add($this->input->post('record_date'), $this->input->post('record_time'),  $this->input->post('milk'), $this->input->post('rice'), $this->session->userdata("email"));
+            $record_id = $this->record_model->add(array(
+                    'baby_id'=>$this->input->post('baby_id'),
+                    'record_date'=>$this->input->post('record_date'),
+                    'record_time'=>$this->input->post('record_time'),
+                    'milk'=>$this->input->post('milk'),
+                    'rice'=>$this->input->post('rice'),
+                    'email'=>$this->session->userdata("email")
+              ));
             $this->load->helper('url');
             redirect('/record/record_list');
          }
          $this->_footer();
       }
+
+
+
       function get($id)
       {
         //print "<script type=\"text/javascript\">alert('some_text');</script>";

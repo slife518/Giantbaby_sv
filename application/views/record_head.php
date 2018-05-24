@@ -36,7 +36,6 @@
                <script> alert(<?=$this->session->flashdata('message')?> );</script>
                <?php }
                 ?>
-              <script> alert(<?=$this->session->userdata('nickname')?>);</script>
               <div id="navbar-full">
                   <div class="container">
                       <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation">

@@ -27,6 +27,7 @@ class Auth extends My_Controller {
           log_message('debug', 'authentication  시작');
           $this->load->model('user_model');
           $user = $this->user_model->getByEmail(array('email'=>$this->input->post('email')));
+          //var_dump($user);
           log_message('debug','getByEmail 실행완료');
           if(!function_exists('password_hash'))
           {
@@ -39,6 +40,8 @@ class Auth extends My_Controller {
               $this->session->set_userdata('is_login', true);
               $this->session->set_userdata('nickname', $user->nickname);
               $this->session->set_userdata('email', $user->email);
+              $this->session->set_userdata('baby_id', $user->baby_id);
+
               //$this->session->set_userdata('password', $user->password);
               $this->load->helper('url');
               redirect("/record/index");

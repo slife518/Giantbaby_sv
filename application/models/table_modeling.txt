@@ -1,0 +1,71 @@
+베이비(baby)
+baby_id
+jumin
+name
+sex
+
+CREATE TABLE `baby` (
+baby_id int(11) NOT NULL AUTO_INCREMENT,
+jumin varchar(13),
+name varchar(13),
+sex varchar(1),
+created  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+updated datetime,
+PRIMARY KEY (baby_id),
+UNIQUE KEY jumin_idx (jumin)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+관련자(user)
+user_id
+email
+password
+nickname
+
+
+
+기록(aaa_record)
+id
+baby_id
+record_id
+record_date
+record_time
+milk
+rice
+author
+description
+
+
+관계(relation)
+pk	baby_id
+pk	email
+pk	relation
+
+
+CREATE TABLE `relation` (
+baby_id int(11) NOT NULL,
+email varchar(50) NOT NULL,
+relation varchar(13),
+created  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+updated datetime,
+PRIMARY KEY (baby_id, email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+한명의 아기는 아빠, 엄마, 할머니, 할아버지, 보모가 있다.
+아빠는 첫째아들, 둘째딸이 있다.
+
+
+기록 조회
+select * from aaa_record  where baby_id in
+          ( select baby_id from relation as a left outer join user as b on a.user_email = b.email )
+
+
+아기선택
+select name, baby_id from baby where
+baby_id in ( select baby_id from relation where .user_email = email"
+
+
+회원정보조회
+select * from user where email
+select * from baby as a
+left outer join relation as b on a.baby_id = b.baby_id where b.user_id = 'email'
