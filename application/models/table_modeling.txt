@@ -66,6 +66,10 @@ baby_id in ( select baby_id from relation where .user_email = email"
 
 
 회원정보조회
-select * from user where email
-select * from baby as a
-left outer join relation as b on a.baby_id = b.baby_id where b.user_id = 'email'
+select * from user where email as e left outer join
+( select * from baby as a
+left outer join relation as b on a.baby_id = b.baby_id ) as b on a.email = b.email  where a.email = 'email'
+
+select * from user as e left outer join 
+( select a.baby_id, a.birthday, a.babyname, a.sex, b.email, b.relation from baby as a left outer join relation as b
+  on a.baby_id = b.baby_id ) as c on e.email = c.email where e.email = 'slife705@naver.com'

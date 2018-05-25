@@ -1,5 +1,4 @@
 <form action="/index.php/record/index" method="post">
-  <?php echo validation_errors(); ?>
         <div class="main">
             <div class="container tim-container">
                 <div name="inputs">
@@ -14,12 +13,12 @@
                     <div class="row">
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" class="form-control" id="name" name="name"  value="<?php var_dump($this->session->userdata('babyname'))?>"/>
+                              <input type="text" class="form-control" id="name" name="name"  value="<?=$this->session->userdata('babyname');?>" readonly/>
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" class="form-control" id="birthday" name="birthday" value="<?php $this->session->userdata('birthday')?>" />
+                              <input type="text" class="form-control" id="birthday" name="birthday" value="<?=$this->session->userdata('birthday');?>" readonly/>
                             </div>
                         </div>
                     </div>
@@ -39,7 +38,7 @@
                         </div>
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" value="" placeholder="11:10:54" class="form-control" id="record_time" name="record_time" value="<?php echo date("H-M-S"); ?>" />
+                              <input type="text" value=""  class="form-control" id="record_time" name="record_time" value="<?php echo date("H-M-S"); ?>" />
                             </div>
                         </div>
                     </div>
@@ -110,6 +109,13 @@ $( function() {
           	});
           	$('.carousel').carousel({
                 interval: 4000
+            });
+
+            $(document).ready(function() {
+                var today = new Date();
+                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                $('#record_time').val(time);
             });
 
             $('#record_date').datetimepicker({

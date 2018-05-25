@@ -33,25 +33,30 @@ class Auth extends My_Controller {
           {
               $this->load->helper('password');
           }
-          if( $this->input->post('email') == $user->email &&
-              password_verify($this->input->post('password'), $user->password))
+          // log_message('debug',$user['email']);
+          // log_message('debug',$user['password']);
+          // log_message('debug',$this->input->post('email'));
+          // log_message('debug',$this->input->post('password'));
+          if( $this->input->post('email') == $user['email'] &&
+              password_verify($this->input->post('password'), $user['password']))
           {
           log_message('debug', '로그인 성공');
-              var_dump($user);
+          //var_dump($user);
               $this->session->set_userdata('is_login', true);
-              $this->session->set_userdata('nickname', $user->nickname);
-              $this->session->set_userdata('email', $user->email);
-              $this->session->set_userdata('baby_id', $user->baby_id);
-              $this->session->set_userdata('birthday', $user->birthday);
-              $this->session->set_userdata('babyname', $user->babyname);
+              $this->session->set_userdata('nickname', $user['nickname']);
+              $this->session->set_userdata('email', $user['email']);
+              $this->session->set_userdata('baby_id', $user['baby_id']);
+              $this->session->set_userdata('birthday', $user['birthday']);
+              $this->session->set_userdata('babyname', $user['babyname']);
 
-              //$this->session->set_userdata('password', $user->password);
+              //$this->session->set_userdata('password', $user->password']);
               $this->load->helper('url');
               redirect("/record/index");
           }else
-          {
-            //  echo "불일치";
-              $this->session->set_flashdata('message', '로그인에 실패 했습니다.');
+          {   log_message('debug', '로그인 실패');
+              //echo $user;
+              //log_message('debug',$user);
+              $this->session->set_flashdata('message', '이메일 또는 비밀번호가 잘못되었습니다.');
               $this->load->helper('url');
               redirect('/auth/login');
           }

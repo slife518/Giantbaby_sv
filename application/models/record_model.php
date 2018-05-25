@@ -23,7 +23,8 @@ class Record_model extends CI_Model {
 
     function add($option){
         $this->db->set('created', 'NOW()', false);
-        $this->db->insert('record',$data);
+        var_dump($option);
+        $this->db->insert('record',$option);
         $result = $this->db->insert_id();
         return $result;
     }

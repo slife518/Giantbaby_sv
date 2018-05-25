@@ -1,7 +1,6 @@
 <!DOCTYPE html>
         <html>
             <head>
-
               <meta charset="utf-8" />
               <link rel="apple-touch-icon" sizes="76x76" href="/etc/assets/img/apple-icon.png">
             	<link rel="icon" type="image/png" href="/etc/assets/img/favicon.png">
@@ -9,7 +8,7 @@
             	<title>기록하기</title>
               <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
               <link href="/etc/bootstrap3/css/bootstrap.min.css" rel="stylesheet" />
-              <link href="dist/css/fs-modal.min.css" rel="stylesheet">
+              <!-- <link href="dist/css/fs-modal.min.css" rel="stylesheet"> -->
               <link href="/etc/assets/css/demo.css" rel="stylesheet" />
               <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
               <link href="/etc/assets/css/gsdk.css" rel="stylesheet" />
@@ -20,7 +19,7 @@
               <script src="/etc/jquery/jquery-1.10.2.js" type="text/javascript"></script>
               <script src="/etc/assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
               <script src="/etc/bootstrap3/js/bootstrap.min.js" type="text/javascript"></script>
-              <script src="dist/js/fs-modal.min.js"></script>
+              <!-- <script src="dist/js/fs-modal.min.js"></script> -->
               <script src="/etc/assets/js/gsdk-checkbox.js"></script>
               <script src="/etc/assets/js/gsdk-radio.js"></script>
               <script src="/etc/assets/js/gsdk-bootstrapswitch.js"></script>
@@ -33,7 +32,6 @@
               <div id="navbar-full">
                   <div class="container">
                       <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation">
-
                         <div class="container">
                           <!-- Brand and toggle get grouped for better mobile display -->
                           <div class="navbar-header">

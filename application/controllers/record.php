@@ -6,6 +6,8 @@ class Record extends My_Controller {
           $this->load->database();
           $this->load->model('record_model');
      }
+
+
      function index()
      {
         log_message('debug', 'index 시작');
@@ -28,17 +30,17 @@ class Record extends My_Controller {
          if ($this->form_validation->run() == FALSE)
          {
             $this->load->view('record');
-         }
+         } 
          else
          {
             // print "<script type=\"text/javascript\">alert('Some text');</script>";
             $record_id = $this->record_model->add(array(
-                    'baby_id'=>$this->input->post('baby_id'),
+                    'baby_id'=>$this->session->userdata('baby_id'),
                     'record_date'=>$this->input->post('record_date'),
                     'record_time'=>$this->input->post('record_time'),
                     'milk'=>$this->input->post('milk'),
                     'rice'=>$this->input->post('rice'),
-                    'email'=>$this->session->userdata("email")
+                    'author'=>$this->session->userdata("email")
               ));
             $this->load->helper('url');
             redirect('/record/record_list');

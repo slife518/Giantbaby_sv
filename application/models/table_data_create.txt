@@ -78,9 +78,10 @@ sex varchar(1),
 created  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 updated datetime,
 PRIMARY KEY (baby_id),
-UNIQUE KEY jumin_idx (jumin)
+UNIQUE KEY jumin_idx (birthday)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `baby` (`baby_id`, `birthday`, `babyname`, `sex`, `created`, `updated`) VALUES (NULL, '170801', '조민준', '남', CURRENT_TIMESTAMP, NULL);
+INSERT INTO `relation` (`baby_id`, `email`, `relation`, `created`, `updated`) VALUES ('1', 'slife705@naver.com', '부', CURRENT_TIMESTAMP, NULL);
 ----
 ---> ALTER TABLE `baby` CHANGE `jumin` `birthday` VARCHAR(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
