@@ -6,14 +6,18 @@ class Record_model extends CI_Model {
         parent::__construct();
     }
 
-    function gets(){
-          // $this->db->select('*');
-          // $this->db->from('record');
-          // $this->db->join('user', 'record.author = user.email');
-          // $result = $this->db->get();
+    function gets($email){
+         // $this->db->select('*');
+         // $this->db->from('record');
+         // $this->db->join('user', 'record.author = user.email');
+         //
+         // $result = $this->db->get_where('');
           // var_dump($this->db->last_query());
           // return $result;
-        return $this->db->query("SELECT * FROM record AS a join user AS b on a.author = b.email ORDER BY record_date DESC, record_time DESC")->result();   //result_array 로도 가능
+        return $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date, DATE_FORMAT(a.record_time, '%h:%m') as record_time, milk,rice, b.nickname
+                FROM record AS a join user AS b on a.author = b.email WHERE a.baby_id =
+              ( select baby_id from relation WHERE email = ?)
+                ORDER BY record_date DESC, record_time DESC", $email)->result();   //result_array 로도 가능
       //  var_dump($this->db->last_query());
     }
 
@@ -23,10 +27,20 @@ class Record_model extends CI_Model {
 
     function add($option){
         $this->db->set('created', 'NOW()', false);
-        var_dump($option);
+      //  var_dump($option);
         $this->db->insert('record',$option);
         $result = $this->db->insert_id();
         return $result;
+    }
+
+    function update($option)
+    {
+      $this->db->set('updated', 'NOW()', false);
+      $this->db->where('id', $option['id']);
+      $this->db->update('record',$option);
+    //  var_dump($this->db->last_query());
+      log_message('debug', $this->db->last_query());
+      return $result;
     }
 
     function checkid($id, $password){

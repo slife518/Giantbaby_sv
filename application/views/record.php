@@ -33,12 +33,12 @@
                     <div class="row">
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" class="form-control" id="record_date" name="record_date"  value="<?php echo date("Y-m-d"); ?>"/>
+                              <input type="text" class="form-control" id="record_date" name="record_date"  value=""/>
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" value=""  class="form-control" id="record_time" name="record_time" value="<?php echo date("H-M-S"); ?>" />
+                              <input type="text" value=""  class="form-control" id="record_time" name="record_time" value=""/>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                     <div class="row">
                       <div>
                         <div class="col-md-2 col-xs-5">
-                            <input type="number" id="milk" name="milk" value="200" class="form-control"/>
+                            <input type="number" id="milk" name="milk" class="form-control" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="glyphicon glyphicon-arrow-up btn-round button" id="upQuantity">10</button>
@@ -64,7 +64,7 @@
                     <div class="row">
                       <div>
                         <div class="col-md-2 col-xs-5">
-                            <input type="number" id="rice" name="rice" value="50" class="form-control"/>
+                            <input type="number" id="rice" name="rice" class="form-control" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="glyphicon glyphicon-arrow-up btn-round button" id="upRiceQuantity">10</button>
@@ -74,7 +74,9 @@
                         </div>
                       </div>
                     </div>
-                    <p></p><p></p><p></p>
+                    <div>
+                      <input type="hidden" id="id" name="id"  value="<?=$recordinfo->id?>"/>
+                    </div>
               </div>
               <input type="submit" class="btn btn-block btn-lg btn-info btn-simple" value="저장하기" />
             </div>
@@ -113,17 +115,30 @@ $( function() {
 
             $(document).ready(function() {
                 var today = new Date();
-                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+                var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+today.getDate();
+                date = '<?=$recordinfo->record_date?>'|| date;
+
+                $('#record_date').val(date);
+                var time = pad(today.getHours()) + ':' + pad(today.getMinutes());
+                time = '<?=$recordinfo->record_time?>' || time;
                 $('#record_time').val(time);
+
+                var milk = '<?=$recordinfo->milk?>' || '200';
+                $('#milk').val(milk);
+
+                var rice = '<?=$recordinfo->rice?>' || '50';
+                $('#rice').val(rice);
+
+
             });
 
             $('#record_date').datetimepicker({
-                            format: 'YYYY/MM/DD'
+                            format: 'YYYY-MM-DD'
             });
 
             $('#record_time').datetimepicker({
-                            format: 'hh:mm:ss'
+                            format: 'hh:mm'
             });
             $('#upQuantity').on('click', function () {
                var aaa = parseInt($("#milk").val()) + 10;
@@ -158,6 +173,8 @@ $( function() {
             // $("button, input, a" ).click( function( event ) {
             //   event.preventDefault();
             // } );
+
+            function pad(n){return n<10 ? '0'+n : n}
 
             $("form").on("submit", function(event) {
             //   event.preventDefault();

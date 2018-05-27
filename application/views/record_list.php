@@ -1,15 +1,14 @@
 <article id="board_area">
   <div class="table-responsive">
-    <div class="tim-title">
-        <a href="/index.php/record"><h3>기록하기</h3></a>
-    </div>
+      <!-- <button type="button" class="btn btn-primary">Primary</button> -->
+        <a href="/index.php/record" type="button" class="btn btn-primary pull-right">기록하기</a>
   <table id="record_list" class="table">
     <thead>
         <tr>
             <th scope="col">날짜</th>
             <th scope="col">시간</th>
             <th scope="col">분유(ml)</th>
-            <th scope="col">이유식(%)</th>
+            <th scope="col">이유식(ml)</th>
             <th scope="col">작성자</th>
         </tr>
     </thead>

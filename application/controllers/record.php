@@ -8,17 +8,17 @@ class Record extends My_Controller {
      }
 
 
-     function index()
+     function index($index)
      {
         log_message('debug', 'index 시작');
 // 로그인 필요
 // 로그인 되어 있지 않으면
-        if(!$this->session->userdata('is_login'))
-        {
-          log_message('debug', '로그인이 되어 있지 않습니다. ');
-          $this->load->helper('url');
-          redirect('/auth/login');
-        }
+        // if(!$this->session->userdata('is_login'))
+        // {
+        //   log_message('debug', '로그인이 되어 있지 않습니다. ');
+        //   $this->load->helper('url');
+        //   redirect('/auth/login');
+        // }
 // 로그인 되어 있으면
         //$authentication = $authentication = $this->config->item('authentication');
         //$lv_id = '[record.php]id는 ' . $authentication['id'];
@@ -27,24 +27,38 @@ class Record extends My_Controller {
          $this->_head();
          $this->load->library('form_validation');
          $this->form_validation->set_rules('record_date', '날짜', 'required');
-         if ($this->form_validation->run() == FALSE)
+         if($index > 0){    //리스트에서 상세화면 조회시
+
+             $recordinfo = $this->record_model->get($index);
+             $this->load->view('record', array('recordinfo'=>$recordinfo));
+
+         }elseif($this->form_validation->run() == FALSE)  //신규 추가
          {
             $this->load->view('record');
-         } 
-         else
-         {
-            // print "<script type=\"text/javascript\">alert('Some text');</script>";
-            $record_id = $this->record_model->add(array(
-                    'baby_id'=>$this->session->userdata('baby_id'),
-                    'record_date'=>$this->input->post('record_date'),
-                    'record_time'=>$this->input->post('record_time'),
-                    'milk'=>$this->input->post('milk'),
-                    'rice'=>$this->input->post('rice'),
-                    'author'=>$this->session->userdata("email")
-              ));
-            $this->load->helper('url');
-            redirect('/record/record_list');
+         }else{
+           $array = array(
+                   'baby_id'=>$this->session->userdata('baby_id'),
+                   'record_date'=>$this->input->post('record_date'),
+                   'record_time'=>$this->input->post('record_time'),
+                   'milk'=>$this->input->post('milk'),
+                   'rice'=>$this->input->post('rice'),
+                   'author'=>$this->session->userdata('email')
+             );
+
+           if(empty($this->input->post('id')))
+           {   //신규 저장
+             $record_id = $this->record_model->add($array);
+           }else
+           {  //기존 데이터 변경
+              $array =  array_merge($array, array('id'=>$this->input->post('id')));
+               log_message('debug', print_r($array, TRUE));
+
+               $record_id = $this->record_model->update($array);
+           }
+           $this->load->helper('url');
+           redirect('/record/record_list');
          }
+
          $this->_footer();
       }
 
@@ -64,7 +78,7 @@ class Record extends My_Controller {
          //print "<script type=\"text/javascript\">alert('Some text');</script>";
           //$this->_head($this->router->fetch_method());
           $this->_head();
-          $record = $this->record_model->gets();
+          $record = $this->record_model->gets($this->session->userdata('email'));
           $this->load->view('record_list', array('record'=>$record));
           $this-> _footer();
       }

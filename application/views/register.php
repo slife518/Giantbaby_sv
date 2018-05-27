@@ -23,14 +23,6 @@
               <input class="form-control" type="password" id="re_password" name="re_password" value="<?php echo set_value('re_password'); ?>"   placeholder="비밀번호 확인">
             </div>
             <div class="form-group">
-              <label class="control-label">아기이름</label>
-              <input class="form-control" type="text" id="babyname" name="babyname" placeholder="아기이름" >
-            </div>
-            <div class="form-group">
-              <label class="control-label" for="nickname">아기생년월일</label>
-              <input class="form-control" type="text" id="birthday" name="birthday"  placeholder="180101">
-            </div>
-            <div class="form-group">
               <p id="error"></p>
             </div>
         </div>

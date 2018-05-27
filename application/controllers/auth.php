@@ -10,7 +10,7 @@ class Auth extends My_Controller {
      function login()
      {
        //log_message('debug', "로그인페이지시작");
-       $this->_head();
+       $this->_head_nochk();
        $this->load->view('login');
        $this->_footer();
      }
@@ -33,10 +33,11 @@ class Auth extends My_Controller {
           {
               $this->load->helper('password');
           }
-          // log_message('debug',$user['email']);
-          // log_message('debug',$user['password']);
-          // log_message('debug',$this->input->post('email'));
-          // log_message('debug',$this->input->post('password'));
+          $log = 'email: ' .$user['email'] .' pw: ' .$user['password'];
+           log_message('debug',$log);
+           // log_message('debug',$user['password']);
+           log_message('debug',$this->input->post('email'));
+           log_message('debug',$this->input->post('password'));
           if( $this->input->post('email') == $user['email'] &&
               password_verify($this->input->post('password'), $user['password']))
           {
@@ -66,12 +67,12 @@ class Auth extends My_Controller {
      function register()
      {
          $this->load->model('user_model');
-         $this->_head();
+         $this->_head_nochk();
          $this->load->library('form_validation');
 
          $this->form_validation->set_rules('email', '이메일 주소', 'required|valid_email|is_unique[user.email]');
          $this->form_validation->set_rules('nickname', '닉네임', 'required|min_length[2]|max_length[20]');
-         $this->form_validation->set_rules('password', '비밀번호', 'required|min_length[6]|max_length[30]|matches[re_password]');
+         $this->form_validation->set_rules('password', '비밀번호', 'required|min_length[3]|max_length[30]|matches[re_password]');
          $this->form_validation->set_rules('re_password', '비밀번호 확인', 'required');
 
          if($this->form_validation->run() === false){
@@ -102,9 +103,12 @@ log_message('debug', 'eeeeee');
 
       function member()
       {
-        log_message('debug', '회원정보');
+        $log = '회원정보는 email: ' .$this->session->userdata('email');
+        log_message('debug', $log);
         $this->load->model('user_model');
         $userinfo = $this->user_model->get($this->session->userdata('email'));
+        log_message('debug',print_r($userinfo,TRUE));
+
         $this->_head();
         $this->load->view('member', array('userinfo' => $userinfo));
         $this->_footer();
@@ -119,7 +123,7 @@ log_message('debug', 'eeeeee');
 
         $this->form_validation->set_rules('nickname', '닉네임', 'required|min_length[2]|max_length[20]');
         //var_dump(empty($this->input->post('password')));
-        log_message('debug', 'afdfsdfsf');
+      //  log_message('debug', 'afdfsdfsf');
         if($this->form_validation->run() === false)
         {
              $this->load->view('member');
@@ -136,23 +140,28 @@ log_message('debug', 'eeeeee');
                       $this->load->helper('password');
                  }
                 $hash = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
-                $this->user_model->update(array(
+                $array = array(
                       'email'=>$this->input->post('email'),
                       'password'=>$hash,
-                      'nickname'=>$this->input->post('nickname')
-                ));
-          }else  //비밀번호를 수정하지 않았을 경우
-          {
+                      'nickname'=>$this->input->post('nickname'),
+                      'baby_id'=>$this->input->post('baby_id'),
+                      'babyname'=>$this->input->post('babyname'),
+                      'birthday'=>$this->input->post('birthday')
+                    );
+            }else  //비밀번호를 수정하지 않았을 경우
+            {
             log_message('debug', 'email은 ')   ;
             log_message('debug', $this->input->post('email'));
-                $this->user_model->update(array(
+                $array = array(
                       'email'=>$this->input->post('email'),
-                      'password'=>$hash,
-                      'nickname'=>$this->input->post('nickname')
-                ));
+                      'baby_id'=>$this->input->post('baby_id'),
+                      'nickname'=>$this->input->post('nickname'),
+                      'babyname'=>$this->input->post('babyname'),
+                      'birthday'=>$this->input->post('birthday')
+                      );
 
           }
-
+              $this->user_model->update($array);
               $this->session->set_flashdata('message', '회원정보가 수정되었습니다.');
               $this->load->helper('url');
               redirect('record/index');

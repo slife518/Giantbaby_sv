@@ -43,16 +43,20 @@ pk	relation
 
 CREATE TABLE `relation` (
 baby_id int(11) NOT NULL,
-email varchar(50) NOT NULL,
+user_id int(11) NOT NULL,
 relation varchar(13),
 created  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 updated datetime,
-PRIMARY KEY (baby_id, email)
+PRIMARY KEY (baby_id, user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 한명의 아기는 아빠, 엄마, 할머니, 할아버지, 보모가 있다.
 아빠는 첫째아들, 둘째딸이 있다.
+회원가입 시 아기정보를 넣지 않을 경우 기록을 사용할 수 없다.
+아기정보공유는 아기 등록자만 가능하다.
+아기등록은 누구나 할 수 있으나 공유를 하려면 등록자가 공유하고 싶은 사람의 연락처를 등록해야 한다.
+
 
 
 기록 조회
@@ -70,6 +74,6 @@ select * from user where email as e left outer join
 ( select * from baby as a
 left outer join relation as b on a.baby_id = b.baby_id ) as b on a.email = b.email  where a.email = 'email'
 
-select * from user as e left outer join 
+select * from user as e left outer join
 ( select a.baby_id, a.birthday, a.babyname, a.sex, b.email, b.relation from baby as a left outer join relation as b
   on a.baby_id = b.baby_id ) as c on e.email = c.email where e.email = 'slife705@naver.com'
