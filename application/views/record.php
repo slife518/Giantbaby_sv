@@ -59,7 +59,7 @@
                       </div>
                     </div>
                     <div>
-                      <h6>이유식(%)</h6>
+                      <h6>이유식(ml)</h6>
                     </div>
                     <div class="row">
                       <div>

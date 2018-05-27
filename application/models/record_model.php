@@ -14,7 +14,7 @@ class Record_model extends CI_Model {
          // $result = $this->db->get_where('');
           // var_dump($this->db->last_query());
           // return $result;
-        return $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date, DATE_FORMAT(a.record_time, '%h:%m') as record_time, milk,rice, b.nickname
+        return $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date, a.record_time, milk,rice, a.id, b.nickname
                 FROM record AS a join user AS b on a.author = b.email WHERE a.baby_id =
               ( select baby_id from relation WHERE email = ?)
                 ORDER BY record_date DESC, record_time DESC", $email)->result();   //result_array 로도 가능
