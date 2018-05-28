@@ -116,7 +116,8 @@ $( function() {
             $(document).ready(function() {
                 var today = new Date();
 
-                var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+today.getDate();
+                // var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+today.getDate();
+                var date = pad((today.getMonth()+1))+'-'+today.getDate();
                 date = '<?=$recordinfo->record_date?>'|| date;
 
                 $('#record_date').val(date);
@@ -134,7 +135,7 @@ $( function() {
             });
 
             $('#record_date').datetimepicker({
-                            format: 'YYYY-MM-DD'
+                            format: 'MM-DD'
             });
 
             $('#record_time').datetimepicker({

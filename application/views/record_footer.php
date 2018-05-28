@@ -7,7 +7,7 @@
 </script>
 
 <style>
-h6 {
+h6 th{
    text-transform: lowercase;
    font-family: "돋움", dotum, "굴림", cursive;
 }

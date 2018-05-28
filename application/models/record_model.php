@@ -22,7 +22,9 @@ class Record_model extends CI_Model {
     }
 
     function get($record_id){
-        return $this->db->get_where('record', array('id'=>$record_id))->row();
+      return $this->db->query("SELECT DATE_FORMAT(record_date, '%m-%d') as record_date, DATE_FORMAT(record_time, '%H:%i') as record_time, milk,rice
+                        FROM record WHERE id = ? ", $record_id )->row();
+        // return $this->db->get_where('record', array('id'=>$record_id))->row();
     }
 
     function add($option){

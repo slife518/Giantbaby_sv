@@ -26,6 +26,6 @@
            <input class="form-control" type="text" id="birthday" name="birthday"  placeholder="180801" value="<?=$userinfo->birthday?>">
          </div>
 
-         <button type="submit" class="btn btn-primary">회원정보수정</button>
+         <button type="submit" class="btn btn-primary center">회원정보수정</button>
        </div>
     </form>
