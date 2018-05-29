@@ -53,11 +53,11 @@ CREATE TABLE `user` (
 
 CREATE TABLE `relation` (
 baby_id int(11) NOT NULL,
-user_id int(11) NOT NULL,
+email varchar(50) NOT NULL,
 relation varchar(13),
 created  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 updated datetime,
-PRIMARY KEY (baby_id, user_id)
+PRIMARY KEY (baby_id, email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
