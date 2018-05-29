@@ -1,4 +1,4 @@
-<form action="/index.php/record/index" method="post">
+<form action="<?php echo base_url("record/index")?>" method="post">
         <div class="main">
             <div class="container tim-container">
                 <div name="inputs">

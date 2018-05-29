@@ -32,28 +32,10 @@ CREATE TABLE record (
     rice varchar(3),
     author varchar(50),
     description  text NULL ,
-    created  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created  datetime DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
-
-ALTER TABLE `record` ADD `updated` DATETIME NULL AFTER `created`;
-
-INSERT INTO `aaa_record` (`id`, `record_date`, `milk`, `rice`, `author`, `description`, `created`) VALUES (NULL, NOW(), '200', '50', 'slife705@naver.com', NULL, CURRENT_TIMESTAMP);
-INSERT INTO `aaa_record` (`id`, `record_date`, `milk`, `rice`, `author`, `description`, `created`) VALUES (NULL, NOW(), '230', '20', 'slife705@naver.com', NULL, CURRENT_TIMESTAMP);
-INSERT INTO `aaa_record` (`id`, `record_date`, `milk`, `rice`, `author`, `description`, `created`) VALUES (NULL, NOW(), '250', '10', 'slife705@naver.com', NULL, CURRENT_TIMESTAMP);
-INSERT INTO `aaa_record` (`id`, `record_date`, `milk`, `rice`, `author`, `description`, `created`) VALUES (NULL, NOW(), '200', '80', 'slife705@naver.com', NULL, CURRENT_TIMESTAMP);
-
-CREATE TABLE `user` (
-  user_id  int(11) NOT NULL AUTO_INCREMENT,
-  email varchar(50) NOT NULL,
-  password varchar(255) NOT NULL,
-  nickname varchar(20),
-  created datetime NOT NULL,
-  updated datetime,
-  PRIMARY KEY (email),
-  UNIQUE KEY email_idx (email)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user` (
   email varchar(50) NOT NULL,
@@ -78,9 +60,6 @@ updated datetime,
 PRIMARY KEY (baby_id, user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
----->
-ALTER TABLE `user` ADD `updated` DATETIME NULL AFTER `created`;
 
 CREATE TABLE `baby` (
 baby_id int(11) NOT NULL AUTO_INCREMENT,

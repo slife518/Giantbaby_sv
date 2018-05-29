@@ -1,7 +1,7 @@
 <article id="board_area">
   <div class="table-responsive">
       <!-- <button type="button" class="btn btn-primary">Primary</button> -->
-        <a href="/index.php/record" type="button" role="button" class="btn btn-info pull-right">기록하기</a>
+        <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-info pull-right">기록하기</a>
   <table id="record_list" class="table">
     <thead>
         <tr>
@@ -18,19 +18,19 @@
            ?>
               <tr>
                   <td>
-                    <a href="/index.php/record/index/<?=$entry->id?>"><?=$entry->record_date?></a>
+                    <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->record_date?></a>
                   </td>
                   <td class="rb-user">
-                    <a href="/index.php/record/index/<?=$entry->id?>"><?=$entry->record_time?></a>
+                    <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->record_time?></a>
                   </td>
                   <td class="rb-hit">
-                    <a href="/index.php/record/index/<?=$entry->id?>"><?=$entry->milk?></a>
+                    <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->milk?></a>
                   </td>
                   <td class="rb-time">
-                    <a href="/index.php/record/index/<?=$entry->id?>"><?=$entry->rice?></a>
+                    <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->rice?></a>
                   </td>
                   <td class="rb-time">
-                    <a href="/index.php/record/index/<?=$entry->id?>"><?=$entry->nickname?></a>
+                    <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->nickname?></a>
                   </td>
                 </tr>
           <?php

@@ -27,15 +27,18 @@ class Record extends My_Controller {
          $this->_head();
          $this->load->library('form_validation');
          $this->form_validation->set_rules('record_date', '날짜', 'required');
-         if($index > 0){    //리스트에서 상세화면 조회시
 
+         if($index > 0){    //리스트에서 상세화면 조회시
+           log_message('debug', '리스트에서 상세화면 조회');
              $recordinfo = $this->record_model->get($index);
              $this->load->view('record', array('recordinfo'=>$recordinfo));
 
          }elseif($this->form_validation->run() == FALSE)  //신규 추가
          {
+           log_message('debug', '신규 추가');
             $this->load->view('record');
          }else{
+           log_message('debug', '저장 또는 수정');
            $array = array(
                    'baby_id'=>$this->session->userdata('baby_id'),
                    'record_date'=>$this->input->post('record_date'),
@@ -47,9 +50,11 @@ class Record extends My_Controller {
 
            if(empty($this->input->post('id')))
            {   //신규 저장
+             log_message('debug', '신규 저장');
              $record_id = $this->record_model->add($array);
            }else
            {  //기존 데이터 변경
+             log_message('debug', '기존 데이터 변경');
               $array =  array_merge($array, array('id'=>$this->input->post('id')));
                log_message('debug', print_r($array, TRUE));
 

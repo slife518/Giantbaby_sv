@@ -1,6 +1,7 @@
 <div class="modal show modal-fullscreen">
   <div class="modal-dialog">
-    <form action="/index.php/auth/authentication" method="post">
+    <!-- <form action="/index.php/auth/authentication" method="post"> -->
+    <form action="<?php echo base_url("auth/authentication")?>" method="post">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">로그인</h4>
@@ -25,7 +26,8 @@
 
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary" value="로그인">
-          <a href="/index.php/auth/register" class="btn btn-default">회원가입</a>
+          <!-- <a href="/index.php/auth/register" class="btn btn-default">회원가입</a> -->
+          <a href="<?php echo base_url("auth/register")?>" class="btn btn-default">회원가입</a>
         </div>
       </div><!-- /.modal-content -->
     </form>

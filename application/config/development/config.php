@@ -2,7 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 //개발환경
 echo "____________이곳은 개발환경입니다.";
-echo 'Current PHP version: ' . phpversion();
+echo '<p>PHP current version is ' . phpversion();
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL  (production)
@@ -38,7 +39,7 @@ $config['base_url'] = '/dev.php';
 |
 */
 $config['index_page'] = '';
-// $config['index_page'] = 'dev.php ';
+ // $config['index_page'] = '/dev.php';
 
 /*
 |--------------------------------------------------------------------------

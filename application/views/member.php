@@ -1,5 +1,6 @@
 
-    <form action="/index.php/auth/update" method="post">
+    <!-- <form action="/index.php/auth/update" method="post"> -->
+    <form action="<?php echo base_url("auth/update")?>" method="post">      
       <div class="container tim-container">
         <div class="form-group">
            <label for="exampleInputEmail1">이메일 주소</label>

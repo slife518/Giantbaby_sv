@@ -60,14 +60,14 @@
                                   <?php
                                   if($this->session->userdata('is_login')){
                                   ?>
-                                    <li><a href="/index.php/record/record_list" class="btn btn-round btn-default">기록보기</a></li>
-                                    <li><a href="/index.php/auth/member" class="btn btn-round btn-default">회원정보수정</a></li>
-                                    <li><a href="/index.php/auth/login" class="btn btn-round btn-default">로그아웃</a></li>
+                                    <li><a href="<?php echo base_url("record/record_list")?>" class="btn btn-round btn-default">기록보기</a></li>
+                                    <li><a href="<?php echo base_url("auth/member")?>" class="btn btn-round btn-default">회원정보수정</a></li>
+                                    <li><a href="<?php echo base_url("auth/login")?>" class="btn btn-round btn-default">로그아웃</a></li>
                                   <?php
                                   } else {
                                   ?>
-                                    <li><a href="/index.php/auth/login" class="btn btn-round btn-default">로그인</a></li>
-                                    <li><a href="/index.php/auth/register" class="btn btn-round btn-default">회원가입</a></li>
+                                    <li><a href="<?php echo base_url("auth/login")?>" class="btn btn-round btn-default">로그인</a></li>
+                                    <li><a href="<?php echo base_url("auth/register")?>" class="btn btn-round btn-default">회원가입</a></li>
                                   <?php
                                 }
                                   ?>

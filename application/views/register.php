@@ -1,6 +1,6 @@
 <div class="modal show modal-fullscreen">
   <div class="modal-dialog">
-    <form action="/index.php/auth/register" method="post" class="form-inline">
+    <form action="<?php echo base_url("auth/register")?>" method="post" class="form-inline">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">회원가입</h4>
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <a type="button" href="/index.php/auth/login" class="btn btn-primary">취소</a>
+          <a type="button" href="<?php echo base_url("auth/login")?>" class="btn btn-primary">취소</a>
           <input type="submit" class="btn btn-primary" value="회원가입" />
         </div>
       </div><!-- /.modal-content -->
