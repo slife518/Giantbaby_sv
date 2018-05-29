@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+//개발환경
+echo "____________이곳은 개발환경입니다.";
+echo 'Current PHP version: ' . phpversion();
 /*
 |--------------------------------------------------------------------------
 | Base Site URL  (production)
@@ -23,9 +25,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-// $config['base_url'] = '';
-$config['base_url'] = 'http://localhost:8080/dev.php';
 
+$config['base_url'] = '/dev.php';
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -36,7 +37,8 @@ $config['base_url'] = 'http://localhost:8080/dev.php';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = ' ';
+$config['index_page'] = '';
+// $config['index_page'] = 'dev.php ';
 
 /*
 |--------------------------------------------------------------------------
@@ -328,10 +330,10 @@ $config['cache_query_string'] = FALSE;
 // $config['encryption_key'] = '';
 $config['encryption_key'] = 'qwertyuiopasdfghjklmnbvcxz,.1234';
 
-$config['authentication'] = array(
-  'id'=> 'slife705@naver.com',
-  'password'=> 'slife0'
-);
+// $config['authentication'] = array(
+//   'id'=> 'slife705@naver.com',
+//   'password'=> 'slife0'
+// );
 /*
 |--------------------------------------------------------------------------
 | Session Variables
@@ -391,6 +393,8 @@ $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
 
+
+$config['sess_table_name'] = 'ci_sessions';
 /*
 |--------------------------------------------------------------------------
 | Cookie Related Variables

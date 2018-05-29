@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+//운영환경
 /*
 |--------------------------------------------------------------------------
 | Base Site URL  (production)
@@ -38,8 +38,8 @@ $config['base_url'] = '/index.php';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = ' ';
-
+/$config['index_page'] = '';
+// $config['index_page'] = 'index.php';
 /*
 |--------------------------------------------------------------------------
 | URI PROTOCOL
@@ -331,10 +331,10 @@ $config['cache_query_string'] = FALSE;
 $config['encryption_key'] = 'qwertyuiopasdfghjklmnbvcxz,.1234';
 $config['sess_use_database']    = TRUE; // 세션의 데이터를 데이터베이스에 저장한다.
 
-$config['authentication'] = array(
-  'id'=> 'slife518@gmail.com',
-  'password'=> 'slife0'
-);
+// $config['authentication'] = array(
+//   'id'=> 'slife518@gmail.com',
+//   'password'=> 'slife0'
+// );
 /*
 |--------------------------------------------------------------------------
 | Session Variables

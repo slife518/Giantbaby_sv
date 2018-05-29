@@ -19,7 +19,7 @@ class Auth extends My_Controller {
      {
        $this->session->sess_destory();
        $this->load->helper('url');
-       redirect('/auth/login');
+       redirect('/auth/login/');
      }
 
      function authentication()
