@@ -13,12 +13,12 @@
                     <div class="row">
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" class="form-control" id="name" name="name"  value="<?=$this->session->userdata('babyname');?>" readonly/>
+                              <input type="text" class="form-control input-lg" id="name" name="name"  value="<?=$this->session->userdata('babyname');?>" readonly/>
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" class="form-control" id="birthday" name="birthday" value="<?=$this->session->userdata('birthday');?>" readonly/>
+                              <input type="text" class="form-control input-lg" id="birthday" name="birthday" value="<?=$this->session->userdata('birthday');?>" readonly/>
                             </div>
                         </div>
                     </div>
@@ -33,12 +33,12 @@
                     <div class="row">
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" class="form-control" id="record_date" name="record_date"  value=""/>
+                              <input type="text" class="form-control input-lg" id="record_date" name="record_date"  value=""/>
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" value=""  class="form-control" id="record_time" name="record_time" value=""/>
+                              <input type="text" value=""  class="form-control input-lg" id="record_time" name="record_time" value=""/>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                     <div class="row">
                       <div>
                         <div class="col-md-2 col-xs-5">
-                            <input type="number" id="milk" name="milk" class="form-control" value=""/>
+                            <input type="number" id="milk" name="milk" class="form-control input-lg" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="glyphicon glyphicon-arrow-up btn-round button" id="upQuantity">10</button>
@@ -64,7 +64,7 @@
                     <div class="row">
                       <div>
                         <div class="col-md-2 col-xs-5">
-                            <input type="number" id="rice" name="rice" class="form-control" value=""/>
+                            <input type="number" id="rice" name="rice" class="form-control input-lg" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="glyphicon glyphicon-arrow-up btn-round button" id="upRiceQuantity">10</button>
@@ -78,7 +78,7 @@
                       <input type="hidden" id="id" name="id"  value="<?=$recordinfo->id?>"/>
                     </div>
               </div>
-              <input type="submit" class="btn btn-block btn-lg btn-info btn-simple" value="저장하기" />
+                <input type="submit" class="btn btn-block btn-lg btn-info btn-simple" value="저장하기" />
             </div>
         </div>
     </form>

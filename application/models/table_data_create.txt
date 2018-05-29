@@ -15,14 +15,6 @@ CREATE TABLE IF NOT EXISTS  `ci_sessions` (
     KEY `last_activity_idx` (`last_activity`)
 );
 
-
-CREATE DATABASE a01 CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-
-use a01;
-
-// record 프로그램
-
 CREATE TABLE record (
     id  int(11) NOT NULL AUTO_INCREMENT,
     baby_id int(11) NOT NULL,
@@ -37,7 +29,7 @@ CREATE TABLE record (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE `user` (
+CREATE TABLE user (
   email varchar(50) NOT NULL,
   password varchar(255) NOT NULL,
   nickname varchar(20),
@@ -51,7 +43,7 @@ CREATE TABLE `user` (
 
 
 
-CREATE TABLE `relation` (
+CREATE TABLE relation (
 baby_id int(11) NOT NULL,
 email varchar(50) NOT NULL,
 relation varchar(13),
@@ -61,7 +53,7 @@ PRIMARY KEY (baby_id, email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `baby` (
+CREATE TABLE baby (
 baby_id int(11) NOT NULL AUTO_INCREMENT,
 birthday varchar(6),
 babyname varchar(13),
@@ -71,7 +63,11 @@ updated datetime,
 PRIMARY KEY (baby_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `baby` (`baby_id`, `birthday`, `babyname`, `sex`, `created`, `updated`) VALUES (NULL, '170801', '조민준', '남', CURRENT_TIMESTAMP, NULL);
-INSERT INTO `relation` (`baby_id`, `email`, `relation`, `created`, `updated`) VALUES ('1', 'slife705@naver.com', '부', CURRENT_TIMESTAMP, NULL);
-----
----> ALTER TABLE `baby` CHANGE `jumin` `birthday` VARCHAR(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+CREATE TABLE environment (
+  email varchar(50) NOT NULL,
+  font varchar(50),
+  size varchar(4),
+  created  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated datetime,
+  PRIMARY KEY (email)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
