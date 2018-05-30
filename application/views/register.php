@@ -7,9 +7,9 @@
         </div>
         <div class="modal-body">
             <div class="form-group">
-              <label class="control-label" for="inputEmail">이메일</label>
+              <label class="control-label" for="inputEmail">아이디</label>
               <?php echo form_error('email'); ?>
-              <input class="form-control" type="text" id="email" name="email" value="<?php echo set_value('email'); ?>" placeholder="이메일" >
+              <input class="form-control" type="text" id="email" name="email" value="<?php echo set_value('email'); ?>" placeholder="아이디" >
             </div>
             <div class="form-group">
               <label class="control-label" for="nickname">닉네임</label>

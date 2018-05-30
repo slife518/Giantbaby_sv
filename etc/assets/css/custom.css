@@ -1,0 +1,17 @@
+/*!
+
+ =========================================================
+ * Get Shit Done Kit - v 이 페이지에만 특화
+ =========================================================
+*/
+.form-control {
+    padding: 3px 3px;
+}
+
+h6 th{
+   text-transform: lowercase;
+   font-family: "돋움", dotum, "굴림", cursive;
+}
+body{
+    font-family: "돋움", dotum, "굴림", cursive;
+  }

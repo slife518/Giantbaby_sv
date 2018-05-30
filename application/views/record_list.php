@@ -1,7 +1,7 @@
 <article id="board_area">
   <div class="table-responsive">
       <!-- <button type="button" class="btn btn-primary">Primary</button> -->
-        <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-info pull-right">기록하기</a>
+        <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary pull-right">기록하기</a>
   <table id="record_list" class="table">
     <thead>
         <tr>

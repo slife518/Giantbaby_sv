@@ -47,6 +47,7 @@ class Record extends My_Controller {
                    'rice'=>$this->input->post('rice'),
                    'author'=>$this->session->userdata('email')
              );
+          log_message('debug', print_r($array, TRUE));
 
            if(empty($this->input->post('id')))
            {   //신규 저장

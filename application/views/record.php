@@ -4,82 +4,99 @@
                 <div name="inputs">
                     <div class="row">
                       <div class="col-md-2 col-xs-5">
-                        <h6>아기이름</h6>
+                        <h4>아기이름</h4>
                       </div>
                       <div class="col-md-2 col-xs-5">
-                        <h6>생년월일</h6>
+                        <h4>생년월일</h4>
                       </div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" class="form-control input-lg" id="name" name="name"  value="<?=$this->session->userdata('babyname');?>" readonly/>
+                              <input type="text" class="form-control text-center input-lg" id="name" name="name"  value="<?=$this->session->userdata('babyname');?>" readonly/>
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" class="form-control input-lg" id="birthday" name="birthday" value="<?=$this->session->userdata('birthday');?>" readonly/>
+                              <input type="text" class="form-control text-center input-lg" id="birthday" name="birthday" value="<?=$this->session->userdata('birthday');?>" readonly/>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                       <div class="col-md-2 col-xs-5">
-                        <h6>날짜</h6>
+                        <h4>날짜</h4>
                       </div>
                       <div class="col-md-2 col-xs-5">
-                        <h6>시간</h6>
+                        <h4>시간</h4>
                       </div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" class="form-control input-lg" id="record_date" name="record_date"  value=""/>
+                              <input type="text" class="form-control text-center input-lg" id="record_date" name="record_date"  value="" readonly/>
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-5">
                           	<div>
-                              <input type="text" value=""  class="form-control input-lg" id="record_time" name="record_time" value=""/>
+                              <input type="text" class="form-control text-center input-lg" id="record_time" name="record_time" value="" readonly/>
                             </div>
                         </div>
                     </div>
-                    <div>
-                      <h6>분유(ml)</h6>
+                    <div class="row">
+                      <div class="col-md-2 col-xs-5">
+                        <h4>분유(ml)</h4>
+                      </div>
                     </div>
                     <div class="row">
-                      <div>
                         <div class="col-md-2 col-xs-5">
-                            <input type="number" id="milk" name="milk" class="form-control input-lg" value=""/>
+                            <input type="number" id="milk" name="milk" class="form-control text-center input-lg" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
-                            <button type="button" class="glyphicon glyphicon-arrow-up btn-round button" id="upQuantity">10</button>
+                            <button type="button" class="btn glyphicon glyphicon-arrow-up btn-primary" id="upQuantity">10</button>
                         </div>
                         <div class="col-md-1 col-xs-2">
-                            <button type="button" class="glyphicon glyphicon-arrow-down btn-round button" id="downQuantity">10</button>
+                            <button type="button" class="btn glyphicon glyphicon-arrow-down btn-primary" id="downQuantity">10</button>
                         </div>
-                      </div>
-                    </div>
-                    <div>
-                      <h6>이유식(ml)</h6>
                     </div>
                     <div class="row">
-                      <div>
-                        <div class="col-md-2 col-xs-5">
-                            <input type="number" id="rice" name="rice" class="form-control input-lg" value=""/>
-                        </div>
-                        <div class="col-md-1 col-xs-3">
-                            <button type="button" class="glyphicon glyphicon-arrow-up btn-round button" id="upRiceQuantity">10</button>
-                        </div>
-                        <div class="col-md-1 col-xs-2">
-                            <button type="button" class="glyphicon glyphicon-arrow-down btn-round button" id="downRiceQuantity">10</button>
-                        </div>
+                      <div class="col-md-2 col-xs-5">
+                        <h4>이유식(ml)</h4>
                       </div>
                     </div>
-                    <div>
-                      <input type="hidden" id="id" name="id"  value="<?=$recordinfo->id?>"/>
+                    <div class="form-group row">
+                        <div class="col-md-2 col-xs-5">
+                          <input type="number" id="rice" name="rice" class="form-control text-center input-lg" value=""/>
+                        </div>
+                        <div class="col-md-1 col-xs-3">
+                            <button type="button" class="btn glyphicon glyphicon-arrow-up btn-primary" id="upRiceQuantity">10</button>
+                        </div>
+                        <div class="col-md-1 col-xs-2">
+                            <button type="button" class="btn glyphicon glyphicon-arrow-down btn-primary" id="downRiceQuantity">10</button>
+                        </div>
+                        <div>
+                          <input type="hidden" id="id" name="id"  value="<?=$recordinfo->id?>"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3" style="text-align:center;">
+                          <?php
+                          if($recordinfo->id > 0){
+                          ?>
+                            <input type="submit" class="btn btn-block btn-primary" value="수정하기"/>
+
+                          <?php
+                          }else{
+                          ?>
+                            <input type="submit" class="btn btn-block btn-primary" value="기록하기"/>
+                          <?php
+                          }
+                          ?>
+                        </div>
                     </div>
               </div>
-                <input type="submit" class="btn btn-block btn-lg btn-info btn-simple" value="저장하기" />
+
             </div>
+
         </div>
     </form>
 <script type="text/javascript">
@@ -116,8 +133,8 @@ $( function() {
             $(document).ready(function() {
                 var today = new Date();
 
-                // var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+today.getDate();
-                var date = pad((today.getMonth()+1))+'-'+today.getDate();
+                var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+today.getDate();
+                //var date = pad((today.getMonth()+1))+'-'+today.getDate();
                 date = '<?=$recordinfo->record_date?>'|| date;
 
                 $('#record_date').val(date);
@@ -135,11 +152,15 @@ $( function() {
             });
 
             $('#record_date').datetimepicker({
-                            format: 'MM-DD'
+                            format: 'YYYY-MM-DD',
+                            ignoreReadonly: true,
+                            allowInputToggle: true
             });
 
             $('#record_time').datetimepicker({
-                            format: 'hh:mm'
+                            format: 'hh:mm',
+                            ignoreReadonly: true,
+                            allowInputToggle: true
             });
             $('#upQuantity').on('click', function () {
                var aaa = parseInt($("#milk").val()) + 10;
@@ -183,3 +204,8 @@ $( function() {
             });
 } );
 </script>
+<style>
+#record_date, #record_time {
+    background-color: transparent;   
+}
+</style>

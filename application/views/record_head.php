@@ -7,14 +7,19 @@
             	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
             	<title>기록하기</title>
               <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
-              <link href="/etc/bootstrap3/css/bootstrap.min.css" rel="stylesheet" />
               <!-- <link href="dist/css/fs-modal.min.css" rel="stylesheet"> -->
               <link href="/etc/assets/css/demo.css" rel="stylesheet" />
               <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
               <link href="/etc/assets/css/gsdk.css" rel="stylesheet" />
+              <link href="/etc/bootstrap3/css/bootstrap.min.css" rel="stylesheet" />
+              <link href="/etc/assets/css/custom.css" rel="stylesheet" />
+
                 <!--     Font Awesome     -->
               <link href="/etc/bootstrap3/css/font-awesome.css" rel="stylesheet">
               <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
+
+
+
 
               <script src="/etc/jquery/jquery-1.10.2.js" type="text/javascript"></script>
               <script src="/etc/assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>

@@ -14,7 +14,7 @@ class Record_model extends CI_Model {
          // $result = $this->db->get_where('');
           // var_dump($this->db->last_query());
           // return $result;
-        return $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date, DATE_FORMAT(a.record_time, '%H:%I') as record_time, milk,rice, a.id, b.nickname
+        return $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date, DATE_FORMAT(a.record_time, '%H:%i') as record_time, milk,rice, a.id, b.nickname
                 FROM record AS a join user AS b on a.author = b.email WHERE a.baby_id =
               ( select baby_id from relation WHERE email = ?)
                 ORDER BY record_date DESC, record_time DESC", $email)->result();   //result_array 로도 가능
@@ -22,7 +22,7 @@ class Record_model extends CI_Model {
     }
 
     function get($record_id){
-      return $this->db->query("SELECT DATE_FORMAT(record_date, '%m-%d') as record_date, DATE_FORMAT(record_time, '%H:%i') as record_time, milk,rice
+      return $this->db->query("SELECT id, record_date, DATE_FORMAT(record_time, '%H:%i') as record_time, milk,rice
                         FROM record WHERE id = ? ", $record_id )->row();
         // return $this->db->get_where('record', array('id'=>$record_id))->row();
     }
@@ -30,7 +30,9 @@ class Record_model extends CI_Model {
     function add($option){
         $this->db->set('created', 'NOW()', false);
       //  var_dump($option);
+        $option['record_time'] = $option['record_time'] .':00';   //시간:분 까지만 받고 있기 때문에 db 입력시 초를 00 으로 넣어준다.
         $this->db->insert('record',$option);
+        log_message('debug', $this->db->last_query());
         $result = $this->db->insert_id();
         return $result;
     }

@@ -8,8 +8,8 @@
         </div>
         <div class="modal-body">
             <div class="form-group">
-              <label for="exampleInputEmail1">이메일주소</label>
-              <input type="email" class="form-control input-lg" id="email" name="email" placeholder="이메일을 입력하세요">
+              <label for="exampleInputEmail1">아이디</label>
+              <input type="text" class="form-control input-lg" id="email" name="email" placeholder="아이디를 입력하세요">
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">비밀번호</label>
@@ -25,9 +25,8 @@
 
 
         <div class="modal-footer">
-          <input type="submit" class="btn btn-primary" value="로그인">
-          <!-- <a href="/index.php/auth/register" class="btn btn-default">회원가입</a> -->
           <a href="<?php echo base_url("auth/register")?>" class="btn btn-default">회원가입</a>
+          <input type="submit" class="btn btn-primary" value="로그인">
         </div>
       </div><!-- /.modal-content -->
     </form>
