@@ -140,7 +140,7 @@ $( function() {
                 $('#record_date').val(date);
                 var time = pad(today.getHours()) + ':' + pad(today.getMinutes());
                 time = '<?=$recordinfo->record_time?>' || time;
-                $('#record_time').val(time);
+              //  $('#record_time').val(time);
 
                 var milk = '<?=$recordinfo->milk?>' || '200';
                 $('#milk').val(milk);
@@ -155,13 +155,24 @@ $( function() {
                             format: 'YYYY-MM-DD',
                             ignoreReadonly: true,
                             allowInputToggle: true
+
             });
 
+            // $('#record_time').datetimepicker({
+            //                 format: 'hh:mm',
+            //                 ignoreReadonly: true,
+            //                 allowInputToggle: true
+            // });
             $('#record_time').datetimepicker({
-                            format: 'hh:mm',
-                            ignoreReadonly: true,
-                            allowInputToggle: true
+                   format: 'LT',
+                   useCurrent: true,
+                   ignoreReadonly: true,
+                   allowInputToggle: true,
+                   setDate: new Date(),
+                   autoclose: true
             });
+
+
             $('#upQuantity').on('click', function () {
                var aaa = parseInt($("#milk").val()) + 10;
                if(aaa < 0){
@@ -206,6 +217,6 @@ $( function() {
 </script>
 <style>
 #record_date, #record_time {
-    background-color: transparent;   
+    background-color: transparent;
 }
 </style>
