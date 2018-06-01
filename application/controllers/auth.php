@@ -52,7 +52,7 @@ class Auth extends My_Controller {
 
               //$this->session->set_userdata('password', $user->password']);
               $this->load->helper('url');
-              redirect("/record/index/0");
+              redirect("/record/record_list");
           }else
           {   log_message('debug', '로그인 실패');
               //echo $user;
@@ -199,7 +199,7 @@ log_message('debug', 'eeeeee');
 
                  //$this->session->set_userdata('password', $user->password']);
                  $this->load->helper('url');
-                 redirect("/record/index/0");
+                 redirect("/record/record_list");
              }else
              {   log_message('debug', '로그인 실패');
                  //echo $user;

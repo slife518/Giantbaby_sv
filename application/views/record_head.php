@@ -50,14 +50,11 @@
                                 <div class="logo">
                                     <img src="/etc/assets/img/new_logo.png">
                                 </div>
-                              </div>
-                              <div>
-                                <div class="brand">
-                                <?=$this->session->userdata('nickname')?>
+                                <div>
+                                    <?=$this->session->userdata('nickname')?>
                                 </div>
                               </div>
                           </div>
-
                           <!-- Collect the nav links, forms, and other content for toggling -->
                           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-right">
@@ -85,10 +82,17 @@
               </div>
               <div class="main">
                   <div class="container tim-container">
-                    <div id="inputs">
-                        <div class="tim-title">
-                            <h3>.</h3>
-                        </div>
-                      </div>
+                    <div>
+                      &nbsp
+                    </div>
+                    <div>
+                      &nbsp
+                    </div>
+                    <div>
+                      &nbsp
+                    </div>
+                    <div>
+                      &nbsp
+                    </div>
                    </div>
               </div>
