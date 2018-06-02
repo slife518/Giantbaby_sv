@@ -74,13 +74,13 @@
                                 }
                                   ?>
                              </ul>
-
-                          </div><!-- /.navbar-collapse -->
+                          </div>
+                          <!-- /.navbar-collapse -->
                         </div><!-- /.container-fluid -->
                       </nav>
                   </div><!--  end container-->
               </div>
-              <div class="main">
+              <!-- <div class="main">
                   <div class="container tim-container">
                     <div>
                       &nbsp
@@ -95,4 +95,4 @@
                       &nbsp
                     </div>
                    </div>
-              </div>
+              </div> -->

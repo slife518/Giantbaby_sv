@@ -4,7 +4,7 @@
                 <div name="inputs">
                     <div class="row">
                         <div class="col-md-12 col-xs-12">
-                            <h3><?=$this->session->userdata('babyname');?></h3><h5>(<?=$this->session->userdata('birthday');?>생)</h5>
+                            <h1 class="masthead-title"><?=$this->session->userdata('babyname');?></h1><h5>(<?=$this->session->userdata('birthday');?>생)</h5>
                         </div>
                     </div>
                     <div class="row">

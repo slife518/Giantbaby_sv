@@ -1,9 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 //개발환경
-echo "____________이곳은 개발환경입니다.";
-echo '<p>PHP current version is ' . phpversion();
-
 /*
 |--------------------------------------------------------------------------
 | Base Site URL  (production)
