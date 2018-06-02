@@ -3,23 +3,8 @@
             <div class="container tim-container">
                 <div name="inputs">
                     <div class="row">
-                      <div class="col-md-2 col-xs-5">
-                        <h4>아기이름</h4>
-                      </div>
-                      <div class="col-md-2 col-xs-5">
-                        <h4>생년월일</h4>
-                      </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 col-xs-5">
-                          	<div>
-                              <input type="text" class="form-control text-center input-lg" id="name" name="name"  value="<?=$this->session->userdata('babyname');?>" readonly/>
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-xs-5">
-                          	<div>
-                              <input type="text" class="form-control text-center input-lg" id="birthday" name="birthday" value="<?=$this->session->userdata('birthday');?>" readonly/>
-                            </div>
+                        <div class="col-md-12 col-xs-12">
+                            <h3><?=$this->session->userdata('babyname');?></h3><h5>(<?=$this->session->userdata('birthday');?>생)</h5>
                         </div>
                     </div>
                     <div class="row">
@@ -133,12 +118,14 @@ $( function() {
             $(document).ready(function() {
                 var today = new Date();
 
-                var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+today.getDate();
+                var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+pad(today.getDate());
                 //var date = pad((today.getMonth()+1))+'-'+today.getDate();
                 date = '<?=$recordinfo->record_date?>'|| date;
 
                 $('#record_date').val(date);
+
                 var time = pad(today.getHours()) + ':' + pad(today.getMinutes());
+
                 time = '<?=$recordinfo->record_time?>' || time;
                 $('#record_time').val(time);
 
@@ -158,7 +145,7 @@ $( function() {
             });
 
             $('#record_time').datetimepicker({
-                            format: 'hh:mm',
+                            format: 'HH:mm',
                             ignoreReadonly: true,
                             allowInputToggle: true
             });
@@ -206,6 +193,6 @@ $( function() {
 </script>
 <style>
 #record_date, #record_time {
-    background-color: transparent;   
+    background-color: transparent;
 }
 </style>
