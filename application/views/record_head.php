@@ -9,11 +9,10 @@
               <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
               <!-- <link href="dist/css/fs-modal.min.css" rel="stylesheet"> -->
               <link href="/etc/assets/css/demo.css" rel="stylesheet" />
-              <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+              <link href="/etc/bootstrap3/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
               <link href="/etc/assets/css/gsdk.css" rel="stylesheet" />
               <link href="/etc/bootstrap3/css/bootstrap.min.css" rel="stylesheet" />
               <link href="/etc/assets/css/custom.css" rel="stylesheet" />
-
                 <!--     Font Awesome     -->
               <link href="/etc/bootstrap3/css/font-awesome.css" rel="stylesheet">
               <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
@@ -24,6 +23,7 @@
               <script src="/etc/jquery/jquery-1.10.2.js" type="text/javascript"></script>
               <script src="/etc/assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
               <script src="/etc/bootstrap3/js/bootstrap.min.js" type="text/javascript"></script>
+              <script src="/etc/bootstrap3/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
               <!-- <script src="dist/js/fs-modal.min.js"></script> -->
               <script src="/etc/assets/js/gsdk-checkbox.js"></script>
               <script src="/etc/assets/js/gsdk-radio.js"></script>
@@ -31,7 +31,7 @@
               <script src="/etc/assets/js/get-shit-done.js"></script>
               <script src="/etc/assets/js/custom.js"></script>
               <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-              <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+              <script src="/etc/bootstrap3/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
             </head>
             <body>
               <div id="navbar-full">
@@ -80,7 +80,7 @@
                       </nav>
                   </div><!--  end container-->
               </div>
-              <!-- <div class="main">
+              <div class="main">
                   <div class="container tim-container">
                     <div>
                       &nbsp
@@ -95,4 +95,4 @@
                       &nbsp
                     </div>
                    </div>
-              </div> -->
+              </div>
