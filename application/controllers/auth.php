@@ -196,7 +196,8 @@ log_message('debug', 'eeeeee');
                  $this->session->set_userdata('nickname', $user['nickname']);
                  $this->session->set_userdata('email', $user['email']);
                  $this->session->set_userdata('baby_id', $user['baby_id']);
-                 $this->session->set_userdata('birthday', $user['birthday']);
+                 $birthday = '20' .substr($user['birthday'], 0,2) .'년' .substr($user['birthday'], 2,2) .'월' .substr($user['birthday'], 4,6) .'일';
+                 $this->session->set_userdata('birthday', $birthday);
                  $this->session->set_userdata('babyname', $user['babyname']);
 
                  //$this->session->set_userdata('password', $user->password']);

@@ -1,7 +1,6 @@
 <article id="board_area">
-  <div class="table-responsive">
-      <P>
-        <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary pull-right">기록하기</a>
+  <div class="table-responsive">      
+        <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a>
   <table id="record_list" class="table table-hover">
     <thead>
         <tr>

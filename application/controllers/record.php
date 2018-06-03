@@ -45,6 +45,7 @@ class Record extends My_Controller {
                    'record_time'=>$this->input->post('record_time'),
                    'milk'=>$this->input->post('milk'),
                    'rice'=>$this->input->post('rice'),
+                   'description'=>$this->input->post('description'),
                    'author'=>$this->session->userdata('email')
              );
           log_message('debug', print_r($array, TRUE));
@@ -88,6 +89,19 @@ class Record extends My_Controller {
           $this->load->view('record_list', array('record'=>$record));
           $this-> _footer();
       }
+
+      function delete($id)
+      {
+        //print "<script type=\"text/javascript\">alert('some_text');</script>";
+        $msg = '삭제쿼리 실행전 ' .$id;
+        log_message('debug', $msg);
+          $data['id']= $id;
+          $record = $this->record_model->delete($data);
+          $this->load->helper('url');
+          redirect('/record/record_list');
+          $this-> _footer();
+      }
+
 
 }
 ?>

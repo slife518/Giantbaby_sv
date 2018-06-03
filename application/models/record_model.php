@@ -14,7 +14,7 @@ class Record_model extends CI_Model {
          // $result = $this->db->get_where('');
           // var_dump($this->db->last_query());
           // return $result;
-        return $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date, DATE_FORMAT(a.record_time, '%H:%i') as record_time, milk,rice, a.id, b.nickname
+        return $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date, DATE_FORMAT(a.record_time, '%H:%i') as record_time, milk,rice, description, a.id, b.nickname
                 FROM record AS a join user AS b on a.author = b.email WHERE a.baby_id =
               ( select baby_id from relation WHERE email = ?)
                 ORDER BY record_date DESC, record_time DESC", $email)->result();   //result_array 로도 가능
@@ -22,7 +22,7 @@ class Record_model extends CI_Model {
     }
 
     function get($record_id){
-      return $this->db->query("SELECT id, record_date, DATE_FORMAT(record_time, '%H:%i') as record_time, milk,rice
+      return $this->db->query("SELECT id, record_date, DATE_FORMAT(record_time, '%H:%i') as record_time, milk,rice, description
                         FROM record WHERE id = ? ", $record_id )->row();
         // return $this->db->get_where('record', array('id'=>$record_id))->row();
     }
@@ -42,6 +42,19 @@ class Record_model extends CI_Model {
       $this->db->set('updated', 'NOW()', false);
       $this->db->where('id', $option['id']);
       $this->db->update('record',$option);
+    //  var_dump($this->db->last_query());
+      log_message('debug', $this->db->last_query());
+      return $result;
+    }
+
+    function delete($option)
+    {
+
+      //$this->db->set('updated', 'NOW()', false);
+      log_message('debug', print_r($option,'TRUE'));
+       $this->db->where('id', $option['id']);
+       $this->db->delete('record');
+      //$this->db->delete('record', $option['id']);
     //  var_dump($this->db->last_query());
       log_message('debug', $this->db->last_query());
       return $result;

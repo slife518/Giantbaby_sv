@@ -37,10 +37,10 @@
                             <input type="number" id="milk" name="milk" class="form-control text-center input-lg" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
-                            <button type="button" class="btn glyphicon glyphicon-arrow-up btn-primary" id="upQuantity">10</button>
+                            <button type="button" class="btn glyphicon glyphicon-arrow-up btn-primary btn-lg" id="upQuantity">10</button>
                         </div>
                         <div class="col-md-1 col-xs-2">
-                            <button type="button" class="btn glyphicon glyphicon-arrow-down btn-primary" id="downQuantity">10</button>
+                            <button type="button" class="btn glyphicon glyphicon-arrow-down btn-primary btn-lg" id="downQuantity">10</button>
                         </div>
                     </div>
                     <div class="row">
@@ -53,36 +53,65 @@
                           <input type="number" id="rice" name="rice" class="form-control text-center input-lg" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
-                            <button type="button" class="btn glyphicon glyphicon-arrow-up btn-primary" id="upRiceQuantity">10</button>
+                            <button type="button" class="btn glyphicon glyphicon-arrow-up btn-primary btn-lg" id="upRiceQuantity">10</button>
                         </div>
                         <div class="col-md-1 col-xs-2">
-                            <button type="button" class="btn glyphicon glyphicon-arrow-down btn-primary" id="downRiceQuantity">10</button>
+                            <button type="button" class="btn glyphicon glyphicon-arrow-down btn-primary btn-lg" id="downRiceQuantity">10</button>
                         </div>
                         <div>
                           <input type="hidden" id="id" name="id"  value="<?=$recordinfo->id?>"/>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-md-12 col-xs-12">
+                          <textarea class="form-control" rows="3" placeholder="남기고 싶은 말" id='description' name='description'><?=$recordinfo->description?></textarea>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-sm-3" style="text-align:center;">
+                          <div class="modal-footer">
+                            <a type='button' href="<?php echo base_url("record/record_list")?>" class="btn btn-lg pull-left btn-warning">기록보기</a>
                           <?php
                           if($recordinfo->id > 0){
                           ?>
-                            <input type="submit" class="btn btn-block btn-primary" value="수정하기"/>
-
+                              <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#exampleModal">삭제</button>
+                              <!-- //<a href="<?php echo base_url("record/popup_confirm")?>/<?=$recordinfo->id?>" class="btn btn-default"  data-toggle="modal" data-target="#exampleModal">>삭제</a> -->
+                              <input type="submit" class="btn btn-primary btn-lg" value="수정하기"/>
                           <?php
                           }else{
                           ?>
-                            <input type="submit" class="btn btn-block btn-primary" value="기록하기"/>
+                            <input type="submit" class="btn btn-primary btn-lg pull-right" value="기록하기"/>
                           <?php
                           }
                           ?>
+                          </div>
                         </div>
                     </div>
               </div>
-
             </div>
-
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">해당기록을 삭제됩니다.</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <a href="<?php echo base_url("record/delete")?>/<?=$recordinfo->id?>" class="btn btn-primary">삭제</a>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
     </form>
 <script type="text/javascript">
 $( function() {
@@ -139,14 +168,20 @@ $( function() {
             });
 
             $('#record_date').datetimepicker({
-                            format: 'YYYY-MM-DD',
+                            format: 'yyyy-mm-dd',
+                            startView:'month',
+                            minView:'month',
+                            todayHighlight:true,
                             ignoreReadonly: true,
+                            autoclose:true,
                             allowInputToggle: true
             });
 
             $('#record_time').datetimepicker({
-                            format: 'HH:mm',
+                            format: 'hh:ii',
                             ignoreReadonly: true,
+                            autoclose:true,
+                            startView:'hour',
                             allowInputToggle: true
             });
             $('#upQuantity').on('click', function () {

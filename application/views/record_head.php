@@ -15,7 +15,7 @@
               <link href="/etc/assets/css/custom.css" rel="stylesheet" />
                 <!--     Font Awesome     -->
               <link href="/etc/bootstrap3/css/font-awesome.css" rel="stylesheet">
-              <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
+              <!-- <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'> -->
 
 
 
@@ -23,7 +23,6 @@
               <script src="/etc/jquery/jquery-1.10.2.js" type="text/javascript"></script>
               <script src="/etc/assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
               <script src="/etc/bootstrap3/js/bootstrap.min.js" type="text/javascript"></script>
-              <script src="/etc/bootstrap3/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
               <!-- <script src="dist/js/fs-modal.min.js"></script> -->
               <script src="/etc/assets/js/gsdk-checkbox.js"></script>
               <script src="/etc/assets/js/gsdk-radio.js"></script>
