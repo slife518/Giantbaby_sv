@@ -1,6 +1,6 @@
 <article id="board_area">
-  <div class="table-responsive">      
-        <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a>
+  <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a>
+  <div class="table-responsive">
   <table id="record_list" class="table table-hover">
     <thead>
         <tr>
@@ -9,6 +9,7 @@
             <th scope="col">분유(ml)</th>
             <th scope="col">이유식(ml)</th>
             <th scope="col">작성자</th>
+            <!-- <th scope="col">남긴 글</th> -->
         </tr>
     </thead>
     <tbody>
@@ -16,21 +17,24 @@
             foreach ($record as $result => $entry) {
            ?>
               <tr>
-                  <td>
+                  <td class="rb-time">
                     <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->record_date?></a>
                   </td>
-                  <td class="rb-user">
+                  <td class="rb-time">
                     <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->record_time?></a>
                   </td>
-                  <td class="rb-hit">
+                  <td>
                     <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->milk?></a>
                   </td>
-                  <td class="rb-time">
+                  <td>
                     <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->rice?></a>
                   </td>
-                  <td class="rb-time">
+                  <td class="rb-user">
                     <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->nickname?></a>
                   </td>
+                  <!-- <td>
+                    <a href="<?php echo base_url("record/index/")?><?=$entry->id?>"><?=$entry->description?></a>
+                  </td> -->
                 </tr>
           <?php
           }
