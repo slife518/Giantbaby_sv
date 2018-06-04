@@ -59,7 +59,7 @@ class Record extends My_Controller {
              log_message('debug', '기존 데이터 변경');
               $array =  array_merge($array, array('id'=>$this->input->post('id')));
                log_message('debug', print_r($array, TRUE));
-
+               unset($array['author']);
                $record_id = $this->record_model->update($array);
            }
            $this->load->helper('url');

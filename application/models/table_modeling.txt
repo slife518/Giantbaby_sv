@@ -65,7 +65,7 @@ select * from aaa_record  where baby_id in
 
 
 아기선택
-select name, baby_id from baby where
+select name, baby_id from baby wheres
 baby_id in ( select baby_id from relation where .user_email = email"
 
 
@@ -77,3 +77,13 @@ left outer join relation as b on a.baby_id = b.baby_id ) as b on a.email = b.ema
 select * from user as e left outer join
 ( select a.baby_id, a.birthday, a.babyname, a.sex, b.email, b.relation from baby as a left outer join relation as b
   on a.baby_id = b.baby_id ) as c on e.email = c.email where e.email = 'slife705@naver.com'
+
+
+
+회원정보 > 아기등록
+아기이름
+아기성별
+아기생년월일
+아빠이름
+엄마이름
+본인과의 관계
