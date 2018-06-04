@@ -1,12 +1,7 @@
 <form action="<?php echo base_url("record/index")?>" method="post">
         <div class="main">
             <div class="container tim-container">
-                <div name="inputs">
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12">
-                            <h1 class="masthead-title"><?=$this->session->userdata('babyname');?></h1><h5>(<?=$this->session->userdata('birthday');?>생)</h5>
-                        </div>
-                    </div>
+                <div name="inputs">                    
                     <div class="row">
                       <div class="col-md-2 col-xs-5">
                         <h4>날짜</h4>

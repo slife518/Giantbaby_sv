@@ -1,7 +1,8 @@
 <article id="board_area">
+<div class="main xpull">
   <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a>
   <div class="table-responsive">
-  <table id="record_list" class="table table-hover">
+  <table id="record_list" class="table table-striped">
     <thead>
         <tr>
             <th scope="col">날짜</th>
@@ -42,6 +43,7 @@
     </tbody>
     </table>
   </div>
+</div>
 </article>
 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>

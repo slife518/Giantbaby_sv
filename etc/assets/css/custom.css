@@ -31,3 +31,30 @@ input:focus {
   border-bottom: 2px solid red;
 
 }
+
+.main{
+  margin-top: 6em;
+}
+
+ @media only screen{
+   .main{
+     margin-top: 6em;
+   }
+  }
+/*
+@media (min-width: 1200px) {
+    .main{
+      margin-top: 3em;
+    }
+  }
+
+@media (min-width: 992px) {
+  .main{
+    margin-top: 3em;
+  }
+}
+@media (min-width: 768px) {
+  .main{
+    margin-top: 3em;
+  }
+} */

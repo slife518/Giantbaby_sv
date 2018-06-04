@@ -388,7 +388,7 @@ $config['sess_use_database']    = TRUE; // 세션의 데이터를 데이터베�
 */
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200;
+$config['sess_expiration'] = 0;
 $config['sess_save_path'] = APPPATH.'session/';
 $config['sess_match_ip']        = TRUE;
 $config['sess_match_useragent']    = TRUE;

@@ -49,8 +49,8 @@
                                 <div class="logo">
                                     <img src="/etc/assets/img/new_logo.png">
                                 </div>
-                                <div>
-                                    <?=$this->session->userdata('nickname')?>
+                                <div style="color: white;">
+                                    <h3 class="masthead-title"><?=$this->session->userdata('babyname');?></h3><h6>(<?=$this->session->userdata('birthday');?>생) <?=$this->session->userdata('nickname')?> 환영합니다.</h6>
                                 </div>
                               </div>
                           </div>
@@ -78,20 +78,4 @@
                         </div><!-- /.container-fluid -->
                       </nav>
                   </div><!--  end container-->
-              </div>
-              <div class="main">
-                  <div class="container tim-container">
-                    <div>
-                      &nbsp
-                    </div>
-                    <div>
-                      &nbsp
-                    </div>
-                    <div>
-                      &nbsp
-                    </div>
-                    <div>
-                      &nbsp
-                    </div>
-                   </div>
               </div>
