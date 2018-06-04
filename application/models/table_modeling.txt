@@ -65,7 +65,7 @@ select * from aaa_record  where baby_id in
 
 
 아기선택
-select name, baby_id from baby wheres
+select name, baby_id from baby where
 baby_id in ( select baby_id from relation where .user_email = email"
 
 
@@ -87,3 +87,9 @@ select * from user as e left outer join
 아빠이름
 엄마이름
 본인과의 관계
+
+
+LIKE table
+record_id
+user_id
+reply
