@@ -7,17 +7,20 @@ class Record_model extends CI_Model {
     }
 
     function gets($email){
-         // $this->db->select('*');
-         // $this->db->from('record');
-         // $this->db->join('user', 'record.author = user.email');
-         //
-         // $result = $this->db->get_where('');
-          // var_dump($this->db->last_query());
-          // return $result;
-        return $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date, DATE_FORMAT(a.record_time, '%H:%i') as record_time, milk,rice, description, a.id, b.nickname
+
+      // $this->db->select('*');
+      // $this->db->from('record');
+      // $this->db->join('user', 'record.author = user.email');
+      //
+      // $result = $this->db->get_where('');
+       // var_dump($this->db->last_query());
+       // return $result;
+        $result =  $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date, DATE_FORMAT(a.record_time, '%H:%i') as record_time, milk,rice, description, a.id, b.nickname
                 FROM record AS a join user AS b on a.author = b.email WHERE a.baby_id =
               ( select baby_id from relation WHERE email = ?)
-                ORDER BY record_date DESC, record_time DESC", $email)->result();   //result_array 로도 가능
+                ORDER BY record_date DESC, record_time DESC", $email)->result_array();   //result_array 로도 가능
+
+        return json_encode(array('data' => $result));
       //  var_dump($this->db->last_query());
     }
 
