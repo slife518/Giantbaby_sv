@@ -11,12 +11,19 @@
               <link href="/etc/bootstrap3/css/bootstrap.min.css" rel="stylesheet" />
               <link href="/etc/bootstrap3/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
               <link href="/etc/assets/css/gsdk.css" rel="stylesheet" />
-              <link href="/etc/assets/css/custom.css" rel="stylesheet" />
+              <link href="/etc/assets/css/custom.css" rel="stylesheet"/>
               <link href="/etc/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" >
               <link href="/etc/bootstrap3/css/font-awesome.css" rel="stylesheet">
 
               <!-- <script src="/etc/jquery/jquery-1.10.2.js" type="text/javascript"></script> -->
-              <script src="/etc/jquery/jquery.min.js" type="text/javascript"></script>
+              <!-- Latest compiled and minified CSS -->
+              <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+
+              <!-- Latest compiled and minified JavaScript -->
+              <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+
+              <!-- Latest compiled and minified Locales -->
+              <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script>
             </head>
             <body>
               <div id="navbar-full">
