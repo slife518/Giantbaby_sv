@@ -95,8 +95,8 @@
 		};
 
 
-      $(document).ready(function() {
-
+      // $(document).ready(function() {
+  $( function(){
         var today = new Date();
         var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+pad(today.getDate());
         //var date = pad((today.getMonth()+1))+'-'+today.getDate();

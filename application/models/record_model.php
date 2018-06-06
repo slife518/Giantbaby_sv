@@ -6,7 +6,7 @@ class Record_model extends CI_Model {
         parent::__construct();
     }
 
-    function gets($email){
+    function gets($email){    //리스트 조회
 
       // $this->db->select('*');
       // $this->db->from('record');
@@ -24,7 +24,18 @@ class Record_model extends CI_Model {
       //  var_dump($this->db->last_query());
     }
 
-    function get($record_id){
+    function getReportInfo($option){
+      log_message('debug',print_r($option, TRUE));
+      $result = $this->db->query("SELECT record_date, sum(milk) as milk, sum(rice) as rice from record where author = ?
+      and record_date BETWEEN ? and ? group by record_date order by record_date", $option)->result_array();
+      log_message('debug', $this->db->last_query());
+
+      log_message('debug',print_r($result, TRUE));
+
+      return $result;
+    }
+
+    function get($record_id){   //상세데이터 조회
       return $this->db->query("SELECT id, record_date, DATE_FORMAT(record_time, '%H:%i') as record_time, milk,rice, description
                         FROM record WHERE id = ? ", $record_id )->row();
         // return $this->db->get_where('record', array('id'=>$record_id))->row();
