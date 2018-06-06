@@ -79,6 +79,9 @@ select * from user as e left outer join
   on a.baby_id = b.baby_id ) as c on e.email = c.email where e.email = 'slife705@naver.com'
 
 
+select record_date, sum(milk) as milk, sum(rice) as rice from record where author = "slife705"
+and record_date BETWEEN "2018-01-01" and "2018-07-30" group by record_date
+
 
 회원정보 > 아기등록
 아기이름

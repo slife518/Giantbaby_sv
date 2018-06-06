@@ -20,7 +20,7 @@
               <link rel="stylesheet" href="/etc/bootstrap3/css/font-awesome.css"/>
               <!-- <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'> -->
               <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
-
+            
               <!-- JavaScript -->
               <script type="text/javascript" src="/etc/jquery/jquery-1.10.2.js"></script>
               <script type="text/javascript" src="/etc/assets/js/jquery-ui-1.10.4.custom.min.js"></script>
@@ -32,7 +32,7 @@
               <script type="text/javascript"  src="/etc/assets/js/gsdk-bootstrapswitch.js"></script>
               <script type="text/javascript"  src="/etc/assets/js/get-shit-done.js"></script>
               <script type="text/javascript"  src="/etc/assets/js/custom.js"></script>
-              <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+              <!-- <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script> -->
               <script type="text/javascript"  src="/etc/bootstrap3/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
               <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
               <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-en-US.min.js"></script>

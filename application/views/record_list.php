@@ -28,7 +28,7 @@
           data: data,
           // striped: true,
           pagination: true,
-          pageSize: 9,
+          pageSize: 10,
           paginationVAlign :'bottom',
           paginationHAlign: 'right',
           clickToSelect: true,

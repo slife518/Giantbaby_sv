@@ -1,7 +1,7 @@
 <form action="<?php echo base_url("record/index")?>" method="post">
         <div class="main">
             <div class="container tim-container">
-                <div name="inputs">                    
+                <div name="inputs">
                     <div class="row">
                       <div class="col-md-2 col-xs-5">
                         <h4>날짜</h4>
@@ -213,7 +213,7 @@ $( function() {
             //   event.preventDefault();
             // } );
 
-            function pad(n){return n<10 ? '0'+n : n}
+          
 
             $("form").on("submit", function(event) {
             //   event.preventDefault();

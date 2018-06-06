@@ -90,13 +90,20 @@ class Record extends My_Controller {
           $this-> _footer();
       }
 
-      function report()
+      function report($from_date, $to_date)
       {
          //print "<script type=\"text/javascript\">alert('Some text');</script>";
           //$this->_head($this->router->fetch_method());
           $this->_head();
-          $record = $this->record_model->gets($this->session->userdata('email'));
-          $this->load->view('record_list', array('record'=>$record));
+
+          if(empty($from_date)){    //최초 레포트 조회시 default 기간 설정하기
+
+          }else{
+
+          }
+          $record = $this->record_model->getreportinfo($this->session->userdata('email'), $from_date, $to_date);
+          //$this->load->view('report', array('record'=>$record));
+          $this->load->view('report');
           $this-> _footer();
       }
       function delete($id)
