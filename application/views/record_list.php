@@ -1,76 +1,96 @@
 
 
 <div class="main xpull">
-  <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a>
-  <div class="table-responsive">
-      <table id="tableDemo">
+  <div>
+    <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a>
+  </div>
+  <div>
+    <table  id="record_list" data-row-style="rowStyle"></table>
   </div>
 </div>
 
-<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
-<!-- <script src="/etc/assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script> -->
-<script src="/etc/bootstrap3/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="/etc/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="/etc/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
-<!-- <script src="dist/js/fs-modal.min.js"></script> -->
-<script src="/etc/assets/js/gsdk-checkbox.js"></script>
-<script src="/etc/assets/js/gsdk-radio.js"></script>
-<script src="/etc/assets/js/gsdk-bootstrapswitch.js"></script>
-<script src="/etc/assets/js/get-shit-done.js"></script>
-<script src="/etc/assets/js/custom.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-<script src="/etc/bootstrap3/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+
+
 
 <script>
-  $( function() {
+  $( function(){
+
         $(window).resize(function () {
-                $(document).ready(function() {
-                      $('#tableDemo').bootstrapTable('resetView');
+           $(document).ready(function() {
+                      $('#record_list').bootstrapTable('resetView');
                   });
         });
-//        $('[data-toggle="popover"]').popover();
+        $('[data-toggle="popover"]').popover();
 
+        var data = <?=$record?>
 
-        var data =[
-            {code:'000001',
-             price: 12.00,
-             description: 'Product description, product description',
-             cost: 10.00,
-            },
-            {code:'000002',
-             price: 12.00,
-             description: 'Product description, product description',
-             cost: 10.00,
-            },
-            {code:'000003',
-             price: 12.00,
-             description: 'Product description, product description',
-             cost: 10.00,
-            },
-            {code:'000004',
-             price: 12.00,
-             description: 'Product description, product description',
-             cost: 10.00,
-            },
-        ]
-
-        $('#tableDemo').bootstrapTable({
+        $('#record_list').bootstrapTable({
           data: data,
+          // striped: true,
+          pagination: true,
+          pageSize: 9,
+          paginationVAlign :'bottom',
+          paginationHAlign: 'right',
+          clickToSelect: true,
+          // showRefresh:true,
+          onClickRow: function (row, element, field) {
+            // row: the record corresponding to the clicked row,
+            // $element: the tr element,
+            // field: the field name corresponding to the clicked cell.
+            var url = "<?php echo base_url("record/index/")?>" + row.id ;
+//            console.log(element);
+            location.href = url;
+             },
           columns: [{
-              field: 'code',
-              title: 'Code',
-              'class': 'w200'
+              field: 'record_date',
+              title: '날짜',
+              //'class': 'w100'
+               'class': 'col-xs-2 col-md-2'
           }, {
-              field: 'price',
-              title: 'Price'
+              field: 'record_time',
+              title: '시간'
+              // 'class': 'w100',
+              // 'class': 'col-xs-2 .col-md-2'
           }, {
-              field: 'description',
-              title: 'Description',
-              'class': 'w500'
+              field: 'milk',
+              title: '분유'
+              // 'class': 'w100',
+              // 'class': 'col-xs-3 .col-md-2'
           }, {
-              field: 'cost',
-              title: 'Cost'
+              field: 'rice',
+              title: '이유식'
+              // 'class': 'w100',
+              // 'class': 'col-xs-3 .col-md-2'
+          }, {
+              field: 'nickname',
+              title: '작성자'
+              // 'class': 'w500'
+              // 'class': 'col-xs-2 .col-md-3'
+          // }, {
+          //     field: 'description',
+          //     title: '남길 글',
+          //     align: 'left',
+          //     'class': 'w300'
+
+          }, {
+              field: 'id',
+              visible:false
+
           }]
         });
+
+
+        function rowStyle(row, index) {
+
+          console.log(row);
+            var classes = ['active', 'success', 'info', 'warning', 'danger'];
+
+            if (index % 2 === 0 && index / 2 < classes.length) {
+                return {
+                    classes: classes[index / 2]
+                };
+            }
+            return {};
+        }
 });
 </script>

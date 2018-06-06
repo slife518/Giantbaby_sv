@@ -20,7 +20,7 @@ class Record_model extends CI_Model {
               ( select baby_id from relation WHERE email = ?)
                 ORDER BY record_date DESC, record_time DESC", $email)->result_array();   //result_array 로도 가능
 
-        return json_encode(array('data' => $result));
+        return json_encode($result);
       //  var_dump($this->db->last_query());
     }
 

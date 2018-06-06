@@ -90,6 +90,15 @@ class Record extends My_Controller {
           $this-> _footer();
       }
 
+      function report()
+      {
+         //print "<script type=\"text/javascript\">alert('Some text');</script>";
+          //$this->_head($this->router->fetch_method());
+          $this->_head();
+          $record = $this->record_model->gets($this->session->userdata('email'));
+          $this->load->view('record_list', array('record'=>$record));
+          $this-> _footer();
+      }
       function delete($id)
       {
         //print "<script type=\"text/javascript\">alert('some_text');</script>";

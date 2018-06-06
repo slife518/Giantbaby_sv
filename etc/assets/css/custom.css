@@ -8,13 +8,13 @@
     padding: 3px 3px;
 }
 
-h6 th{
+/* h6 th{
    text-transform: lowercase;
    font-family: "돋움", dotum, "굴림", cursive;
 }
 body{
     font-family: "돋움", dotum, "굴림", cursive;
-  }
+  } */
 
 
 input[type=text],
@@ -31,6 +31,15 @@ input:focus {
   border-bottom: 2px solid red;
 
 }
+
+.w200 .th-inner {
+  width: 200px;
+}
+
+.w500 .th-inner {
+  width: 500px;
+}
+
 
 .main{
   margin-top: 6em;
