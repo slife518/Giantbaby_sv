@@ -20,7 +20,7 @@
               <link rel="stylesheet" href="/etc/bootstrap3/css/font-awesome.css"/>
               <!-- <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'> -->
               <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
-            
+
               <!-- JavaScript -->
               <script type="text/javascript" src="/etc/jquery/jquery-1.10.2.js"></script>
               <script type="text/javascript" src="/etc/assets/js/jquery-ui-1.10.4.custom.min.js"></script>
@@ -68,7 +68,7 @@
                                     if($this->session->userdata('is_login')){
                                     ?>
                                       <li><a href="<?php echo base_url("record/record_list")?>" class="btn btn-round btn-default">기록보기</a></li>
-                                      <li><a href="<?php echo base_url("record/report")?>" class="btn btn-round btn-default">보고서(준비중)</a></li>
+                                      <li><a href="<?php echo base_url("report/index")?>" class="btn btn-round btn-default">보고서</a></li>
                                       <li><a href="<?php echo base_url("auth/member")?>" class="btn btn-round btn-default">회원정보수정</a></li>
                                       <li><a href="<?php echo base_url("auth/login")?>" class="btn btn-round btn-default">로그아웃</a></li>
                                     <?php

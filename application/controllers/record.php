@@ -90,37 +90,6 @@ class Record extends My_Controller {
           $this-> _footer();
       }
 
-      function report()
-      {
-         //print "<script type=\"text/javascript\">alert('Some text');</script>";
-          //$this->_head($this->router->fetch_method());
-
-          $this->_head();
-
-          $this->load->library('form_validation');
-          $this->form_validation->set_rules('from_date', '시작일자', 'required');
-          $this->form_validation->set_rules('to_date', '종료일자', 'required');
-
-          if($this->form_validation->run() == FALSE){
-            $to_date = date("Y-m-d");
-            $timestamp = strtotime("-7 day", strtotime($to_date));
-            $from_date = date("Y-m-d", $timestamp);
-          }else{
-            $from_date = $this->input->post('from_date');
-            $to_date = $this->input->post('to_date');
-          }
-
-          $array = array(
-                  'author'=>$this->session->userdata('email'),
-                  'from_date'=>$from_date,
-                  'to_date'=>$to_date
-            );
-
-          $record = $this->record_model->getReportInfo($array);
-          //$this->load->view('report', array('record'=>$record));
-          $this->load->view('report',  array('record'=>$record));
-          $this-> _footer();
-      }
       function delete($id)
       {
         //print "<script type=\"text/javascript\">alert('some_text');</script>";

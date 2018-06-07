@@ -1,9 +1,9 @@
 
 
 <div class="main xpull">
-  <div>
+  <p>
     <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a>
-  </div>
+  </p>
   <div>
     <table  id="record_list" data-row-style="rowStyle"></table>
   </div>

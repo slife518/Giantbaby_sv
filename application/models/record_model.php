@@ -26,7 +26,7 @@ class Record_model extends CI_Model {
 
     function getReportInfo($option){
       log_message('debug',print_r($option, TRUE));
-      $result = $this->db->query("SELECT record_date, sum(milk) as milk, sum(rice) as rice from record where author = ?
+      $result = $this->db->query("SELECT SUBSTR(record_date,6,5) as record_date, sum(milk) as milk, sum(rice) as rice from record where baby_id = ?
       and record_date BETWEEN ? and ? group by record_date order by record_date", $option)->result_array();
       log_message('debug', $this->db->last_query());
 
