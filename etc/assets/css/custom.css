@@ -45,6 +45,12 @@ input:focus {
   margin-top: 6em;
 }
 
+
+.table{
+  margin-top: 1em !important;
+}
+
+
  @media only screen{
    .main{
      margin-top: 6em;

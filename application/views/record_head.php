@@ -33,13 +33,14 @@
               <script type="text/javascript"  src="/etc/assets/js/get-shit-done.js"></script>
               <script type="text/javascript"  src="/etc/assets/js/custom.js"></script>
               <!-- <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script> -->
+
+              <!-- https://www.malot.fr/bootstrap-datetimepicker/index.php -->
               <script type="text/javascript"  src="/etc/bootstrap3/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
               <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
               <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-en-US.min.js"></script>
 
             </head>
             <body>
-              <div id="navbar-full">
                   <div class="container">
                       <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation">
                         <div class="container">
@@ -54,7 +55,7 @@
                               </button>
                               <div class="logo-container">
                                 <div class="logo">
-                                    <img src="/etc/assets/img/new_logo.png">
+                                    <img src="/etc/assets/img/profile/1.PNG">
                                 </div>
                                 <div style="color: white;">
                                     <h3 class="masthead-title"><?=$this->session->userdata('babyname');?></h3><h6>(<?=$this->session->userdata('birthday');?>생) <?=$this->session->userdata('nickname')?> 환영합니다.</h6>
@@ -85,4 +86,3 @@
                         </div><!-- /.container-fluid -->
                       </nav>
                   </div><!--  end container-->
-              </div>

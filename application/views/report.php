@@ -11,14 +11,12 @@
 	<div class="row">
 			<div class="col-md-offset-1 col-md-2 col-xs-offset-1 col-xs-5">
 					<div>
-						<?php echo form_error('from_date'); ?>
-						<input type="text" class="form-control text-center input-lg" id="from_date" name="from_date"  value="<?=set_value('from_date'); ?>" readonly/>
+						<input type="text" class="form-control text-center input-lg" id="from_date" name="from_date" readonly/>
 					</div>
 			</div>
 			<div class="col-md-2 col-xs-5">
 					<div>
-						<?php echo form_error('to_date'); ?>
-						<input type="text" class="form-control text-center input-lg" id="to_date" name="to_date"  value="<?=set_value('to_date'); ?>" readonly/>
+						<input type="text" class="form-control text-center input-lg" id="to_date" name="to_date" readonly/>
 					</div>
 			</div>
 	</div>
@@ -36,16 +34,28 @@
 <script>
   $( function(){
 				init();
-        // var today = new Date();
-        // var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+pad(today.getDate());
-        // //var date = pad((today.getMonth()+1))+'-'+today.getDate();
-        // $('#to_date').val(date);
-				// currentDate.addDays(-7);
-				//
-				// var today2 = new Date();
-        // var date2 = today.getFullYear()+'-'+pad((today2.getMonth()+1))+'-'+pad(today2.getDate());
-        // $('#from_date').val(date2);
 
+				function init(){
+
+					// var record_date = <?=json_encode($record_date)?>;
+					// var milk = [<?=implode(",",$rice)?>];
+					// var rice =  [<?=implode(",",$rice)?>];
+					// var sum =  [<?=implode(",",$sum)?>];
+					//
+					// search( record_date, milk, rice, sum );
+
+
+					var today = new Date();
+					var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+pad(today.getDate());
+					$('#to_date').val(date);
+
+					var fromday = new Date();
+					var date2 = fromday.getFullYear()+'-'+pad((fromday.getMonth()))+'-'+pad(fromday.getDate());
+					$('#from_date').val(date2);
+
+					ajaxExecute();
+
+				}
         $('#from_date').datetimepicker({
                         format: 'yyyy-mm-dd',
                         startView:'month',
@@ -66,10 +76,9 @@
                         allowInputToggle: true
         });
 
-				function search(arg1, arg2, arg3, arg4){
-
-						 // var array_date = <?=json_encode($record_date)?>;
-						 var array_date = arg1;
+				function search(array_labels, array_data1, array_data2, array_data3){
+						//http://www.chartjs.org
+						 var array_date = array_labels;
 						 var lineChartData = {
 							 //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
 							 labels: array_date,
@@ -78,23 +87,21 @@
 								 borderColor: 'Green',
 								 backgroundColor: 'Green',
 								 fill: false,
-								 // data: [12, 19, 3, 5, 2, 3, 6],
-									// data: [<?=implode(",",$milk)?>],
-									data: arg2,
+								 data: array_data1,
 								 yAxisID: 'y-axis-1',
 							 }, {
 								 label: '이유식',
 								 borderColor: 'blue',
 								 backgroundColor: 'blue',
 								 fill: false,
-									data:arg3,
+									data:array_data2,
 								 yAxisID: 'y-axis-1'
 							 }, {
 								 label: '총량',
 								 borderColor: 'red',
 								 backgroundColor: 'red',
 								 fill: false,
-								 data:arg4,
+								 data:array_data3,
 								 yAxisID: 'y-axis-1'
 							 }]
 						 };
@@ -117,70 +124,33 @@
 											position: 'left',
 											id: 'y-axis-1',
 										}
-										// , {
-										// 	type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-										// 	display: true,
-										// 	position: 'right',
-										// 	id: 'y-axis-2',
-										// 	// grid line settings
-										// 	gridLines: {
-										// 		drawOnChartArea: false, // only want the grid lines for one axis to show up
-										// 	},
-										// }
 									],
 									}
 								}
 							});
 				}
-				function init(){
 
-					var record_date = <?=json_encode($record_date)?>;
-					var milk = [<?=implode(",",$rice)?>];
-					var rice =  [<?=implode(",",$rice)?>];
-					var sum =  [<?=implode(",",$sum)?>];
-					search( record_date, milk, rice, sum );
+				function ajaxExecute(){
+					$.ajax({
+							 url:'<?=base_url("report/reportInfo")?>',
+							 method: 'post',
+							 data: $('form').serialize(),
+							 dataType: 'json',
+							 success: function(response){
+										 var record_date = response["record_date"];
+										 var milk = response["milk"];
+										 var rice = response["rice"];
+										 var sum =  response["sum"];
+										 search( record_date, milk, rice, sum );
+							 }
+					 });
 				}
+
 				$('#search').on("click", function(e){
-			     var username = $(this).val();
-			     $.ajax({
-			      url:'<?=base_url("report/reportInfo")?>',
-			      method: 'post',
-			      data: $('form').serialize(),
-			      //dataType: 'json',
-			      success: function(response){
-
-						console.log(response);
-
-						var record_date = <?=json_encode($record_date)?>;
-						var milk = [<?=implode(",",$rice)?>];
-						var rice =  [<?=implode(",",$rice)?>];
-						var sum =  [<?=implode(",",$sum)?>];
-						search( record_date, milk, rice, sum );
-			       // var len = response.length;
-						 //
-			       // if(len > 0){
-			       //  // Read values
-			       //  var uname = response[0].username;
-			       //  var name = response[0].name;
-			       //  var email = response[0].email;
-						 //
-			       //  $('#suname').text(uname);
-			       //  $('#sname').text(name);
-			       //  $('#semail').text(email);
-						 //
-			       // }else{
-			       //  $('#suname').text('');
-			       //  $('#sname').text('');
-			       //  $('#semail').text('');
-						 // }
-				  }
-			  });
-			});
-
-
+			     ajaxExecute()
+				});
+				
       });    //$(function(){}) 끝
-
-
 	</script>
   <style>
   #to_date, #from_date {

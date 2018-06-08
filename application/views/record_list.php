@@ -1,11 +1,11 @@
 
 
-<div class="main xpull">
-  <p>
+ <div class="main xpull">
+    <a href="<?php echo base_url("report")?>" type="button" role="button" class="btn btn-warning btn-lg pull-left">보고서</a>
     <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a>
-  </p>
+
   <div>
-    <table  id="record_list" data-row-style="rowStyle"></table>
+    <table class="table" id="record_list" data-row-style="rowStyle"></table>
   </div>
 </div>
 
@@ -28,7 +28,7 @@
           data: data,
           // striped: true,
           pagination: true,
-          pageSize: 10,
+          pageSize: 25,
           paginationVAlign :'bottom',
           paginationHAlign: 'right',
           clickToSelect: true,
