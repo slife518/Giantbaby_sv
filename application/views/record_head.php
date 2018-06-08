@@ -55,7 +55,7 @@
                               </button>
                               <div class="logo-container">
                                 <div class="logo">
-                                    <img src="/etc/assets/img/profile/1.PNG">
+                                    <a href="<?php echo base_url("auth/member")?>"><img src="/etc/assets/img/profile/1.PNG"></a>
                                 </div>
                                 <div style="color: white;">
                                     <h3 class="masthead-title"><?=$this->session->userdata('babyname');?></h3><h6>(<?=$this->session->userdata('birthday');?>생) <?=$this->session->userdata('nickname')?> 환영합니다.</h6>

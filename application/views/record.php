@@ -193,6 +193,25 @@ $( function() {
               }
               $("#milk").val(bbb);
             })
+
+            // var tmr = 0;
+            // $('#downRiceQuantity').on('mousedown', function(e) {
+            //   tmr = setTimeout(function () {
+            //   //  alert("You clicked OPENPLI ICON!");
+            // }, 2000);
+            // }).on('mouseup', function(e) {
+            //   clearTimeout(tmr);
+            //   $("#rice").val(0);
+            // });
+            // $('#downQuantity').on('mousedown', function(e) {
+            //   tmr = setTimeout(function () {
+            //   //  alert("You clicked OPENPLI ICON!");
+            // }, 2000);
+            // }).on('mouseup', function(e) {
+            //   clearTimeout(tmr);
+            //   $("#milk").val(0);
+            // });
+
             $('#upRiceQuantity').on('click', function () {
                var aaa = parseInt($("#rice").val()) + 10;
                 if(aaa < 0){
@@ -213,7 +232,7 @@ $( function() {
             //   event.preventDefault();
             // } );
 
-          
+
 
             $("form").on("submit", function(event) {
             //   event.preventDefault();
