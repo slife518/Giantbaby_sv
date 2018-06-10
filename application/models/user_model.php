@@ -71,7 +71,6 @@ log_message('debug', $this->db->last_query());
 
             $this->db->set('baby_id', $baby_id);
             $this->db->set('email', $option['email']);
-            $this->db->set('relation', $option['relation']);
             $result = $this->db->insert('relation');
             log_message('debug', $this->db->last_query());
 
@@ -82,11 +81,11 @@ log_message('debug', $this->db->last_query());
           $result = $this->db->update('baby');
 
           log_message('debug', $this->db->last_query());
-          $this->db->set('relation', $option['relation']);
-          $this->db->where('baby_id', $array_baby_id['baby_id']);
-          $this->db->where('email', $option['email']);
-          $result = $this->db->update('relation');
-          log_message('debug', $this->db->last_query());
+          // $this->db->set('relation', $option['relation']);
+          // $this->db->where('baby_id', $array_baby_id['baby_id']);
+          // $this->db->where('email', $option['email']);
+          // $result = $this->db->update('relation');
+          // log_message('debug', $this->db->last_query());
 
         }
 
@@ -148,4 +147,17 @@ log_message('debug', $this->db->last_query());
       // return $result;
     }
 
+    function getbabylist($option){
+      log_message('debug', "getbabylist 시작");
+      log_message('debug',print_r($option, TRUE));
+      // $this->db->where($option);
+      $this->db->SELECT('babyname, birthday, mother, father');
+      $result = $this->db->get_where('baby', $option)->row_array();
+
+      log_message('debug', $this->db->last_query());
+
+      log_message('debug',print_r($result, TRUE));
+
+      return $result;
+    }
   }

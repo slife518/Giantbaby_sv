@@ -91,6 +91,11 @@ and record_date BETWEEN "2018-01-01" and "2018-07-30" group by record_date
 엄마이름
 본인과의 관계
 
+https://docs.google.com/spreadsheets/d/1KRpcS7GwPkz4RoAJdSPufXVPrODSEJztPOXsrJePcFk/edit#gid=0
+
+ALTER TABLE `baby` ADD `father` VARCHAR(20) NULL AFTER `sex`, ADD `mother` VARCHAR(20) NULL AFTER `father`, ADD `owner` VARCHAR(50) NOT NULL AFTER `mother`;
+ALTER TABLE `relation` ADD `level` INT(3) NULL AFTER `relation`;
+ALTER TABLE `relation` ADD `approval` VARCHAR(5) NOT NULL AFTER `relation`;
 
 LIKE table
 record_id

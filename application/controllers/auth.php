@@ -213,5 +213,58 @@ log_message('debug', 'eeeeee');
              }
          }
 
+      function findbaby(){
+        log_message('debug', 'findbaby 시작');
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('babyname', '아기이름', 'required');
+        $this->form_validation->set_rules('findmother', '엄마이름', 'required');
+
+        if($this->form_validation->run() == FALSE){
+          log_message('debug','유효성 실패');
+           echo validation_errors();
+        }else{
+            log_message('debug','유효성 통과');
+          $babyname = $this->input->post('findbabyname');
+          $mother = $this->input->post('findmother');
+          $father = $this->input->post('findfather');
+          log_message('debug', $mother);
+        }
+
+        $array = array(
+                'babyname'=>$babyname,
+                'mother'=>$mother
+          );
+
+          log_message('debug', print_r($array));
+        if(!empty($mother)){
+          array_merge($array, array('mother'=>$mother));
+        }
+        if(!empty($father)){
+          array_merge($array, array('father'=>$father));
+        }
+
+          log_message('debug', print_r($array));
+        $this->load->model('user_model');
+        $result = $this->user_model->getbabylist($array);
+        // $data = array();
+
+        // foreach ($result as $key => $value) {
+        // //   log_message('debug', print_r($value, TRUE));
+        //    array_push($record_date, $value['record_date']);
+        //    array_push($milk, $value['milk']);
+        //    array_push($rice, $value['rice']);
+        //    $lv_sum = $value['milk'] + $value['rice'];
+        //    array_push($sum, $lv_sum);
+        // }
+        //
+        // $record['record_date'] =  $record_date;
+        // $record['milk'] =  $milk;
+        // $record['rice'] =  $rice;
+        // $record['sum'] =  $sum;
+
+        echo json_encode($result);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
+
+      }
+
 }
 ?>

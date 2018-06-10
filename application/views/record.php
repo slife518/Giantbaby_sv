@@ -29,7 +29,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-xs-5">
-                            <input type="number" id="milk" name="milk" class="form-control text-center input-lg" value=""/>
+                          <input type="number" id="milk" name="milk" class="form-control text-center input-lg" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="btn glyphicon glyphicon-arrow-up btn-primary btn-lg" id="upQuantity">10</button>
@@ -139,6 +139,12 @@ $( function() {
                 interval: 4000
             });
 
+            $('.dropdown-menu').on( 'click', 'a', function() {
+                var text = $(this).html();
+                var htmlText = text + ' <span class="caret"></span>';
+                console.log($(this).closest('.dropdown').find('.dropdown-toggle'));
+            });
+
             $(document).ready(function() {
                 var today = new Date();
 
@@ -225,6 +231,24 @@ $( function() {
                 bbb = 0;
               }
               $("#rice").val(bbb);
+            })
+
+            $('#rice').on('click', function () {
+               $("#rice").val('');
+            })
+            $('#milk').on('click', function () {
+               $("#milk").val('');
+            })
+            $('#rice').on('focusout', function () {
+
+              if(!$("#rice").val()){
+                  $("#rice").val(0);
+              }
+            })
+            $('#milk').on('focusout', function () {
+              if(!$("#milk").val()){
+                  $("#milk").val(0);
+              }
             })
 
             // $( ".widget input[type=submit], .widget a, .widget button" ).button();
