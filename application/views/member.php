@@ -100,32 +100,47 @@
 
     <script>
 
-
-				function ajaxExecute(){
-					$.ajax({
-							 url:'<?=base_url("auth/findbaby")?>',
-							 method: 'post',
-							 data: $('form').serialize(),
-							 dataType: 'json',
-							 success: function(response){
-                 console.log(response);
-										 var babyinfo = response;
-                     console.log(babyinfo);
-
-										 search(babyinfo);
-							 }
-					 });
-				}
-
-				$('#search').on("click", function(e){
-			     ajaxExecute()
-				});
-
     var data;
 
+    $('#search').on("click", function(e){
+       ajaxExecute()
+    });
+		function ajaxExecute(){
+			$.ajax({
+					 url:'<?=base_url("auth/findbaby")?>',
+					 method: 'post',
+					 data: $('form').serialize(),
+					 //dataType: 'json',
+					 success: function(response){
+								 var babyinfo = unescape(replaceAll(response, "\\", "%"));  //유니코드를 한글로 변경
+                 // var babyinfo = response[0];
+                 console.log(babyinfo);
+								 search(babyinfo);
+					 },
+           error: function(error){
+             console.log(error);
+           },
+           complete:function(){
+           }
+
+			 });
+		}
+
+    function replaceAll(strTemp, strValue1, strValue2){
+                while(1){
+                    if( strTemp.indexOf(strValue1) != -1 )
+                        strTemp = strTemp.replace(strValue1, strValue2);
+                    else
+                        break;
+                }
+                return strTemp;
+         }
+
     function search(babyinfo){
+      // [{"babyname":"조민준", "birthday":"180801"},{ ...}]
       data = babyinfo;
-      $('#baby_list').bootstrapTable('resetView');
+      //$('#baby_list').bootstrapTable('resetView');
+      $('#baby_list').bootstrapTable('refresh');
     }
 
 

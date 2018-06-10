@@ -15,11 +15,11 @@
 <script>
   $( function(){
 
-        $(window).resize(function () {
-           $(document).ready(function() {
-                      $('#record_list').bootstrapTable('resetView');
-                  });
-        });
+        // $(window).resize(function () {
+        //    $(document).ready(function() {
+        //               $('#record_list').bootstrapTable('resetView');
+        //           });
+        // });
         $('[data-toggle="popover"]').popover();
 
         var data = <?=$record?>

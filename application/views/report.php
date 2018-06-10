@@ -137,6 +137,7 @@
 							 data: $('form').serialize(),
 							 dataType: 'json',
 							 success: function(response){
+								 console.log(response);
 										 var record_date = response["record_date"];
 										 var milk = response["milk"];
 										 var rice = response["rice"];
@@ -149,7 +150,7 @@
 				$('#search').on("click", function(e){
 			     ajaxExecute()
 				});
-				
+
       });    //$(function(){}) 끝
 	</script>
   <style>
