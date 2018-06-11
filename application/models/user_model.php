@@ -56,14 +56,47 @@ class User_model extends CI_Model {
         $this->db->update('user');   //update(테이블, 데이터, where)
         $this->session->set_userdata('nickname', $option['nickname']);
 
-        $array_baby_id = $this->db->query('SELECT a.baby_id from baby as a left outer join relation as b on a.baby_id = b.baby_id where b.email = ?', $option['email'])->row_array();
+        //아기 관계 등록
+        $array_baby_id = $this->db->query('SELECT baby_id from baby where baby_id = ?', $option['baby_id'])->row_array();
         //$array_user_id = $this->db->query('SELECT user_id from user where email = ?', $option['email'])->row_array();
 log_message('debug', $this->db->last_query());
+
+        if(is_null($array_baby_id['baby_id'])){
+            // 최초 아기등록은 우리아기사랑에서 등록해야 합니다.
+
+        }else{  //아기 정보 변경
+        //  $this->db->where('baby_id', $option['baby_id']);
+          $this->db->where('email', $option['email']);
+          $result = $this->db->delete('relation');   //관계된 정보를 지우고 다시 등록
+          log_message('debug', $this->db->last_query());
+
+          $this->db->set('baby_id',$option['baby_id']);
+          $this->db->set('email', $option['email']);
+          $result = $this->db->insert('relation');
+          log_message('debug', $this->db->last_query());
+
+          // $this->db->set('relation', $option['relation']);
+          // $this->db->where('baby_id', $array_baby_id['baby_id']);
+          // $this->db->where('email', $option['email']);
+          // $result = $this->db->update('relation');
+          // log_message('debug', $this->db->last_query());
+
+        }
+
+        return $result;
+    }
+
+    function create($option){
+        $array_baby_id = $this->db->query('SELECT a.baby_id from baby as a left outer join relation as b on a.baby_id = b.baby_id where b.email = ?', $option['email'])->row_array();
+        //$array_user_id = $this->db->query('SELECT user_id from user where email = ?', $option['email'])->row_array();
+        log_message('debug', $this->db->last_query());
 
         if(is_null($array_baby_id['baby_id'])){
             // 최초 아기 등록
             $this->db->set('babyname', $option['babyname']);
             $this->db->set('birthday', $option['birthday']);
+            $this->db->set('mother', $option['mother']);
+            $this->db->set('father', $option['father']);
             $result = $this->db->insert('baby');
             $baby_id = $this->db->insert_id();
 
@@ -77,15 +110,12 @@ log_message('debug', $this->db->last_query());
         }else{  //아기 정보 변경
           $this->db->set('babyname', $option['babyname']);
           $this->db->set('birthday', $option['birthday']);
+          $this->db->set('mother', $option['mother']);
+          $this->db->set('father', $option['father']);
           $this->db->where('baby_id', $array_baby_id['baby_id']);
           $result = $this->db->update('baby');
 
           log_message('debug', $this->db->last_query());
-          // $this->db->set('relation', $option['relation']);
-          // $this->db->where('baby_id', $array_baby_id['baby_id']);
-          // $this->db->where('email', $option['email']);
-          // $result = $this->db->update('relation');
-          // log_message('debug', $this->db->last_query());
 
         }
 

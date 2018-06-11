@@ -165,8 +165,8 @@ log_message('debug', 'eeeeee');
           }
               $this->user_model->update($array);
               $this->session->set_flashdata('message', '회원정보가 수정되었습니다.');
-              $this->load->helper('url');
-              redirect('record/index');
+              // $this->load->helper('url');
+              redirect('auth/member');
         }
         $this->_footer();
       }
@@ -216,7 +216,7 @@ log_message('debug', 'eeeeee');
       function findbaby(){
       //  log_message('debug', 'findbaby 시작');
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('babyname', '아기이름', 'required');
+        $this->form_validation->set_rules('findbabyname', '아기이름', 'required');
         $this->form_validation->set_rules('findmother', '엄마이름', 'required');
 
         if($this->form_validation->run() == FALSE){

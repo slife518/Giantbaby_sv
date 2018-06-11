@@ -11,26 +11,7 @@
             <label for="exampleInputEmail1">닉네임</label>
             <input type="text" style = "ime-mode : active" class="form-control input-lg" id="nickname" name="nickname" value="<?=$userinfo->nickname?>">
           </div>
-          <div class="row">
-            <div class="col-md-4 col-xs-4">
-              <label class="control-label">아기이름</label>
-            </div>
-            <div class="col-md-4 col-xs-4">
-              <label class="control-label" for="nickname">아기생년월일</label>
-            </div>
-          </div>
 
-          <div class="form-group row">
-            <div class="col-md-4 col-xs-4">
-              <input class="form-control input-lg" type="text" style = "ime-mode : active" id="babyname" name="babyname" placeholder="아기이름" value="<?=$userinfo->babyname?>" >
-            </div>
-            <div class="col-md-4 col-xs-4">
-              <input class="form-control input-lg" type="text" id="birthday" name="birthday"  placeholder="180801" value="<?=$userinfo->birthday?>">
-            </div>
-            <div class="col-md-4 col-xs-4">
-              <input type="button" name="findbaby" id="findbaby" class="btn btn-warning"  data-toggle="modal" data-target="#findbabyModal" value="찾기">
-            </div>
-          </div>
           <div class="row">
               <div class="col-md-4 col-xs-4">
                   <label for="exampleInputPassword1">비밀번호</label>
@@ -52,7 +33,50 @@
                 <button id="save" name="save" class="btn btn-primary">회원정보수정</button>
             </div>
           </div>
+          <div>
+            <input type="hidden" id="baby_id" name="baby_id"  value="<?=$userinfo->baby_id?>"/>
+          </div>
        </div>
+
+       <div class="container bs-docs-container">
+        <div class="row">
+          <div class="col-md-9" role="main">
+
+            <div class="bs-docs-section">
+              <h1 id="js-overview" class="page-header">우리아기정보</h1>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-xs-4">
+                <label class="control-label">아기이름</label>
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <label class="control-label" for="nickname">아기생년월일</label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-4 col-xs-4">
+                <input class="form-control input-lg" type="text" style = "ime-mode : active" id="babyname" name="babyname" placeholder="아기이름" value="<?=$userinfo->babyname?>" >
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <input class="form-control input-lg" type="text" id="birthday" name="birthday"  placeholder="180801" value="<?=$userinfo->birthday?>">
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <input type="button" name="findbaby" id="findbaby" class="btn btn-warning"  data-toggle="modal" data-target="#findbabyModal" value="찾기">
+              </div>
+            </div>
+
+
+            <div class="bs-docs-section">
+              <h1 id="js-overview" class="page-header">아기바라기</h1>
+            </div>
+            <div>
+              <table class="table" id="follower_list" data-row-style="rowStyle"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     </div>
 
     <!-- Modal -->
@@ -95,16 +119,55 @@
       </div>
     </div>
 
+    <?php
+
+    if($this->session->flashdata('message')) {
+    $message = $this->session->flashdata('message');
+    ?>
+    <div class="<?php echo $message['class'] ?>"><?php echo $message['message']; ?>
+
+    </div>
+    <?php
+    }
+
+    ?>
 
     </form>
 
-    <script>
+<script>
+$( function(){
 
-    var data;
+		init();
 
+		function init(){
+
+      $.ajax({
+           url:'<?=base_url("baby/follower_list")?>',
+           method: 'post',
+           data: $('form').serialize(),
+           //dataType: 'json',
+           success: function(response){
+                 var data = JSON.parse(unescape(replaceAll(response, "\\", "%")));  //유니코드를 한글로 변경
+                 console.log(data);
+                $('#follower_list').bootstrapTable('load', data);   //데이터 reload
+
+           },
+           error: function(error){
+             console.log(error);
+           },
+           complete:function(){
+           }
+
+       });
+
+    }
+
+
+//아기찾기 검색
     $('#search').on("click", function(e){
        ajaxExecute()
     });
+
 		function ajaxExecute(){
 			$.ajax({
 					 url:'<?=base_url("auth/findbaby")?>',
@@ -112,8 +175,7 @@
 					 data: $('form').serialize(),
 					 //dataType: 'json',
 					 success: function(response){
-								 var babyinfo = unescape(replaceAll(response, "\\", "%"));  //유니코드를 한글로 변경
-                 // var babyinfo = response[0];
+								 var babyinfo = JSON.parse(unescape(replaceAll(response, "\\", "%")));  //유니코드를 한글로 변경
                  console.log(babyinfo);
 								 search(babyinfo);
 					 },
@@ -136,17 +198,82 @@
                 return strTemp;
          }
 
+    // function search(babyinfo){
+    //   // [{"babyname":"조민준", "birthday":"180801"},{ ...}]
+    //   data = babyinfo;
+    //
+    //   //$('#baby_list').bootstrapTable('resetView');
+    //   $('#baby_list').bootstrapTable('refresh');
+    // }
+
     function search(babyinfo){
-      // [{"babyname":"조민준", "birthday":"180801"},{ ...}]
-      data = babyinfo;
-      //$('#baby_list').bootstrapTable('resetView');
-      $('#baby_list').bootstrapTable('refresh');
+        var data = babyinfo;
+        //$('#baby_list').bootstrapTable('resetView');
+        // $('#baby_list').bootstrapTable('removeAll');
+        $('#baby_list').bootstrapTable('load', data);   //데이터 reload
+
     }
 
+      // 아기찾기
+      $('#baby_list').bootstrapTable({
+        // data: data, //데이터    '{"baby_id":"1","babyname":"조민준","birthday":"180801","mother":"배윤지","father":"조정국"}',
+        // striped: true,
+        pagination: true,
+        pageSize: 10,
+        paginationVAlign :'bottom',
+        paginationHAlign: 'right',
+        clickToSelect: true,
+        // showRefresh:true,
+        onClickRow: function (row, element, field) {
+          // row: the record corresponding to the clicked row,
+          // $element: the tr element,
+          // field: the field name corresponding to the clicked cell.
+          //var url = "<?php echo base_url("record/index/")?>" + row.id ;
+              //console.log(row.);
+              $('#babyname').val(row.babyname);
+              $('#birthday').val(row.birthday);
+              $('#baby_id').val(row.baby_id);
+              $('#findbabyModal').modal('hide')
+            //{baby_id: "5", babyname: "조민준", birthday: "180501", mother: "배윤지", father: "윤이상"}
+
+      //    location.href = url;
+           },
+        columns: [{
+            field: 'babyname',
+            title: '아기이름',
+            //'class': 'w100'
+        }, {
+            field: 'birthday',
+            title: '아기생년월일'
+            // 'class': 'w100',
+              // 'class': 'col-xs-3 .col-md-2'
+        }, {
+            field: 'mother',
+            title: '엄마이름'
+            // 'class': 'w100',
+            // 'class': 'col-xs-2 .col-md-2'
+        }, {
+            field: 'father',
+            title: '아빠이름'
+            // 'class': 'w100',
+            // 'class': 'col-xs-3 .col-md-2'
+        }, {
+            field: 'baby_id',
+            visible:false
+        }]
+      });
 
 
-    $('#baby_list').bootstrapTable({
-      data: data,
+    $('#save').on("click",function(){
+      location.href="<?php echo base_url("auth/update")?>";
+    });
+
+
+
+    var data = <?=$follower_list?>
+    // follower_list
+    $('#follower_list').bootstrapTable({
+      data: data, //데이터    '{"baby_id":"1","babyname":"조민준","birthday":"180801","mother":"배윤지","father":"조정국"}',
       // striped: true,
       pagination: true,
       pageSize: 10,
@@ -159,36 +286,35 @@
         // $element: the tr element,
         // field: the field name corresponding to the clicked cell.
         //var url = "<?php echo base_url("record/index/")?>" + row.id ;
-            console.log(element);
-        location.href = url;
+            //console.log(row.);
+            $('#babyname').val(row.babyname);
+            $('#birthday').val(row.birthday);
+            $('#baby_id').val(row.baby_id);
+            $('#findbabyModal').modal('hide')
+          //{baby_id: "5", babyname: "조민준", birthday: "180501", mother: "배윤지", father: "윤이상"}
+
+    //    location.href = url;
          },
       columns: [{
-          field: 'babyname',
-          title: '아기이름',
+          field: 'email',
+          title: '아이디',
           //'class': 'w100'
       }, {
-          field: 'birthday',
-          title: '아기생년월일'
+          field: 'name',
+          title: '요청자이름'
           // 'class': 'w100',
             // 'class': 'col-xs-3 .col-md-2'
       }, {
-          field: 'mother',
-          title: '엄마이름'
+          field: 'approval',
+          title: '승인여부'
           // 'class': 'w100',
           // 'class': 'col-xs-2 .col-md-2'
       }, {
-          field: 'father',
-          title: '아빠이름'
+          field: 'authority',
+          title: '권한'
           // 'class': 'w100',
           // 'class': 'col-xs-3 .col-md-2'
-      }, {
-          field: 'baby_id',
-          visible:false
       }]
     });
-
-    $('#save').on("click",function(){
-      location.href="<?php echo base_url("auth/update")?>";
-    });
-
+  });    //$(function(){}) 끝
     </script>

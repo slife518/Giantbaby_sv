@@ -58,7 +58,7 @@
                                     <a href="<?php echo base_url("auth/member")?>"><img src="/etc/assets/img/profile/1.PNG"></a>
                                 </div>
                                 <div style="color: white;">
-                                    <h3 class="masthead-title"><?=$this->session->userdata('babyname');?></h3><h6>(<?=$this->session->userdata('birthday');?>생) <?=$this->session->userdata('nickname')?> 환영합니다.</h6>
+                                    <a href="<?php echo base_url("record/record_list")?>" style="color: white"><h3 class="masthead-title"><?=$this->session->userdata('babyname');?></h3><h6>(<?=$this->session->userdata('birthday');?>생) <?=$this->session->userdata('nickname')?> 환영합니다.</h6></a>
                                 </div>
                               </div>
                           </div>
@@ -69,8 +69,8 @@
                                     if($this->session->userdata('is_login')){
                                     ?>
                                       <li><a href="<?php echo base_url("record/record_list")?>" class="btn btn-round btn-default">기록보기</a></li>
-                                      <li><a href="<?php echo base_url("report/index")?>" class="btn btn-round btn-default">보고서</a></li>
-                                      <li><a href="<?php echo base_url("auth/member")?>" class="btn btn-round btn-default">회원정보수정</a></li>
+                                      <li><a href="<?php echo base_url("report/index")?>" class="btn btn-round btn-default">보고서</a></li>                                      
+                                      <li><a href="<?php echo base_url("auth/member")?>" class="btn btn-round btn-default">마이페이지</a></li>
                                       <li><a href="<?php echo base_url("auth/login")?>" class="btn btn-round btn-default">로그아웃</a></li>
                                     <?php
                                     } else {
