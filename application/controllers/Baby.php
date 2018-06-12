@@ -4,7 +4,7 @@ class Baby extends My_Controller {
      {
           parent::__construct();
           $this->load->database();
-          $this->load->model('auth_model');
+          $this->load->model('baby_model');
      }
 
 
@@ -26,12 +26,25 @@ class Baby extends My_Controller {
 
       function follower_list()
       {
-
+        log_message('debug','follower_list controler 시작');
           $array = array(
                 'email'=>$this->session->userdata('email')
           );
           $result = $this->baby_model->getfollowerlist($array);
 
+          log_message('debug',print_r($result, TRUE));
+          echo json_encode($result);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
+      }
+
+      function changeApproval($requester, $approval){
+        log_message('debug','changeApproval 시작' + $data);
+          $array = array(
+                'email'=>$requester,
+                'baby_id'=>$this->session->userdata('baby_id'),
+                'approval'=>$approval
+          );
+        log_message('debug',$array);
+          $result = $this->baby_model->changeApproval($array);
           log_message('debug',print_r($result, TRUE));
           echo json_encode($result);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
       }

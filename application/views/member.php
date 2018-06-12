@@ -43,7 +43,7 @@
           <div class="col-md-9" role="main">
 
             <div class="bs-docs-section">
-              <h1 id="js-overview" class="page-header">우리아기정보</h1>
+              <h1 id="js-overview" class="page-header">Baby info</h1>
             </div>
             <div class="row">
               <div class="col-md-4 col-xs-4">
@@ -67,7 +67,7 @@
 
 
             <div class="bs-docs-section">
-              <h1 id="js-overview" class="page-header">아기바라기</h1>
+              <h1 id="js-overview" class="page-header">Followers</h1>
             </div>
             <div>
               <table class="table" id="follower_list" data-row-style="rowStyle"></table>
@@ -141,76 +141,55 @@ $( function(){
 
 		function init(){
 
-      $.ajax({
-           url:'<?=base_url("baby/follower_list")?>',
-           method: 'post',
-           data: $('form').serialize(),
-           //dataType: 'json',
-           success: function(response){
-                 var data = JSON.parse(unescape(replaceAll(response, "\\", "%")));  //유니코드를 한글로 변경
-                 console.log(data);
-                $('#follower_list').bootstrapTable('load', data);   //데이터 reload
+      var url = '<?=base_url("baby/follower_list")?>';
+      var data = $('form').serialize();
+      var callBack = reload;
+      var errorMsg = "follower_list";
+    //   url, data, callBack, errorMsg
+      ajaxExecute(url, data, callBack, errorMsg);
 
-           },
-           error: function(error){
-             console.log(error);
-           },
-           complete:function(){
-           }
 
-       });
+      // $.ajax({
+      //      url:'<?=base_url("baby/follower_list")?>',
+      //      method: 'post',
+      //      data: $('form').serialize(),
+      //      //dataType: 'json',
+      //      success: function(response){
+      //            var data = JSON.parse(unescape(replaceAll(response, "\\", "%")));  //유니코드를 한글로 변경
+      //            console.log(data);
+      //           $('#follower_list').bootstrapTable('load', data);   //데이터 reload
+      //
+      //      },
+      //      error: function(error){
+      //        console.log(error);
+      //      },
+      //      complete:function(){
+      //      }
+      //
+      //  });
 
+    }
+
+    function reload(data){
+       $('#follower_list').bootstrapTable('load', data);
     }
 
 
 //아기찾기 검색
     $('#search').on("click", function(e){
-       ajaxExecute()
+      var url = '<?=base_url("auth/findbaby")?>';
+      var data = $('form').serialize();
+      var callBack =  search;
+      var errorMsg = "아기찾기검색";
+    //   url, data, callBack, errorMsg
+       ajaxExecute(url, data, callBack, errorMsg);
     });
 
-		function ajaxExecute(){
-			$.ajax({
-					 url:'<?=base_url("auth/findbaby")?>',
-					 method: 'post',
-					 data: $('form').serialize(),
-					 //dataType: 'json',
-					 success: function(response){
-								 var babyinfo = JSON.parse(unescape(replaceAll(response, "\\", "%")));  //유니코드를 한글로 변경
-                 console.log(babyinfo);
-								 search(babyinfo);
-					 },
-           error: function(error){
-             console.log(error);
-           },
-           complete:function(){
-           }
 
-			 });
-		}
-
-    function replaceAll(strTemp, strValue1, strValue2){
-                while(1){
-                    if( strTemp.indexOf(strValue1) != -1 )
-                        strTemp = strTemp.replace(strValue1, strValue2);
-                    else
-                        break;
-                }
-                return strTemp;
-         }
-
-    // function search(babyinfo){
-    //   // [{"babyname":"조민준", "birthday":"180801"},{ ...}]
-    //   data = babyinfo;
-    //
-    //   //$('#baby_list').bootstrapTable('resetView');
-    //   $('#baby_list').bootstrapTable('refresh');
-    // }
 
     function search(babyinfo){
         var data = babyinfo;
-        //$('#baby_list').bootstrapTable('resetView');
-        // $('#baby_list').bootstrapTable('removeAll');
-        $('#baby_list').bootstrapTable('load', data);   //데이터 reload
+          $('#baby_list').bootstrapTable('load', data);   //데이터 reload
 
     }
 
@@ -300,21 +279,78 @@ $( function(){
           title: '아이디',
           //'class': 'w100'
       }, {
-          field: 'name',
+          field: 'nickname',
           title: '요청자이름'
           // 'class': 'w100',
             // 'class': 'col-xs-3 .col-md-2'
       }, {
           field: 'approval',
-          title: '승인여부'
+          title: '승인여부',
+          align: 'center',
+          events: operateEvents,
+          formatter: operateFormatter
           // 'class': 'w100',
           // 'class': 'col-xs-2 .col-md-2'
       }, {
-          field: 'authority',
+          field: 'level',
           title: '권한'
           // 'class': 'w100',
           // 'class': 'col-xs-3 .col-md-2'
       }]
     });
   });    //$(function(){}) 끝
+
+  function operateFormatter(value, row, index) {
+        console.log('value는 '+value);
+          var approval;
+          if(value==0){
+            approval = '<i class="glyphicon glyphicon-remove-sign"></i>';
+          }else{
+            approval = '<i class="glyphicon glyphicon-heart"></i>';
+          }
+         return [
+             '<a class="like" href="javascript:void(0)" title="Like">',
+             , approval ,
+             '</a>'
+         ].join('');
+     }
+
+     window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            //var approval;
+            if(row.approval == "0"){
+                row.approval = '1';
+            }else{
+                row.approval = '0';
+            }
+          console.log(row);
+          changeApprovalData(row);
+          // $('#follower_list').bootstrapTable('updateRow', {
+          //      index: index,
+          //      row: {
+          //          approval : approval
+          //      }
+          //  });
+        }
+      };
+
+      function changeApprovalData(data){
+        var url = '<?=base_url("baby/changeApproval")?>/' + data.email + '/' + data.approval;
+        //var data = data;
+        var callBack =  changeApproval;
+        var errorMsg = "승인여부";
+        console.log('changeApprovalData의 인자는' + url);
+      //   url, data, callBack, errorMsg
+         ajaxExecute(url, data, callBack, errorMsg);
+      }
+
+      function changeApproval(result){
+        $('#follower_list').bootstrapTable('updateRow', {
+             index: index,
+             row: {
+                 approval : result
+             }
+         });
+      }
+
     </script>
