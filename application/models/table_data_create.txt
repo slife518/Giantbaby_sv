@@ -46,7 +46,8 @@ CREATE TABLE user (
 CREATE TABLE relation (
 baby_id int(11) NOT NULL,
 email varchar(50) NOT NULL,
-relation varchar(13),
+approval varchar(5) DEFAULT '0',
+level int(3),
 created  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 updated datetime,
 PRIMARY KEY (baby_id, email)
@@ -58,6 +59,9 @@ baby_id int(11) NOT NULL AUTO_INCREMENT,
 birthday varchar(6),
 babyname varchar(13),
 sex varchar(1),
+father varchar(20),
+mother varchar(20),
+owner varchar(20),
 created  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 updated datetime,
 PRIMARY KEY (baby_id)
@@ -71,3 +75,8 @@ CREATE TABLE environment (
   updated datetime,
   PRIMARY KEY (email)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+  ALTER TABLE `baby` ADD `father` VARCHAR(20) NULL AFTER `sex`, ADD `mother` VARCHAR(20) NULL AFTER `father`, ADD `owner` VARCHAR(50) NOT NULL AFTER `mother`;
+  ALTER TABLE `relation` ADD `level` INT(3) NULL AFTER `email`;
+  ALTER TABLE `relation` ADD `approval` VARCHAR(5) NOT NULL AFTER `level` DEFAULT '0';

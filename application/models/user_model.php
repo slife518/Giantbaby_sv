@@ -20,8 +20,7 @@ class User_model extends CI_Model {
         $this->db->join('relation', 'baby.baby_id = relation.baby_id');
         $this->db->where('relation.email',  $email);
         $babyinfo = $this->db->get()->row();   //->row_array 결과값을 한줄의 array 행태로 리턴 .. 참고 http://codeigniter-kr.org/user_guide_2.1.0/database/results.html
-  log_message('debug', $this->db->last_query());
-  log_message('debug',empty($babyinfo));
+  log_message('debug', $this->db->last_query());  
         if(empty($babyinfo)){
           log_message('debug','$babyinfo는 비어 있다.');
           $result = $userinfo;
@@ -61,10 +60,10 @@ class User_model extends CI_Model {
         //$array_user_id = $this->db->query('SELECT user_id from user where email = ?', $option['email'])->row_array();
 log_message('debug', $this->db->last_query());
 
-        if(is_null($array_baby_id['baby_id'])){
+      //  if(is_null($array_baby_id['baby_id'])){
             // 최초 아기등록은 우리아기사랑에서 등록해야 합니다.
 
-        }else{  //아기 정보 변경
+    //    }else{  //아기 정보 변경
         //  $this->db->where('baby_id', $option['baby_id']);
           $this->db->where('email', $option['email']);
           $result = $this->db->delete('relation');   //관계된 정보를 지우고 다시 등록
@@ -81,7 +80,7 @@ log_message('debug', $this->db->last_query());
           // $result = $this->db->update('relation');
           // log_message('debug', $this->db->last_query());
 
-        }
+    //    }
 
         return $result;
     }

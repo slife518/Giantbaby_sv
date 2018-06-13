@@ -11,11 +11,20 @@ class Baby_model extends CI_Model {
     log_message('debug',print_r($option, TRUE));
       // $this->db->where($option);
 
-      $this->db->SELECT('u.email, u.nickname, r.approval, r.level');
-      $this->db->from('user as u');
-      $this->db->join('relation as r', 'r.email = u.email');
-      $this->db->where('u.email', $option['email']);
-      $result = $this->db->get()->result_array();
+      // $this->db->SELECT('u.email, u.nickname, r.approval, r.level');
+      // $this->db->from('user as u');
+      // $this->db->join('relation as r', 'r.email = u.email');
+      // $this->db->where('r.baby_id', $option['baby_id']);
+      // $this->db->where('u.email in', (SELECT r.email FROM relation AS r JOIN baby as b on r.baby_id = b.baby_id where r.email != b.owner));
+      // $result = $this->db->get()->result_array();
+
+      $result =  $this->db->query("SELECT `u`.`email`, `u`.`nickname`, `r`.`approval`, `r`.`level`
+                                      FROM `user` as `u`
+                                      JOIN `relation` as `r` ON `r`.`email` = `u`.`email`
+                                      WHERE `r`.`baby_id` = ? AND u.email in
+                                        (SELECT r.email FROM relation AS r JOIN baby as b on r.baby_id = b.baby_id
+                                          where r.email != b.owner)", $option['baby_id'])->result_array();
+
   log_message('debug', $this->db->last_query());
   log_message('debug',print_r($result, TRUE));
 
@@ -31,7 +40,9 @@ class Baby_model extends CI_Model {
                   );
 
       $this->db->where($data);
-      $this->db->update('relation', array('approval'=>$option['approval']));
-
+      $result =  $this->db->update('relation', array('approval'=>$option['approval']));
+      log_message('debug', $this->db->last_query());
+      log_message('debug',print_r($result, TRUE));
+      return $result;
     }
   }

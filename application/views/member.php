@@ -28,13 +28,9 @@
                 <input type="password" class="form-control input-lg" id="re_password" name="re_password" placeholder="비밀번호 확인">
               </div>
           </div>
-          <div class="row">
-            <div class="col-sm-3" style="text-align:center;">
-                <button id="save" name="save" class="btn btn-primary">회원정보수정</button>
-            </div>
-          </div>
           <div>
             <input type="hidden" id="baby_id" name="baby_id"  value="<?=$userinfo->baby_id?>"/>
+            <input type="hidden" id="owner" name="owner"  value="<?=$userinfo->owner?>"/>
           </div>
        </div>
 
@@ -55,23 +51,29 @@
             </div>
             <div class="form-group row">
               <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg" type="text" style = "ime-mode : active" id="babyname" name="babyname" placeholder="아기이름" value="<?=$userinfo->babyname?>" >
+                <input class="form-control input-lg" type="text" style = "ime-mode : active" id="babyname" name="babyname" placeholder="아기이름"  readonly value="<?=$userinfo->babyname?>" >
               </div>
               <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg" type="text" id="birthday" name="birthday"  placeholder="180801" value="<?=$userinfo->birthday?>">
+                <input class="form-control input-lg" type="text" id="birthday" name="birthday"  placeholder="180801" value="<?=$userinfo->birthday?>" readonly>
               </div>
               <div class="col-md-4 col-xs-4">
                 <input type="button" name="findbaby" id="findbaby" class="btn btn-warning"  data-toggle="modal" data-target="#findbabyModal" value="찾기">
               </div>
             </div>
-
-
-            <div class="bs-docs-section">
-              <h1 id="js-overview" class="page-header">Followers</h1>
+            <div class="row">
+              <div class="col-sm-3" style="text-align:center;">
+                  <button id="save" name="save" class="btn btn-primary">회원정보수정</button>
+              </div>
             </div>
-            <div>
-              <table class="table" id="follower_list" data-row-style="rowStyle"></table>
-            </div>
+
+            <?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
+                <div class="bs-docs-section">
+                  <h1 id="js-overview" class="page-header">우리아기사랑</h1>
+                </div>
+                <div>
+                  <table class="table" id="follower_list" data-row-style="rowStyle"></table>
+                </div>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -141,13 +143,14 @@ $( function(){
 
 		function init(){
 
+<?php if($userinfo->email = $userinfo->owner){   //우리아기 책임자이면 ?>
       var url = '<?=base_url("baby/follower_list")?>';
       var data = $('form').serialize();
       var callBack = reload;
       var errorMsg = "follower_list";
     //   url, data, callBack, errorMsg
       ajaxExecute(url, data, callBack, errorMsg);
-
+<?php }?>
 
       // $.ajax({
       //      url:'<?=base_url("baby/follower_list")?>',
@@ -248,9 +251,11 @@ $( function(){
     });
 
 
-
+<?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
     var data = <?=$follower_list?>
     // follower_list
+
+
     $('#follower_list').bootstrapTable({
       data: data, //데이터    '{"baby_id":"1","babyname":"조민준","birthday":"180801","mother":"배윤지","father":"조정국"}',
       // striped: true,
@@ -291,29 +296,17 @@ $( function(){
           formatter: operateFormatter
           // 'class': 'w100',
           // 'class': 'col-xs-2 .col-md-2'
-      }, {
-          field: 'level',
-          title: '권한'
-          // 'class': 'w100',
-          // 'class': 'col-xs-3 .col-md-2'
       }]
     });
-  });    //$(function(){}) 끝
 
-  function operateFormatter(value, row, index) {
-        console.log('value는 '+value);
-          var approval;
-          if(value==0){
-            approval = '<i class="glyphicon glyphicon-remove-sign"></i>';
-          }else{
-            approval = '<i class="glyphicon glyphicon-heart"></i>';
-          }
-         return [
-             '<a class="like" href="javascript:void(0)" title="Like">',
-             , approval ,
-             '</a>'
-         ].join('');
-     }
+
+
+ //우리아기사랑 끝
+          <?php }  ?>
+});    //$(function(){}) 끝
+
+
+<?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
 
      window.operateEvents = {
         'click .like': function (e, value, row, index) {
@@ -324,7 +317,7 @@ $( function(){
                 row.approval = '0';
             }
           console.log(row);
-          changeApprovalData(row);
+          changeApprovalData(row, index);
           // $('#follower_list').bootstrapTable('updateRow', {
           //      index: index,
           //      row: {
@@ -334,23 +327,43 @@ $( function(){
         }
       };
 
-      function changeApprovalData(data){
-        var url = '<?=base_url("baby/changeApproval")?>/' + data.email + '/' + data.approval;
-        //var data = data;
-        var callBack =  changeApproval;
-        var errorMsg = "승인여부";
-        console.log('changeApprovalData의 인자는' + url);
-      //   url, data, callBack, errorMsg
-         ajaxExecute(url, data, callBack, errorMsg);
-      }
 
-      function changeApproval(result){
-        $('#follower_list').bootstrapTable('updateRow', {
-             index: index,
-             row: {
-                 approval : result
-             }
-         });
-      }
+      function operateFormatter(value, row, index) {
+          console.log('value는 '+value);
+            var approval;
+            if(value==0){
+              approval = '<i class="glyphicon glyphicon-remove-sign"></i>';
+            }else{
+              approval = '<i class="glyphicon glyphicon-heart"></i>';
+            }
+           return [
+               '<a class="like" href="javascript:void(0)" title="Like">',
+               , approval ,
+               '</a>'
+           ].join('');
+       }
 
+
+         function changeApprovalData(row, index){
+           // var url = '<?=base_url("baby/changeApproval")?>/' + data.email + '/' + data.approval;
+           var url = '<?=base_url("baby/changeApproval")?>/' + index;
+           var data = row;
+           var callBack =  changeApproval;
+           var errorMsg = "승인여부";
+           console.log('changeApprovalData의 인자는' + url);
+         //   url, data, callBack, errorMsg
+            ajaxExecute(url, data, callBack, errorMsg);
+         }
+
+         function changeApproval(result){
+           console.log(result);
+           $('#follower_list').bootstrapTable('updateRow', {
+                index: result.index,
+                row: {
+                    approval : result.approval
+                }
+            });
+         }
+
+         <?php }?>
     </script>

@@ -83,6 +83,11 @@ select record_date, sum(milk) as milk, sum(rice) as rice from record where autho
 and record_date BETWEEN "2018-01-01" and "2018-07-30" group by record_date
 
 
+FOLLOWER
+SELECT r.email FROM relation AS r JOIN baby as b
+on r.baby_id = b.baby_id
+where r.email != b.owner
+
 회원정보 > 아기등록
 아기이름
 아기성별

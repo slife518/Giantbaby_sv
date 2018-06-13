@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Baby extends My_Controller {
+
      function __construct()
      {
           parent::__construct();
@@ -28,6 +29,7 @@ class Baby extends My_Controller {
       {
         log_message('debug','follower_list controler 시작');
           $array = array(
+                'baby_id'=>$this->session->userdata('baby_id'),
                 'email'=>$this->session->userdata('email')
           );
           $result = $this->baby_model->getfollowerlist($array);
@@ -36,15 +38,17 @@ class Baby extends My_Controller {
           echo json_encode($result);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
       }
 
-      function changeApproval($requester, $approval){
+      function changeApproval($index){
         log_message('debug','changeApproval 시작' + $data);
           $array = array(
-                'email'=>$requester,
+                'email'=> $this->input->post('email'),
                 'baby_id'=>$this->session->userdata('baby_id'),
-                'approval'=>$approval
+                'approval'=> $this->input->post('approval')
           );
         log_message('debug',$array);
-          $result = $this->baby_model->changeApproval($array);
+          $this->baby_model->changeApproval($array);
+          $result = array_merge(array('index'=>$index), array('approval'=> $this->input->post('approval')));
+
           log_message('debug',print_r($result, TRUE));
           echo json_encode($result);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
       }
