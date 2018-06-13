@@ -79,4 +79,6 @@ CREATE TABLE environment (
 
   ALTER TABLE `baby` ADD `father` VARCHAR(20) NULL AFTER `sex`, ADD `mother` VARCHAR(20) NULL AFTER `father`, ADD `owner` VARCHAR(50) NOT NULL AFTER `mother`;
   ALTER TABLE `relation` ADD `level` INT(3) NULL AFTER `email`;
-  ALTER TABLE `relation` ADD `approval` VARCHAR(5) NOT NULL AFTER `level` DEFAULT '0';
+  ALTER TABLE `relation` ADD `approval` VARCHAR(5) NOT NULL AFTER `level`;
+  ALTER TABLE `relation` DROP `relation`;
+  ALTER TABLE `relation` CHANGE `approval` `approval` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0';

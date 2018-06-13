@@ -14,6 +14,27 @@ class Baby extends My_Controller {
 
       }
 
+      function register(){
+log_message('debug','register 시작');
+        if($this->input->post('boy')=='X'){
+          $sex = 1;
+        }else{
+          $sex = 2;
+        };
+        $array = array(
+              'babyname'=>$this->input->post('newbabyname'),
+              'birthday'=>$this->input->post('newbirthday'),
+              'mother'=>$this->input->post('newmother'),
+              'father'=>$this->input->post('newfather'),
+              'owner'=>$this->input->post('email'),
+              'sex'=>$sex
+            );
+         $result = $this->baby_model->registerbaby($array);
+         array_merge($array, array('baby_id'=>$result));
+
+         log_message('debug',print_r($array, TRUE));
+         echo json_encode($array);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
+      }
 
 
       function get($id)

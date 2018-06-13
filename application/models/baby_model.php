@@ -9,15 +9,6 @@ class Baby_model extends CI_Model {
     function getfollowerlist($option){
     log_message('debug', "getbabylist 시작");
     log_message('debug',print_r($option, TRUE));
-      // $this->db->where($option);
-
-      // $this->db->SELECT('u.email, u.nickname, r.approval, r.level');
-      // $this->db->from('user as u');
-      // $this->db->join('relation as r', 'r.email = u.email');
-      // $this->db->where('r.baby_id', $option['baby_id']);
-      // $this->db->where('u.email in', (SELECT r.email FROM relation AS r JOIN baby as b on r.baby_id = b.baby_id where r.email != b.owner));
-      // $result = $this->db->get()->result_array();
-
       $result =  $this->db->query("SELECT `u`.`email`, `u`.`nickname`, `r`.`approval`, `r`.`level`
                                       FROM `user` as `u`
                                       JOIN `relation` as `r` ON `r`.`email` = `u`.`email`
@@ -44,5 +35,17 @@ class Baby_model extends CI_Model {
       log_message('debug', $this->db->last_query());
       log_message('debug',print_r($result, TRUE));
       return $result;
+    }
+
+    function registerbaby($option){
+        $this->db->insert('baby', $option);
+        $baby_id = $this->db->insert_id('baby_id');
+        $relationinfo = array('baby_id'=>$baby_id, 'email'=>$option['owner'], 'approval'=>'1'); // 1 : 승인
+        $result = $this->db->insert('relation', $relationinfo);
+        log_message('debug', $this->db->last_query());
+        log_message('debug',print_r($result, TRUE));
+        return $baby_id;
+
+
     }
   }

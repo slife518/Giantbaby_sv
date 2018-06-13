@@ -37,9 +37,18 @@
        <div class="container bs-docs-container">
         <div class="row">
           <div class="col-md-9" role="main">
-
-            <div class="bs-docs-section">
-              <h1 id="js-overview" class="page-header">Baby info</h1>
+            <div class="row">
+                <div class="bs-docs-section">
+                  <h1 id="js-overview" class="page-header">Baby info</h1>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-xs-4">
+                <input type="button" name="newbaby" id="newbaby" class="btn btn-warning"  data-toggle="modal" data-target="#newbabyModal" value="우리아기등록">
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <input type="button" name="findbaby" id="findbaby" class="btn btn-warning"  data-toggle="modal" data-target="#findbabyModal" value="우리아기찾기">
+              </div>
             </div>
             <div class="row">
               <div class="col-md-4 col-xs-4">
@@ -54,11 +63,9 @@
                 <input class="form-control input-lg" type="text" style = "ime-mode : active" id="babyname" name="babyname" placeholder="아기이름"  readonly value="<?=$userinfo->babyname?>" >
               </div>
               <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg" type="text" id="birthday" name="birthday"  placeholder="180801" value="<?=$userinfo->birthday?>" readonly>
+                <input class="form-control input-lg" type="text" id="birthday" name="birthday"  placeholder="생년월일(6자리)" value="<?=$userinfo->birthday?>" readonly>
               </div>
-              <div class="col-md-4 col-xs-4">
-                <input type="button" name="findbaby" id="findbaby" class="btn btn-warning"  data-toggle="modal" data-target="#findbabyModal" value="찾기">
-              </div>
+
             </div>
             <div class="row">
               <div class="col-sm-3" style="text-align:center;">
@@ -81,7 +88,7 @@
 
     </div>
 
-    <!-- Modal -->
+    <!-- 우리아기찾기 Modal -->
     <div class="modal fade" id="findbabyModal" tabindex="-1" role="dialog" aria-labelledby="findbabyModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -121,6 +128,66 @@
       </div>
     </div>
 
+
+    <!-- 우리아기등록 Modal -->
+    <div class="modal fade" id="newbabyModal" tabindex="-1" role="dialog" aria-labelledby="newbabyModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newbabyModal">우리아기 등록하기</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4 col-xs-4">
+                <label>아기이름</label>
+              </div>
+              <div class="col-md-6 col-xs-6">
+                <label>아기생년월일(6자리)</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-xs-4">
+                <input type="text" class="form-control input-lg" id="newbabyname" name="newbabyname">
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <input type="text" class="form-control input-lg" id="newbirthday" name="newbirthday">
+              </div>
+              <!--Radio group-->
+              <div class="form-check col-md-4 col-xs-4">
+                  <input class="form-check-input" name="group100" type="radio" id="girl">
+                  <label class="form-check-label" for="girl">여자</label>
+              </div>
+              <div class="form-check col-md-4 col-xs-4">
+                  <input class="form-check-input" name="group100" type="radio" id="boy" checked>
+                  <label class="form-check-label" for="boy">남자</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-xs-4">
+                <label>아빠이름</label>
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <label>엄마이름</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-xs-4">
+                <input type="text" class="form-control input-lg" id="newfather" name="father">
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <input type="text" class="form-control input-lg" id="newmother" name="mother">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="button" class="btn btn-primary pull-right" name="registerbaby" id="registerbaby" value="아기등록">
+          </div>
+        </div>
+      </div>
+    </div>
     <?php
 
     if($this->session->flashdata('message')) {
@@ -188,8 +255,6 @@ $( function(){
        ajaxExecute(url, data, callBack, errorMsg);
     });
 
-
-
     function search(babyinfo){
         var data = babyinfo;
           $('#baby_list').bootstrapTable('load', data);   //데이터 reload
@@ -244,6 +309,26 @@ $( function(){
             visible:false
         }]
       });
+
+      //아기등록 검색
+      $('#registerbaby').on("click", function(e){
+            var url = '<?=base_url("baby/register")?>';
+            var data = $('form').serialize();
+            console.log(data);
+            var callBack =  registerbaby;
+            var errorMsg = "아기등록";
+          //   url, data, callBack, errorMsg
+             ajaxExecute(url, data, callBack, errorMsg);
+          });
+
+      function registerbaby(babyinfo){
+          console.log(babyinfo);
+          var data = babyinfo;
+          $('#babyname').val(babyinfo.babyname);
+          $('#birthday').val(babyinfo.birthday);
+          $('#baby_id').val(babyinfo.baby_id);
+          $('#newbabyModal').modal('hide')
+      }
 
 
     $('#save').on("click",function(){

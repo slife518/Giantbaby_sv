@@ -17,7 +17,8 @@ class Auth extends My_Controller {
 
      function logout()
      {
-       $this->session->sess_destory();
+       $this->load->library('session');
+       $this->session->sess_destroy()();
        $this->load->helper('url');
        redirect('/auth/login/');
      }

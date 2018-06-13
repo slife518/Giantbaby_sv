@@ -69,9 +69,9 @@
                                     if($this->session->userdata('is_login')){
                                     ?>
                                       <li><a href="<?php echo base_url("record/record_list")?>" class="btn btn-round btn-default">기록보기</a></li>
-                                      <li><a href="<?php echo base_url("report/index")?>" class="btn btn-round btn-default">보고서</a></li>                                      
+                                      <li><a href="<?php echo base_url("report/index")?>" class="btn btn-round btn-default">보고서</a></li>
                                       <li><a href="<?php echo base_url("auth/member")?>" class="btn btn-round btn-default">마이페이지</a></li>
-                                      <li><a href="<?php echo base_url("auth/login")?>" class="btn btn-round btn-default">로그아웃</a></li>
+                                      <li><a href="<?php echo base_url("auth/logout")?>" class="btn btn-round btn-default">로그아웃</a></li>
                                     <?php
                                     } else {
                                     ?>
