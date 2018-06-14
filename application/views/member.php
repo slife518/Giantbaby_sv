@@ -230,7 +230,7 @@ $( function(){
 
 <?php if($userinfo->email = $userinfo->owner){   //우리아기 책임자이면 ?>
       var url = '<?=base_url("baby/follower_list")?>';
-      var data = $('form').serialize();
+      var data = $('#form_love').serialize();
       var callBack = reloadFollower;
       var errorMsg = "follower_list";
     //   url, data, callBack, errorMsg
@@ -247,7 +247,8 @@ $( function(){
 //아기찾기 검색
     $('#search').on("click", function(e){
       var url = '<?=base_url("baby/findbaby")?>';
-      var data = $('form_love').serialize();
+      var data = $('#form_love').serialize();
+      console.log(data);
       var callBack =  search;
       var errorMsg = "아기찾기검색";
     //   url, data, callBack, errorMsg
@@ -330,7 +331,7 @@ $( function(){
       }
 
 
-    $('#save').on("click",function(){
+    $('#save').on("click",function(){  //회원정보수정
 
       //location.href="<?php echo base_url("Auth/update")?>";
       var url = '<?=base_url("Auth/update")?>';
@@ -354,8 +355,9 @@ $( function(){
        ajaxExecute(url, data, callBack, errorMsg);
     });
 
-    function reload(){
-      location.href="<?php echo base_url("Auth/update")?>";
+    function reload(message){
+      alert(message);
+      location.href="<?php echo base_url("auth/member")?>";
     }
 
 <?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>

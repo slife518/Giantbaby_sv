@@ -125,10 +125,10 @@ log_message('debug','register 시작');
         $this->form_validation->set_rules('findmother', '엄마이름', 'required');
 
         if($this->form_validation->run() == FALSE){
-        //  log_message('debug','유효성 실패');
+          log_message('debug','유효성 실패');
            echo validation_errors();
         }else{
-      //      log_message('debug','유효성 통과');
+           log_message('debug','유효성 통과');
           $babyname = $this->input->post('findbabyname');
           $mother = $this->input->post('findmother');
           $father = $this->input->post('findfather');
@@ -140,7 +140,7 @@ log_message('debug','register 시작');
                 'mother'=>$mother
           );
 
-        //log_message('debug', print_r($array));
+        log_message('debug', print_r($array, TRUE));
         if(!empty($mother)){
           array_merge($array, array('mother'=>$mother));
         }
@@ -150,7 +150,7 @@ log_message('debug','register 시작');
 
         //log_message('debug', print_r($array));
         //$this->load->model('user_model');
-        $result = $this->user_model->getbabylist($array);
+        $result = $this->baby_model->getbabylist($array);
 
         log_message('debug',print_r($result, TRUE));
         echo json_encode($result);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.

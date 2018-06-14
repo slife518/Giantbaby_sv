@@ -19,7 +19,7 @@ class Auth extends My_Controller {
      function logout()
      {
        $this->load->library('session');
-       $this->session->sess_destroy()();
+       $this->session->sess_destroy();
        $this->load->helper('url');
        redirect('/auth/login/');
      }
@@ -109,7 +109,7 @@ log_message('debug', 'eeeeee');
       {
         $log = '회원정보는 email: ' .$this->session->userdata('email');
         log_message('debug', $log);
-        $this->load->model('user_model');
+        //$this->load->model('user_model');
         $userinfo = $this->user_model->get($this->session->userdata('email'));
         log_message('debug',print_r($userinfo,TRUE));
 
@@ -121,8 +121,8 @@ log_message('debug', 'eeeeee');
       function update()
       {
         log_message('debug', '회원정보수정');
-        $this->load->model('user_model');
-        $this->_head();
+    //    $this->load->model('user_model');
+      //  $this->_head();
     //    $this->load->library('form_validation');
 
         $this->form_validation->set_rules('nickname', '닉네임', 'required|min_length[2]|max_length[20]');
@@ -130,8 +130,8 @@ log_message('debug', 'eeeeee');
       //  log_message('debug', 'afdfsdfsf');
         if($this->form_validation->run() === false)
         {
-              echo validation_errors();
-             $this->load->view('member');
+            //  echo validation_errors();
+          //   $this->load->view('member');
         }else
         {
         //  비밀번호를 수정했을 경우
@@ -161,11 +161,12 @@ log_message('debug', 'eeeeee');
 
           }
               $this->user_model->update($array);
-              $this->session->set_flashdata('message', '회원정보가 수정되었습니다.');
+              //$this->session->set_flashdata('message', '회원정보가 수정되었습니다.');
+              // echo json_encode($array);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
+              echo  json_encode('수정되었습니다.');  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
               // $this->load->helper('url');
-              redirect('auth/member');
+            //  redirect('auth/member');
         }
-        $this->_footer();
       }
 
       function directlogin($email, $password)

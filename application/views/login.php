@@ -8,11 +8,9 @@
         </div>
         <div class="modal-body">
             <div class="form-group">
-              <label for="exampleInputEmail1">아이디</label>
               <input type="text" class="form-control input-lg" id="email" name="email" placeholder="아이디를 입력하세요">
             </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">비밀번호</label>
+            <div class="form-group">              
               <input type="password" class="form-control input-lg" id="password" name="password" placeholder="비밀번호를 입력하세요">
             </div>
             <div class="form-group">
