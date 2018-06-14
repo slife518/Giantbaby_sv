@@ -5,6 +5,7 @@ class Auth extends My_Controller {
           parent::__construct();
           $this->load->database();
           $this->load->model('user_model');
+          $this->load->library('form_validation');
      }
 
      function login()
@@ -71,7 +72,7 @@ class Auth extends My_Controller {
      {
          $this->load->model('user_model');
          $this->_head_nochk();
-         $this->load->library('form_validation');
+        // $this->load->library('form_validation');
 
          $this->form_validation->set_rules('email', 'ID', 'required|is_unique[user.email]');
          $this->form_validation->set_rules('nickname', '닉네임', 'required|min_length[2]|max_length[20]');
@@ -122,13 +123,14 @@ log_message('debug', 'eeeeee');
         log_message('debug', '회원정보수정');
         $this->load->model('user_model');
         $this->_head();
-        $this->load->library('form_validation');
+    //    $this->load->library('form_validation');
 
         $this->form_validation->set_rules('nickname', '닉네임', 'required|min_length[2]|max_length[20]');
         //var_dump(empty($this->input->post('password')));
       //  log_message('debug', 'afdfsdfsf');
         if($this->form_validation->run() === false)
         {
+              echo validation_errors();
              $this->load->view('member');
         }else
         {
@@ -146,10 +148,7 @@ log_message('debug', 'eeeeee');
                 $array = array(
                       'email'=>$this->input->post('email'),
                       'password'=>$hash,
-                      'nickname'=>$this->input->post('nickname'),
-                      'baby_id'=>$this->input->post('baby_id'),
-                      'babyname'=>$this->input->post('babyname'),
-                      'birthday'=>$this->input->post('birthday')
+                      'nickname'=>$this->input->post('nickname')
                     );
             }else  //비밀번호를 수정하지 않았을 경우
             {
@@ -157,10 +156,7 @@ log_message('debug', 'eeeeee');
             log_message('debug', $this->input->post('email'));
                 $array = array(
                       'email'=>$this->input->post('email'),
-                      'baby_id'=>$this->input->post('baby_id'),
-                      'nickname'=>$this->input->post('nickname'),
-                      'babyname'=>$this->input->post('babyname'),
-                      'birthday'=>$this->input->post('birthday')
+                      'nickname'=>$this->input->post('nickname')
                       );
 
           }
@@ -214,45 +210,6 @@ log_message('debug', 'eeeeee');
              }
          }
 
-      function findbaby(){
-      //  log_message('debug', 'findbaby 시작');
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('findbabyname', '아기이름', 'required');
-        $this->form_validation->set_rules('findmother', '엄마이름', 'required');
-
-        if($this->form_validation->run() == FALSE){
-        //  log_message('debug','유효성 실패');
-           echo validation_errors();
-        }else{
-      //      log_message('debug','유효성 통과');
-          $babyname = $this->input->post('findbabyname');
-          $mother = $this->input->post('findmother');
-          $father = $this->input->post('findfather');
-        //  log_message('debug', $mother);
-        }
-
-        $array = array(
-                'babyname'=>$babyname,
-                'mother'=>$mother
-          );
-
-        //log_message('debug', print_r($array));
-        if(!empty($mother)){
-          array_merge($array, array('mother'=>$mother));
-        }
-        if(!empty($father)){
-          array_merge($array, array('father'=>$father));
-        }
-
-        //log_message('debug', print_r($array));
-        //$this->load->model('user_model');
-        $result = $this->user_model->getbabylist($array);
-
-        log_message('debug',print_r($result, TRUE));
-        echo json_encode($result);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
-        //echo $result;  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
-
-      }
 
 }
 ?>

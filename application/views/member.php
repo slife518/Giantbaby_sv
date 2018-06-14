@@ -1,6 +1,6 @@
 
     <!-- <form action="/index.php/auth/update" method="post"> -->
-    <form action="<?php echo base_url("auth/update")?>" method="post">
+<form id="form_member" method="post">
     <div class="main">
       <div class="container tim-container">
         <div class="form-group">
@@ -8,7 +8,7 @@
            <input type="email" class="form-control input-lg" id="email" name="email" value="<?=$userinfo->email?>"  readonly>
          </div>
          <div class="form-group">
-            <label for="exampleInputEmail1">닉네임</label>
+            <label for="exampleInputEmail1">닉네임</label><?php echo form_error('nickname'); ?>
             <input type="text" style = "ime-mode : active" class="form-control input-lg" id="nickname" name="nickname" value="<?=$userinfo->nickname?>">
           </div>
 
@@ -22,34 +22,41 @@
           </div>
           <div class="form-group row">
               <div class="col-md-4 col-xs-4">
+                <?php echo form_error('password'); ?>
                 <input type="password" class="form-control input-lg" id="password" name="password" placeholder="비밀번호">
               </div>
               <div class="col-md-4 col-xs-5">
                 <input type="password" class="form-control input-lg" id="re_password" name="re_password" placeholder="비밀번호 확인">
               </div>
           </div>
-          <div>
-            <input type="hidden" id="baby_id" name="baby_id"  value="<?=$userinfo->baby_id?>"/>
-            <input type="hidden" id="owner" name="owner"  value="<?=$userinfo->owner?>"/>
+
+          <div class="row">
+            <div class="col-sm-3" style="text-align:center;">
+                <button type='button' id="save" name="save" class="btn btn-primary">회원정보수정</button>
+            </div>
           </div>
        </div>
 
+</form>
+<form id="form_baby" method="post">
        <div class="container bs-docs-container">
-        <div class="row">
+         <div class="row">
+             <div class="bs-docs-section">
+               <h1 id="js-overview" class="page-header">Baby info</h1>
+             </div>
+         </div>
+         <div class="row">
           <div class="col-md-9" role="main">
+      <?php if(empty($userinfo->babyname)){   //등록된 아기가 없으면  ?>
             <div class="row">
-                <div class="bs-docs-section">
-                  <h1 id="js-overview" class="page-header">Baby info</h1>
-                </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4 col-xs-4">
+              <div class="col-md-6 col-xs-6">
                 <input type="button" name="newbaby" id="newbaby" class="btn btn-warning"  data-toggle="modal" data-target="#newbabyModal" value="우리아기등록">
               </div>
-              <div class="col-md-4 col-xs-4">
+              <div class="col-md-6 col-xs-6">
                 <input type="button" name="findbaby" id="findbaby" class="btn btn-warning"  data-toggle="modal" data-target="#findbabyModal" value="우리아기찾기">
               </div>
             </div>
+      <?php }else{  //등록된 아기가 있으면  ?>
             <div class="row">
               <div class="col-md-4 col-xs-4">
                 <label class="control-label">아기이름</label>
@@ -65,14 +72,37 @@
               <div class="col-md-4 col-xs-4">
                 <input class="form-control input-lg" type="text" id="birthday" name="birthday"  placeholder="생년월일(6자리)" value="<?=$userinfo->birthday?>" readonly>
               </div>
-
             </div>
             <div class="row">
-              <div class="col-sm-3" style="text-align:center;">
-                  <button id="save" name="save" class="btn btn-primary">회원정보수정</button>
+              <div class="col-md-4 col-xs-4">
+                <label class="control-label">아빠이름</label>
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <label class="control-label">엄마이름</label>
               </div>
             </div>
-
+            <div class="form-group row">
+              <div class="col-md-4 col-xs-4">
+                <input class="form-control input-lg" type="text" style = "ime-mode : active" id="father" name="father" placeholder="아빠이름"  readonly value="<?=$userinfo->father?>" >
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <input class="form-control input-lg" type="text" id="mother" name="mother"  placeholder="엄마이름" value="<?=$userinfo->mother?>" readonly>
+              </div>
+            </div>
+        <?php }?>
+          <?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
+            <div class="row">
+              <div class="col-sm-3" style="text-align:center;">
+                  <button type='button' id="babyinfoUpdate" name="babyinfoUpdate" class="btn btn-primary">아기정보수정</button>
+              </div>
+            </div>
+          <?php }?>
+            <div>
+              <input type="hidden" id="baby_id" name="baby_id"  value="<?=$userinfo->baby_id?>"/>
+              <input type="hidden" id="owner" name="owner"  value="<?=$userinfo->owner?>"/>
+            </div>
+</form>
+<form id="form_love" method="post">
             <?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
                 <div class="bs-docs-section">
                   <h1 id="js-overview" class="page-header">우리아기사랑</h1>
@@ -87,6 +117,7 @@
 
 
     </div>
+
 
     <!-- 우리아기찾기 Modal -->
     <div class="modal fade" id="findbabyModal" tabindex="-1" role="dialog" aria-labelledby="findbabyModalLabel" aria-hidden="true">
@@ -188,20 +219,7 @@
         </div>
       </div>
     </div>
-    <?php
-
-    if($this->session->flashdata('message')) {
-    $message = $this->session->flashdata('message');
-    ?>
-    <div class="<?php echo $message['class'] ?>"><?php echo $message['message']; ?>
-
-    </div>
-    <?php
-    }
-
-    ?>
-
-    </form>
+</form>
 
 <script>
 $( function(){
@@ -213,42 +231,23 @@ $( function(){
 <?php if($userinfo->email = $userinfo->owner){   //우리아기 책임자이면 ?>
       var url = '<?=base_url("baby/follower_list")?>';
       var data = $('form').serialize();
-      var callBack = reload;
+      var callBack = reloadFollower;
       var errorMsg = "follower_list";
     //   url, data, callBack, errorMsg
       ajaxExecute(url, data, callBack, errorMsg);
 <?php }?>
 
-      // $.ajax({
-      //      url:'<?=base_url("baby/follower_list")?>',
-      //      method: 'post',
-      //      data: $('form').serialize(),
-      //      //dataType: 'json',
-      //      success: function(response){
-      //            var data = JSON.parse(unescape(replaceAll(response, "\\", "%")));  //유니코드를 한글로 변경
-      //            console.log(data);
-      //           $('#follower_list').bootstrapTable('load', data);   //데이터 reload
-      //
-      //      },
-      //      error: function(error){
-      //        console.log(error);
-      //      },
-      //      complete:function(){
-      //      }
-      //
-      //  });
-
     }
 
-    function reload(data){
+    function reloadFollower(data){
        $('#follower_list').bootstrapTable('load', data);
     }
 
 
 //아기찾기 검색
     $('#search').on("click", function(e){
-      var url = '<?=base_url("auth/findbaby")?>';
-      var data = $('form').serialize();
+      var url = '<?=base_url("baby/findbaby")?>';
+      var data = $('form_love').serialize();
       var callBack =  search;
       var errorMsg = "아기찾기검색";
     //   url, data, callBack, errorMsg
@@ -286,7 +285,7 @@ $( function(){
       //    location.href = url;
            },
         columns: [{
-            field: 'babyname',
+            field: 'babyname',  //모달 테이블의 아기 이름
             title: '아기이름',
             //'class': 'w100'
         }, {
@@ -332,9 +331,32 @@ $( function(){
 
 
     $('#save').on("click",function(){
-      location.href="<?php echo base_url("auth/update")?>";
+
+      //location.href="<?php echo base_url("Auth/update")?>";
+      var url = '<?=base_url("Auth/update")?>';
+      var data = $('#form_member').serialize();
+      console.log(data);
+      var callBack =  reload;
+      var errorMsg = "회원정보수정";
+    //   url, data, callBack, errorMsg
+       ajaxExecute(url, data, callBack, errorMsg);
+
     });
 
+
+    $('#babyinfoUpdate').on("click",function(){
+      var url = '<?=base_url("baby/update")?>';
+      var data = $('#form_baby').serialize();
+      console.log(data);
+      var callBack =  reload;
+      var errorMsg = "아기정보수정";
+    //   url, data, callBack, errorMsg
+       ajaxExecute(url, data, callBack, errorMsg);
+    });
+
+    function reload(){
+      location.href="<?php echo base_url("Auth/update")?>";
+    }
 
 <?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
     var data = <?=$follower_list?>

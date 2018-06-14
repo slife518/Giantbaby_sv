@@ -6,6 +6,7 @@ class Baby extends My_Controller {
           parent::__construct();
           $this->load->database();
           $this->load->model('baby_model');
+          $this->load->library('form_validation');
      }
 
 
@@ -22,6 +23,7 @@ log_message('debug','register 시작');
           $sex = 2;
         };
         $array = array(
+              'baby_id'=>$this->input->post('baby_id'),
               'babyname'=>$this->input->post('newbabyname'),
               'birthday'=>$this->input->post('newbirthday'),
               'mother'=>$this->input->post('newmother'),
@@ -74,6 +76,88 @@ log_message('debug','register 시작');
           echo json_encode($result);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
       }
 
+
+
+      function update()
+      {
+        log_message('debug', '아기정보수정');
+        $this->load->model('baby_model');
+        $this->_head();
+      //  $this->load->library('form_validation');
+
+      log_message('debug', '아기이름은 ' . $this->input->post('babyname')  );
+        $this->form_validation->set_rules('father', '아빠이름', 'required');
+        $this->form_validation->set_rules('mother', '엄마이름', 'required');
+        $this->form_validation->set_rules('birthday', '생년월일', 'required');
+        $this->form_validation->set_rules('babyname', '아기이름', 'required');
+        //var_dump(empty($this->input->post('password')));
+      //  log_message('debug', 'afdfsdfsf');
+        if($this->form_validation->run() === false)
+        {
+            log_message('debug', validation_errors())   ;
+             $this->load->view('member');
+        }else
+        {
+            log_message('debug', '아기정보저장 중')   ;
+            log_message('debug', $this->input->post('email'));
+              $array = array(
+                      'baby_id'=>$this->input->post('baby_id'),
+                      'mother'=>$this->input->post('babyname'),
+                      'father'=>$this->input->post('babyname'),
+                      'babyname'=>$this->input->post('babyname'),
+                      'sex'=>$this->input->post('sex'),
+                      'birthday'=>$this->input->post('birthday')
+                      );
+              $this->baby_model->update($array);
+              $this->session->set_flashdata('message', '회원정보가 수정되었습니다.');
+              // $this->load->helper('url');
+              redirect('auth/member');
+        }
+        $this->_footer();
+      }
+
+
+
+      function findbaby(){
+      //  log_message('debug', 'findbaby 시작');
+      //  $this->load->library('form_validation');
+        $this->form_validation->set_rules('findbabyname', '아기이름', 'required');
+        $this->form_validation->set_rules('findmother', '엄마이름', 'required');
+
+        if($this->form_validation->run() == FALSE){
+        //  log_message('debug','유효성 실패');
+           echo validation_errors();
+        }else{
+      //      log_message('debug','유효성 통과');
+          $babyname = $this->input->post('findbabyname');
+          $mother = $this->input->post('findmother');
+          $father = $this->input->post('findfather');
+        //  log_message('debug', $mother);
+        }
+
+        $array = array(
+                'babyname'=>$babyname,
+                'mother'=>$mother
+          );
+
+        //log_message('debug', print_r($array));
+        if(!empty($mother)){
+          array_merge($array, array('mother'=>$mother));
+        }
+        if(!empty($father)){
+          array_merge($array, array('father'=>$father));
+        }
+
+        //log_message('debug', print_r($array));
+        //$this->load->model('user_model');
+        $result = $this->user_model->getbabylist($array);
+
+        log_message('debug',print_r($result, TRUE));
+        echo json_encode($result);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
+        //echo $result;  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
+
+      }
+
       function delete($id)
       {
         //print "<script type=\"text/javascript\">alert('some_text');</script>";
@@ -85,6 +169,8 @@ log_message('debug','register 시작');
           redirect('/record/record_list');
           $this-> _footer();
       }
+
+
 
 
 }

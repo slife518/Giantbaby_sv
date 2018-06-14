@@ -20,7 +20,7 @@ class User_model extends CI_Model {
         $this->db->join('relation', 'baby.baby_id = relation.baby_id');
         $this->db->where('relation.email',  $email);
         $babyinfo = $this->db->get()->row();   //->row_array 결과값을 한줄의 array 행태로 리턴 .. 참고 http://codeigniter-kr.org/user_guide_2.1.0/database/results.html
-  log_message('debug', $this->db->last_query());  
+  log_message('debug', $this->db->last_query());
         if(empty($babyinfo)){
           log_message('debug','$babyinfo는 비어 있다.');
           $result = $userinfo;
@@ -45,18 +45,22 @@ class User_model extends CI_Model {
     function update($option)
     {
       //  $this->db->set('email', $option['email']);
-        $this->db->set('nickname', $option['nickname']);
+        // $this->db->set('nickname', $option['nickname']);
+        // $this->db->set('updated', 'NOW()', false);
+        // if(!empty($option['password']))
+        // {
+        //   $this->db->set('password', $option['password']);
+        // }
+        $email =  $option['email'];
+        unset($option['email']);
+
         $this->db->set('updated', 'NOW()', false);
-        if(!empty($option['password']))
-        {
-          $this->db->set('password', $option['password']);
-        }
-        $this->db->where('email',  $option['email']);
-        $this->db->update('user');   //update(테이블, 데이터, where)
+        $this->db->where('email',  $email);
+        $this->db->update('user', $option);   //update(테이블, 데이터, where)
         $this->session->set_userdata('nickname', $option['nickname']);
 
         //아기 관계 등록
-        $array_baby_id = $this->db->query('SELECT baby_id from baby where baby_id = ?', $option['baby_id'])->row_array();
+        // $array_baby_id = $this->db->query('SELECT baby_id from baby where baby_id = ?', $option['baby_id'])->row_array();
         //$array_user_id = $this->db->query('SELECT user_id from user where email = ?', $option['email'])->row_array();
 log_message('debug', $this->db->last_query());
 
@@ -65,14 +69,14 @@ log_message('debug', $this->db->last_query());
 
     //    }else{  //아기 정보 변경
         //  $this->db->where('baby_id', $option['baby_id']);
-          $this->db->where('email', $option['email']);
-          $result = $this->db->delete('relation');   //관계된 정보를 지우고 다시 등록
-          log_message('debug', $this->db->last_query());
-
-          $this->db->set('baby_id',$option['baby_id']);
-          $this->db->set('email', $option['email']);
-          $result = $this->db->insert('relation');
-          log_message('debug', $this->db->last_query());
+          // $this->db->where('email', $option['email']);
+          // $result = $this->db->delete('relation');   //관계된 정보를 지우고 다시 등록
+          // log_message('debug', $this->db->last_query());
+          //
+          // $this->db->set('baby_id',$option['baby_id']);
+          // $this->db->set('email', $option['email']);
+          // $result = $this->db->insert('relation');
+          // log_message('debug', $this->db->last_query());
 
           // $this->db->set('relation', $option['relation']);
           // $this->db->where('baby_id', $array_baby_id['baby_id']);
@@ -176,17 +180,5 @@ log_message('debug', $this->db->last_query());
       // return $result;
     }
 
-    function getbabylist($option){
-    //  log_message('debug', "getbabylist 시작");
-    //  log_message('debug',print_r($option, TRUE));
-      // $this->db->where($option);
-      $this->db->SELECT('baby_id, babyname, birthday, mother, father');
-      $result = $this->db->get_where('baby', $option)->result_array();
 
-    //  log_message('debug', $this->db->last_query());
-
-    //  log_message('debug',print_r($result, TRUE));
-
-      return $result;
-    }
   }

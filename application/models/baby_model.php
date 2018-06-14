@@ -7,7 +7,7 @@ class Baby_model extends CI_Model {
     }
 
     function getfollowerlist($option){
-    log_message('debug', "getbabylist 시작");
+    log_message('debug', "getfollowerlist 시작");
     log_message('debug',print_r($option, TRUE));
       $result =  $this->db->query("SELECT `u`.`email`, `u`.`nickname`, `r`.`approval`, `r`.`level`
                                       FROM `user` as `u`
@@ -48,4 +48,32 @@ class Baby_model extends CI_Model {
 
 
     }
+
+    function getbabylist($option){
+    //  log_message('debug', "getbabylist 시작");
+    //  log_message('debug',print_r($option, TRUE));
+      // $this->db->where($option);
+      $this->db->SELECT('baby_id, babyname, birthday, mother, father');
+      $result = $this->db->get_where('baby', $option)->result_array();
+
+    //  log_message('debug', $this->db->last_query());
+
+    //  log_message('debug',print_r($result, TRUE));
+
+      return $result;
+    }
+
+
+    function update($option)
+      {
+          //아기 정보 변경
+        $id = $option['baby_id'];
+        unset($option['baby_id']);
+
+        $this->db->where('baby_id', $id);
+        $result = $this->db->update('baby', $option);   //관계된 정보를 지우고 다시 등록
+        log_message('debug', $this->db->last_query());
+        return $result;
+      }
+
   }
