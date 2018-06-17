@@ -23,7 +23,7 @@ class Baby_model extends CI_Model {
     }
 
     function changeApproval($option){
-      log_message('debug', "changeApproval 시작");
+      log_message('debug', "changeApproval 모델 시작");
       log_message('debug',print_r($option, TRUE));
       $data = array(
                      'baby_id' => $option['baby_id'],
@@ -48,6 +48,14 @@ class Baby_model extends CI_Model {
 
 
     }
+
+    function registerRelation($option){   //아기찾기를 통해 등록 한 경우 관계만 넣어준다.
+        $result = $this->db->replace('relation', $option);
+        log_message('debug', $this->db->last_query());
+        log_message('debug',print_r($result, TRUE));
+        return $result;
+    }
+
 
     function getbabylist($option){
     log_message('debug', "getbabylist 시작");

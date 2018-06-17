@@ -39,6 +39,29 @@ log_message('debug','register 시작');
       }
 
 
+      function registerRelation(){  //아기찾기를 통해 등록 한 경우 관계만 넣어준다.
+        $array = array(
+              'baby_id'=>$this->input->post('baby_id'),
+              'email'=>$this->session->userdata('email')
+            );
+
+         log_message('debug',print_r($array, TRUE));
+         $result = $this->baby_model->registerRelation($array);
+
+         $returnArray = array(
+               'baby_id'=>$this->input->post('baby_id'),
+               'babyname'=>$this->input->post('babyname'),
+               'birthday'=>$this->input->post('birthday'),
+               'mother'=>$this->input->post('mother'),
+               'father'=>$this->input->post('father'),
+               'owner'=>$this->input->post('email')
+             );
+
+         log_message('debug',print_r($returnArray, TRUE));
+         echo json_encode($returnArray);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
+      }
+
+
       function get($id)
       {
         //print "<script type=\"text/javascript\">alert('some_text');</script>";
@@ -52,7 +75,7 @@ log_message('debug','register 시작');
       {
         log_message('debug','follower_list controler 시작');
           $array = array(
-                'baby_id'=>$this->session->userdata('baby_id'),
+                'baby_id'=>$this->input->post('baby_id'),
                 'email'=>$this->session->userdata('email')
           );
           $result = $this->baby_model->getfollowerlist($array);
@@ -62,10 +85,11 @@ log_message('debug','register 시작');
       }
 
       function changeApproval($index){
-        log_message('debug','changeApproval 시작' + $data);
+
+      //  log_message('debug', print_r($this->input->post(), TRUE));
           $array = array(
                 'email'=> $this->input->post('email'),
-                'baby_id'=>$this->session->userdata('baby_id'),
+                'baby_id'=>$this->input->post('baby_id'),
                 'approval'=> $this->input->post('approval')
           );
         log_message('debug',$array);

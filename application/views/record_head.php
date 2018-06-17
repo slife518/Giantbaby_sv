@@ -20,18 +20,22 @@
               <link rel="stylesheet" href="/etc/bootstrap3/css/font-awesome.css"/>
               <!-- <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'> -->
               <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+
 
               <!-- JavaScript -->
               <script type="text/javascript" src="/etc/jquery/jquery-1.10.2.js"></script>
               <script type="text/javascript" src="/etc/assets/js/jquery-ui-1.10.4.custom.min.js"></script>
               <!-- <script src="/etc/bootstrap3/js/bootstrap.min.js" type="text/javascript"></script> -->
               <script type="text/javascript"  src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+              <script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
               <!-- <script src="dist/js/fs-modal.min.js"></script> -->
               <script type="text/javascript"  src="/etc/assets/js/gsdk-checkbox.js"></script>
               <script type="text/javascript"  src="/etc/assets/js/gsdk-radio.js"></script>
               <script type="text/javascript"  src="/etc/assets/js/gsdk-bootstrapswitch.js"></script>
               <script type="text/javascript"  src="/etc/assets/js/get-shit-done.js"></script>
               <script type="text/javascript"  src="/etc/assets/js/custom.js"></script>
+
               <!-- <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script> -->
 
               <!-- https://www.malot.fr/bootstrap-datetimepicker/index.php -->
