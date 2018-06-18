@@ -43,6 +43,20 @@
        }
 
 
+  function popup_alert(message){
+    $.confirm({
+          content: message,
+          buttons: {
+              확인: {
+
+              }
+          }
+      });
+
+  }
+
+
+
 </script>
   </body>
 

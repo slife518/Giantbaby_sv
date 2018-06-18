@@ -102,6 +102,9 @@ class Record extends My_Controller {
           $this-> _footer();
       }
 
+      function chk_relation(){
+
+      }
 
 }
 ?>

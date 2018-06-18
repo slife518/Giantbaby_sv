@@ -15,26 +15,23 @@ class Baby extends My_Controller {
 
       }
 
-      function register(){
+      function registerBaby(){
 log_message('debug','register 시작');
-        if($this->input->post('boy')=='X'){
-          $sex = 1;
-        }else{
-          $sex = 2;
-        };
+log_message('debug',$this->session->userdata('email'));
         $array = array(
-              'baby_id'=>$this->input->post('baby_id'),
+              'owner'=>$this->session->userdata('email'),
               'babyname'=>$this->input->post('newbabyname'),
               'birthday'=>$this->input->post('newbirthday'),
               'mother'=>$this->input->post('newmother'),
               'father'=>$this->input->post('newfather'),
-              'owner'=>$this->input->post('email'),
-              'sex'=>$sex
+              'sex'=>$this->input->post('newsex')
             );
-         $result = $this->baby_model->registerbaby($array);
-         array_merge($array, array('baby_id'=>$result));
+      log_message('debug',print_r($array, TRUE));
+         $baby_id = $this->baby_model->registerBaby($array);
+         array_merge($array, array('baby_id'=>$baby_id));
 
-         log_message('debug',print_r($array, TRUE));
+
+         $this->set_babysession($baby_id, $array['birthday'], $array['babyname'] );
          echo json_encode($array);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
       }
 
@@ -52,12 +49,14 @@ log_message('debug','register 시작');
                'baby_id'=>$this->input->post('baby_id'),
                'babyname'=>$this->input->post('babyname'),
                'birthday'=>$this->input->post('birthday'),
+               'sex'=>$this->input->post('sex'),
                'mother'=>$this->input->post('mother'),
                'father'=>$this->input->post('father'),
-               'owner'=>$this->input->post('email')
+               'owner'=>$this->input->post('owner')
              );
 
          log_message('debug',print_r($returnArray, TRUE));
+         $this->set_babysession($returnArray['baby_id'], $array['birthday'], $array['babyname'] );
          echo json_encode($returnArray);  //json 형식으로 보내고 json 을 받아서 화면에서 배열로 세팅한다.
       }
 
@@ -126,15 +125,18 @@ log_message('debug','register 시작');
             log_message('debug', $this->input->post('email'));
               $array = array(
                       'baby_id'=>$this->input->post('baby_id'),
-                      'mother'=>$this->input->post('babyname'),
-                      'father'=>$this->input->post('babyname'),
+                      'mother'=>$this->input->post('mother'),
+                      'father'=>$this->input->post('father'),
                       'babyname'=>$this->input->post('babyname'),
                       'sex'=>$this->input->post('sex'),
                       'birthday'=>$this->input->post('birthday')
                       );
+              log_message('debug', print_r($array, 'TRUE'));
               $this->baby_model->update($array);
-              $this->session->set_flashdata('message', '회원정보가 수정되었습니다.');
+              $this->session->set_flashdata('message', '아기정보가 수정되었습니다.');
               // $this->load->helper('url');
+
+              $this->set_babysession($array['baby_id'], $array['birthday'], $array['babyname'] );
               redirect('auth/member');
         }
         $this->_footer();
@@ -194,6 +196,14 @@ log_message('debug','register 시작');
           $this-> _footer();
       }
 
+
+      function set_babysession($baby_id, $babybirthday, $babyname){
+        $this->session->set_userdata('baby_id', $baby_id);
+        $birthday = '20' .substr($babybirthday, 0,2) .'년' .substr($babybirthday, 2,2) .'월' .substr($babybirthday, 4,6) .'일';
+        log_message($birthday);
+        $this->session->set_userdata('birthday', $birthday);
+        $this->session->set_userdata('babyname', $babyname);
+      }
 
 
 

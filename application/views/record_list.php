@@ -1,11 +1,11 @@
 
 
  <div class="main xpull">
-    <a href="<?php echo base_url("report")?>" type="button" role="button" class="btn btn-warning btn-lg pull-left">보고서</a>
-    <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a>
-
+    <a href="<?=base_url("report")?>" type="button" role="button" class="btn btn-warning btn-lg pull-left">보고서</a>
+    <!-- <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a> -->
+    <button  class="btn btn-primary btn-lg pull-right" type='button' id='record' name='record'>기록하기</button>
   <div>
-    <table class="table" id="record_list" data-row-style="rowStyle"></table>
+    <table class="table table-no-bordered" id="record_list" data-row-style="rowStyle"></table>
   </div>
 </div>
 
@@ -13,7 +13,7 @@
 
 
 <script>
-  $( function(){
+  // $( function(){
 
         // $(window).resize(function () {
         //    $(document).ready(function() {
@@ -82,15 +82,46 @@
 
         function rowStyle(row, index) {
 
-          console.log(row);
             var classes = ['active', 'success', 'info', 'warning', 'danger'];
 
-            if (index % 2 === 0 && index / 2 < classes.length) {
-                return {
-                    classes: classes[index / 2]
+            var str = row.record_date;
+            str = str.substr(str.length - 2, 2);
+            console.log(str);
+            return {
+                    classes: classes[str % 5]
                 };
-            }
-            return {};
         }
-});
+
+        // function rowStyle(row, index) {
+        //
+        //     var classes = ['active', 'success', 'info', 'warning', 'danger'];
+        //     if (index % 2 === 0 && index / 2 < classes.length) {
+        //         return {
+        //             classes: classes[index / 2]
+        //         };
+        //     }
+        //     return {};
+        // }
+
+
+        $('#record').on('click', function(){
+          if("<?=$this->session->userdata('baby_id')?>"){   //값이 있으면 true
+            location.href='<?=base_url("record")?>';
+          }else{
+            popup_alert('아이를 등록 후 기록가능합니다.');
+            //location.href='<?=base_url("auth/member")?>';
+            $.confirm({
+                  title: '아기등록',
+                  content: '아이를 등록 후 기록가능합니다.',
+                  buttons: {
+                      아이등록하러가기: function () {
+                        location.href='<?=base_url("auth/member")?>';
+                      }
+                  }
+              });
+
+          }
+
+        })
+// });
 </script>

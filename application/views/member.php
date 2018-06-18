@@ -4,21 +4,11 @@
     <div class="main">
       <div class="container tim-container">
         <div class="form-group">
-           <label for="exampleInputEmail1">아이디</label>
            <input type="email" class="form-control input-lg" id="email" name="email" value="<?=$userinfo->email?>"  readonly>
          </div>
          <div class="form-group">
-            <label for="exampleInputEmail1">닉네임</label><?php echo form_error('nickname'); ?>
+            <?php echo form_error('nickname'); ?>
             <input type="text" style = "ime-mode : active" class="form-control input-lg" id="nickname" name="nickname" value="<?=$userinfo->nickname?>">
-          </div>
-
-          <div class="row">
-              <div class="col-md-4 col-xs-4">
-                  <label for="exampleInputPassword1">비밀번호</label>
-              </div>
-              <div class="col-md-4 col-xs-4">
-                  <label for="re_password">비밀번호 확인</label>
-              </div>
           </div>
           <div class="form-group row">
               <div class="col-md-4 col-xs-4">
@@ -62,15 +52,26 @@
                 <label class="control-label">아기이름</label>
               </div>
               <div class="col-md-4 col-xs-4">
-                <label class="control-label" for="nickname">아기생년월일</label>
+                <label class="control-label">아기생년월일</label>
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <label class="control-label">성별</label>
               </div>
             </div>
             <div class="form-group row">
               <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg" type="text" style = "ime-mode : active" id="babyname" name="babyname" placeholder="아기이름"  readonly value="<?=$userinfo->babyname?>" >
+                <input class="form-control input-lg babyinfo" type="text" style = "ime-mode : active" id="babyname" name="babyname" placeholder="아기이름"  readonly value="<?=$userinfo->babyname?>" >
               </div>
               <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg" type="text" id="birthday" name="birthday"  placeholder="생년월일(6자리)" value="<?=$userinfo->birthday?>" readonly>
+                <input class="form-control input-lg babyinfo" type="text" id="birthday" name="birthday"  placeholder="생년월일" value="<?=$userinfo->birthday?>" readonly>
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <!-- <select class="form-control input-lg" type="text" id="sex" name="sex"  placeholder="성별" value="<?=$userinfo->sex?>" readonly> -->
+                <select class="form-control input-lg babyinfo" id="sex" name="sex" disabled required>
+                  <option>성별</option>
+                  <option value="1">남</option>
+                  <option value="2">여</option>
+                </select>
               </div>
             </div>
             <div class="row">
@@ -80,13 +81,19 @@
               <div class="col-md-4 col-xs-4">
                 <label class="control-label">엄마이름</label>
               </div>
+              <div class="col-md-4 col-xs-4">
+                <label class="control-label">보호자ID</label>
+              </div>
             </div>
             <div class="form-group row">
               <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg" type="text" style = "ime-mode : active" id="father" name="father" placeholder="아빠이름"  readonly value="<?=$userinfo->father?>" >
+                <input class="form-control input-lg babyinfo" type="text" style = "ime-mode : active" id="father" name="father" placeholder="아빠이름"  readonly value="<?=$userinfo->father?>" >
               </div>
               <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg" type="text" id="mother" name="mother"  placeholder="엄마이름" value="<?=$userinfo->mother?>" readonly>
+                <input class="form-control input-lg babyinfo" type="text" id="mother" name="mother"  placeholder="엄마이름" value="<?=$userinfo->mother?>" readonly>
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <input class="form-control input-lg" type="text" id="owner" name="owner"  placeholder="보호자" value="<?=$userinfo->owner?>" readonly>
               </div>
             </div>
 
@@ -99,12 +106,12 @@
           <?php }?>
             <div>
               <input type="hidden" id="baby_id" name="baby_id"  value="<?=$userinfo->baby_id?>"/>
-              <input type="hidden" id="owner" name="owner"  value="<?=$userinfo->owner?>"/>
+              <!-- <input type="hidden" id="owner" name="owner"  value="<?=$userinfo->owner?>"/> -->
             </div>
 
 
 
-                <!-- 우리아기찾기 Modal -->
+                <!-- 우리아기찾기 Modal start -->
                 <div class="modal fade" id="findbabyModal" tabindex="-1" role="dialog" aria-labelledby="findbabyModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -122,7 +129,6 @@
                           <div class="col-md-4 col-xs-4">
                             <label>엄마이름</label>
                           </div>
-
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-4">
@@ -131,8 +137,10 @@
                           <div class="col-md-4 col-xs-4">
                             <input type="text" class="form-control input-lg" id="findmother" name="findmother">
                           </div>
+                          <div class="col-md-4 col-xs-4">
+                            <input type="button" class="btn btn-primary pull-right" name="search" id="search" value="검색">
+                          </div>
                         </div>
-                        <input type="button" class="btn btn-primary pull-right" name="search" id="search" value="검색">
                       </div>
                       <div class="modal-footer">
                         <div>
@@ -155,30 +163,31 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div class="modal-body">
+                      <div class="modal-body essential">
                         <div class="row">
                           <div class="col-md-4 col-xs-4">
                             <label>아기이름</label>
                           </div>
-                          <div class="col-md-6 col-xs-6">
-                            <label>아기생년월일(6자리)</label>
+                          <div class="col-md-4 col-xs-4">
+                            <label>생년월일(6자리)</label>
+                          </div>
+                          <div class="col-md-4 col-xs-4">
+                            <label>성별</label>
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-4">
-                            <input type="text" class="form-control input-lg" id="newbabyname" name="newbabyname">
+                            <input type="text" class="form-control input-lg essential" id="newbabyname" name="newbabyname" required>
                           </div>
                           <div class="col-md-4 col-xs-4">
-                            <input type="text" class="form-control input-lg" id="newbirthday" name="newbirthday">
+                            <input type="text" class="form-control input-lg essential" id="newbirthday" name="newbirthday" required>
                           </div>
-                          <!--Radio group-->
-                          <div class="form-check col-md-4 col-xs-4">
-                              <input class="form-check-input" name="group100" type="radio" id="girl">
-                              <label class="form-check-label" for="girl">여자</label>
-                          </div>
-                          <div class="form-check col-md-4 col-xs-4">
-                              <input class="form-check-input" name="group100" type="radio" id="boy" checked>
-                              <label class="form-check-label" for="boy">남자</label>
+                          <div class="col-md-4 col-xs-4">
+                              <select class="form-control input-lg essential" id="newsex" name="newsex" required>
+                                <option>성별</option>
+                                <option value="1">남</option>
+                                <option value="2">여</option>
+                              </select>
                           </div>
                         </div>
                         <div class="row">
@@ -191,10 +200,10 @@
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-4">
-                            <input type="text" class="form-control input-lg" id="newfather" name="newfather">
+                            <input type="text" class="form-control input-lg essential" id="newfather" name="newfather" required>
                           </div>
                           <div class="col-md-4 col-xs-4">
-                            <input type="text" class="form-control input-lg" id="newmother" name="newmother">
+                            <input type="text" class="form-control input-lg essential" id="newmother" name="newmother" required>
                           </div>
                         </div>
                       </div>
@@ -214,7 +223,7 @@
                 </div>
                 <div>
                   <table class="table" id="follower_list" data-row-style="rowStyle"></table>
-                </div>              
+                </div>
             <?php } ?>
           </div>
         </div>
@@ -228,7 +237,12 @@ $( function(){
 
 		function init(){
 
-<?php if($userinfo->email = $userinfo->owner){   //우리아기 책임자이면 ?>
+// value 값으로 선택
+      $("#sex").val("<?=$userinfo->sex?>").prop("selected", true);
+<?php if($userinfo->email == $userinfo->owner){   //우리아기 보호자이면 ?>
+      $('.babyinfo').prop('readonly', false);
+      $('.babyinfo').attr('disabled', false);
+
       var url = '<?=base_url("baby/follower_list")?>';
       var data = $('#form_baby').serialize();
       var callBack = reloadFollower;
@@ -289,12 +303,13 @@ $( function(){
                             console.log(data);
                             ajaxExecute(url, data, callBack, errorMsg);
                             $('#findbabyModal').modal('hide')
-                            $.alert('우리아기('+row.babyname  +')로 등록되었습니다.".');
+                            reload('우리아기('+row.babyname  +')로 등록되었습니다.".')
+                            // $.alert('우리아기('+row.babyname  +')로 등록되었습니다.".');
                         },
                         아니요: {
                             text: '아니요', // With spaces and symbols
                             action: function () {
-                                $('#findbabyModal').modal('hide')
+                                // $('#findbabyModal').modal('hide')
                             }
                         }
                     }
@@ -318,9 +333,12 @@ $( function(){
         }]
       });
 
-      //아기등록 검색
+      //아기등록
       $('#registerbaby').on("click", function(e){
-            var url = '<?=base_url("baby/register")?>';
+
+        fncInputSelectReqiredCheck('newbabyModal');
+
+            var url = '<?=base_url("baby/registerBaby")?>';
             var data = $('#form_baby').serialize();
             console.log(data);
             var callBack =  registerbaby;
@@ -330,15 +348,18 @@ $( function(){
                   content: '우리아기로 등록하시겠습니까?',
                   buttons: {
                       예: function () {
-                          $.alert('우리아기로 등록되었습니다.".');
+                          // $.alert('우리아기로 등록되었습니다.".');
+
                       //   url, data, callBack, errorMsg
                          ajaxExecute(url, data, callBack, errorMsg);
+                         $('#newbabyModal').modal('hide');
+                         reload('우리아기로 등록되었습니다.')
 
                       },
                       아니요: {
                           text: '아니요', // With spaces and symbols
                           action: function () {
-                              $('#newbabyModal').modal('hide')
+                              // $('#newbabyModal').modal('hide')
                           }
                       }
                   }
@@ -353,6 +374,7 @@ $( function(){
           $('#father').val(babyinfo.father);
           $('#babyname').val(babyinfo.babyname);
           $('#birthday').val(babyinfo.birthday);
+          $("#sex").val(babyinfo.sex).prop("selected", true);
           $('#baby_id').val(babyinfo.baby_id);
           $('#newbabyModal').modal('hide')
       }
@@ -367,6 +389,7 @@ $( function(){
     //   url, data, callBack, errorMsg
        ajaxExecute(url, data, callBack, errorMsg);
 
+      popup_alert("회원정보가 수정되었습니다.")
     });
 
 
@@ -378,12 +401,50 @@ $( function(){
       var errorMsg = "아기정보수정";
     //   url, data, callBack, errorMsg
        ajaxExecute(url, data, callBack, errorMsg);
+       popup_alert("아기정보가 수정되었습니다.")
     });
 
     function reload(message){
-      alert(message);
+      popup_alert(message);
       location.href="<?php echo base_url("auth/member")?>";
     }
+
+
+       /**
+            * 입력 항목의 필수 값을 체크
+            * @param argObjId : 체크할 최상위 element id
+            * @returns {boolean}
+            */
+      function fncInputSelectReqiredCheck(argObjId){
+            var varRetBoolean = true;
+            $('#'+argObjId).find('div').each(function(){
+                var varThClassId = $(this).attr('class');
+                // if(varThClassId !== undefined && varThClassId === 'essential'){
+                if(varThClassId !== undefined && varThClassId.match('essential')){
+                    var varInput = $(this).next().find('input');
+                    if(varInput !== undefined && varInput.attr('type') === 'text'){
+                        if(varInput.val().replace(/(^\s*)|(\s*$)/gi, '') === ''){
+                            popup_alert($(this).text() + '은(는) 필수 입력항목입니다.');
+                            varInput.val('');
+                            varInput.focus();
+                            varRetBoolean = false;
+                            return false;
+                        }
+
+                    }
+                    var varSelect = $(this).next().find('select');
+                    if(varSelect !== undefined && varSelect.val() === ''){
+                        popup_alert($(this).text() + '은(는) 필수 입력항목입니다.');
+                        varInput.focus();
+                        varRetBoolean = false;
+                        return false;
+                    }
+                }
+
+            });
+            return varRetBoolean;
+        }
+
 
 <?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
     var data = <?=$follower_list?>
@@ -483,4 +544,5 @@ $( function(){
          }
 
          <?php }?>
+
     </script>

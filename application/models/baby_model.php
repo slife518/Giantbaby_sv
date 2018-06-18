@@ -37,7 +37,7 @@ class Baby_model extends CI_Model {
       return $result;
     }
 
-    function registerbaby($option){
+    function registerBaby($option){
         $this->db->insert('baby', $option);
         $baby_id = $this->db->insert_id('baby_id');
         $relationinfo = array('baby_id'=>$baby_id, 'email'=>$option['owner'], 'approval'=>'1'); // 1 : 승인
