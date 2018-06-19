@@ -1,25 +1,118 @@
 
-
+<form id='form'>
  <div class="main xpull">
+    <button  class="btn btn-warning btn-lg pull-right" type='button' id='record' name='record'>기록하기</button>
     <a href="<?=base_url("report")?>" type="button" role="button" class="btn btn-warning btn-lg pull-left">보고서</a>
-    <!-- <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a> -->
-    <button  class="btn btn-primary btn-lg pull-right" type='button' id='record' name='record'>기록하기</button>
+   	<canvas id="canvas" width="400" height="400"></canvas>
+    <div class="row">
+        <div class="col-md-offset-1 col-md-2 col-xs-offset-1 col-xs-5">
+            <div>
+              <input type="hidden" class="form-control text-center input-lg" id="from_date" name="from_date" readonly/>
+            </div>
+        </div>
+        <div class="col-md-2 col-xs-5">
+            <div>
+              <input type="hidden" class="form-control text-center input-lg" id="to_date" name="to_date" readonly/>
+            </div>
+        </div>
+    </div>
+   <!-- <a href="<?php echo base_url("record")?>" type="button" role="button" class="btn btn-primary btn-lg pull-right">기록하기</a> -->
   <div>
     <table class="table table-no-bordered" id="record_list" data-row-style="rowStyle"></table>
   </div>
 </div>
+</form>
 
+<style>
+	canvas {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
 
-
+<script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 
 <script>
-  // $( function(){
+  $( function(){
 
-        // $(window).resize(function () {
-        //    $(document).ready(function() {
-        //               $('#record_list').bootstrapTable('resetView');
-        //           });
-        // });
+        init();
+
+        function init(){
+          var today = new Date();
+          var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+pad(today.getDate());
+          $('#to_date').val(date);
+
+          var fromday = new Date();
+          var date2 = fromday.getFullYear()+'-'+pad((fromday.getMonth()))+'-'+pad(fromday.getDate());
+          $('#from_date').val(date2);
+
+          var url = '<?=base_url("report/reportInfo")?>';
+          var data = $('#form').serialize();
+          console.log(data);
+          var callBack =  search;
+          var errorMsg = "그래프생성";
+
+          ajaxExecute(url, data, callBack, errorMsg);
+
+        }
+
+
+				function search(response){
+						//http://www.chartjs.org
+            var array_labels = response["record_date"];
+            var array_data1 = response["milk"];
+            var array_data2 = response["rice"];
+            var array_data3 =  response["sum"];
+
+						 var array_date = array_labels;
+						 var ChartData = {
+							 //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+							 labels: array_date,
+							 datasets: [{
+								 label: '분유',
+							//	 borderColor: 'rgb(255, 99, 132)',
+								 backgroundColor: 'rgba(255, 159, 64, 0.2)',
+
+								 fill: false,
+								 data: array_data1,
+								 // yAxisID: 'y-axis-1',
+							 }, {
+								 label: '이유식',
+							//	 borderColor:'rgb(75, 192, 192)',
+								 // backgroundColor: 'blue',
+								 backgroundColor: 'rgba(75, 192, 192, 0.2)',
+								 fill: false,
+								 data:array_data2,
+								 // yAxisID: 'y-axis-1'
+							 }]
+						 };
+
+							var ctx = document.getElementById('canvas').getContext('2d');
+							window.myBar  =  new Chart(ctx, {
+                type: 'bar',
+								data: ChartData,
+								options: {
+									responsive: true,
+									hoverMode: 'index',
+									stacked: true,
+									title: {
+										display: true,
+										text: '최근 식사량'
+									},
+									scales: {
+                    xAxes: [{
+        							stacked: true,
+        						}],
+        						yAxes: [{
+        							stacked: true
+        						}]
+									}
+								}
+							});
+				}
+
         $('[data-toggle="popover"]').popover();
 
         var data = <?=$record?>
@@ -64,13 +157,6 @@
           }, {
               field: 'nickname',
               title: '작성자'
-              // 'class': 'w500'
-              // 'class': 'col-xs-2 .col-md-3'
-          // }, {
-          //     field: 'description',
-          //     title: '남길 글',
-          //     align: 'left',
-          //     'class': 'w300'
 
           }, {
               field: 'id',
@@ -80,28 +166,6 @@
         });
 
 
-        function rowStyle(row, index) {
-
-            var classes = ['active', 'success', 'info', 'warning', 'danger'];
-
-            var str = row.record_date;
-            str = str.substr(str.length - 2, 2);
-            console.log(str);
-            return {
-                    classes: classes[str % 5]
-                };
-        }
-
-        // function rowStyle(row, index) {
-        //
-        //     var classes = ['active', 'success', 'info', 'warning', 'danger'];
-        //     if (index % 2 === 0 && index / 2 < classes.length) {
-        //         return {
-        //             classes: classes[index / 2]
-        //         };
-        //     }
-        //     return {};
-        // }
 
 
         $('#record').on('click', function(){
@@ -123,5 +187,17 @@
           }
 
         })
-// });
+});
+
+function rowStyle(row, index) {
+
+    var classes = ['active', 'success', 'info', 'warning', 'danger'];
+
+    var str = row.record_date;
+    str = str.substr(str.length - 2, 2);
+    console.log(str);
+    return {
+            classes: classes[str % 5]
+        };
+}
 </script>

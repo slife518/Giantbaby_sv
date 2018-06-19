@@ -37,14 +37,6 @@
 
 				function init(){
 
-					// var record_date = <?=json_encode($record_date)?>;
-					// var milk = [<?=implode(",",$rice)?>];
-					// var rice =  [<?=implode(",",$rice)?>];
-					// var sum =  [<?=implode(",",$sum)?>];
-					//
-					// search( record_date, milk, rice, sum );
-
-
 					var today = new Date();
 					var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+pad(today.getDate());
 					$('#to_date').val(date);

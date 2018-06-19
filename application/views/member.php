@@ -32,7 +32,7 @@
        <div class="container bs-docs-container">
          <div class="row">
              <div class="bs-docs-section">
-               <h1 id="js-overview" class="page-header">Baby info</h1>
+               <h1 id="js-overview" class="page-header">우리아기정보</h1>
              </div>
          </div>
          <div class="row">
@@ -131,11 +131,11 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-4 col-xs-4">
-                            <input type="text" class="form-control input-lg" id="findbabyname" name="findbabyname">
+                          <div class="col-md-4 col-xs-4 essential">
+                            <input type="text" class="form-control input-lg" id="findbabyname" name="findbabyname" placeholder="아기이름" text="아기이름">
                           </div>
-                          <div class="col-md-4 col-xs-4">
-                            <input type="text" class="form-control input-lg" id="findmother" name="findmother">
+                          <div class="col-md-4 col-xs-4 essential">
+                            <input type="text" class="form-control input-lg" id="findmother" name="findmother" placeholder="엄마이름" text="엄마이름">
                           </div>
                           <div class="col-md-4 col-xs-4">
                             <input type="button" class="btn btn-primary pull-right" name="search" id="search" value="검색">
@@ -163,7 +163,7 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div class="modal-body essential">
+                      <div class="modal-body">
                         <div class="row">
                           <div class="col-md-4 col-xs-4">
                             <label>아기이름</label>
@@ -176,15 +176,15 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-4 col-xs-4">
-                            <input type="text" class="form-control input-lg essential" id="newbabyname" name="newbabyname" required>
+                          <div class="col-md-4 col-xs-4 essential">
+                            <input type="text" class="form-control input-lg" id="newbabyname" name="newbabyname" text='아기이름'>
                           </div>
-                          <div class="col-md-4 col-xs-4">
-                            <input type="text" class="form-control input-lg essential" id="newbirthday" name="newbirthday" required>
+                          <div class="col-md-4 col-xs-4 essential">
+                            <input type="text" class="form-control input-lg" id="newbirthday" name="newbirthday" text='아기생년월일'>
                           </div>
-                          <div class="col-md-4 col-xs-4">
-                              <select class="form-control input-lg essential" id="newsex" name="newsex" required>
-                                <option>성별</option>
+                          <div class="col-md-4 col-xs-4" essential>
+                              <select class="form-control input-lg" id="newsex" name="newsex" text='성별'>
+                                <option value="">성별</option>
                                 <option value="1">남</option>
                                 <option value="2">여</option>
                               </select>
@@ -199,11 +199,11 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-4 col-xs-4">
-                            <input type="text" class="form-control input-lg essential" id="newfather" name="newfather" required>
+                          <div class="col-md-4 col-xs-4 essential">
+                            <input type="text" class="form-control input-lg" id="newfather" name="newfather" text='아빠이름'>
                           </div>
-                          <div class="col-md-4 col-xs-4">
-                            <input type="text" class="form-control input-lg essential" id="newmother" name="newmother" required>
+                          <div class="col-md-4 col-xs-4 essential">
+                            <input type="text" class="form-control input-lg" id="newmother" name="newmother" text='엄마이름'>
                           </div>
                         </div>
                       </div>
@@ -260,6 +260,8 @@ $( function(){
 
 //아기찾기 검색
     $('#search').on("click", function(e){
+      if (!fnReqiredCheck('findbabyModal')) return;
+
       var url = '<?=base_url("baby/findbaby")?>';
       var data = $('#form_baby').serialize();
       console.log(data);
@@ -279,6 +281,7 @@ $( function(){
       $('#baby_list').bootstrapTable({
         // data: data, //데이터    '{"baby_id":"1","babyname":"조민준","birthday":"180801","mother":"배윤지","father":"조정국"}',
         // striped: true,
+
         pagination: true,
         pageSize: 10,
         paginationVAlign :'bottom',
@@ -335,8 +338,8 @@ $( function(){
 
       //아기등록
       $('#registerbaby').on("click", function(e){
+        if (!fnReqiredCheck('newbabyModal')) return;
 
-        fncInputSelectReqiredCheck('newbabyModal');
 
             var url = '<?=base_url("baby/registerBaby")?>';
             var data = $('#form_baby').serialize();
@@ -345,6 +348,7 @@ $( function(){
             var errorMsg = "아기등록";
 
             $.confirm({
+                  title: '아기등록',
                   content: '우리아기로 등록하시겠습니까?',
                   buttons: {
                       예: function () {
@@ -410,42 +414,6 @@ $( function(){
     }
 
 
-       /**
-            * 입력 항목의 필수 값을 체크
-            * @param argObjId : 체크할 최상위 element id
-            * @returns {boolean}
-            */
-      function fncInputSelectReqiredCheck(argObjId){
-            var varRetBoolean = true;
-            $('#'+argObjId).find('div').each(function(){
-                var varThClassId = $(this).attr('class');
-                // if(varThClassId !== undefined && varThClassId === 'essential'){
-                if(varThClassId !== undefined && varThClassId.match('essential')){
-                    var varInput = $(this).next().find('input');
-                    if(varInput !== undefined && varInput.attr('type') === 'text'){
-                        if(varInput.val().replace(/(^\s*)|(\s*$)/gi, '') === ''){
-                            popup_alert($(this).text() + '은(는) 필수 입력항목입니다.');
-                            varInput.val('');
-                            varInput.focus();
-                            varRetBoolean = false;
-                            return false;
-                        }
-
-                    }
-                    var varSelect = $(this).next().find('select');
-                    if(varSelect !== undefined && varSelect.val() === ''){
-                        popup_alert($(this).text() + '은(는) 필수 입력항목입니다.');
-                        varInput.focus();
-                        varRetBoolean = false;
-                        return false;
-                    }
-                }
-
-            });
-            return varRetBoolean;
-        }
-
-
 <?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
     var data = <?=$follower_list?>
     // follower_list
@@ -461,10 +429,10 @@ $( function(){
       clickToSelect: true,
       // showRefresh:true,
       onClickRow: function (row, element, field) {
-            $('#babyname').val(row.babyname);
-            $('#birthday').val(row.birthday);
-            $('#baby_id').val(row.baby_id);
-            $('#findbabyModal').modal('hide')
+            // $('#babyname').val(row.babyname);
+            // $('#birthday').val(row.birthday);
+            // $('#baby_id').val(row.baby_id);
+            // $('#findbabyModal').modal('hide')
          },
       columns: [{
           field: 'email',
