@@ -6,8 +6,10 @@
             	<link rel="icon" type="image/png" href="/etc/assets/img/favicon.png">
             	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
             	<title>기록하기</title>
-              <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
-
+              <!-- <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' /> -->
+              <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1"> -->
+              <meta content="yes" name="apple-mobile-web-app-capable" />
+              <meta content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no" name="viewport" />
               <!-- CSS -->
               <!-- <link href="dist/css/fs-modal.min.css" rel="stylesheet"> -->
               <link rel="stylesheet" href="/etc/assets/css/demo.css"/>
@@ -46,6 +48,10 @@
             </head>
             <body>
                   <div class="container">
+                    <!-- <div class="blurred-container">
+                        <div class="img-src" style="background-image: url('/etc/assets/img/bg.jpg')"></div>
+                    </div> -->
+                      <!-- <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation"> -->
                       <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation">
                         <div class="container">
                           <!-- Brand and toggle get grouped for better mobile display -->

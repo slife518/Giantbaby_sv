@@ -16,6 +16,19 @@ body{
     font-family: "돋움", dotum, "굴림", cursive;
   } */
 
+  /* 모바일 수평 스크롤 금지 */
+html, body {
+max-width: 100%;
+overflow-x: hidden;
+}
+
+body {
+overflow: hidden;
+width: 100%;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
 
 input[type=text],
 input[type=number],

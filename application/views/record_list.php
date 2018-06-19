@@ -1,6 +1,6 @@
 
 <form id='form'>
- <div class="main xpull">
+ <div class="main xpull container-fluid">
     <button  class="btn btn-warning btn-lg pull-right" type='button' id='record' name='record'>기록하기</button>
     <a href="<?=base_url("report")?>" type="button" role="button" class="btn btn-warning btn-lg pull-left">보고서</a>
    	<canvas id="canvas" width="400" height="400"></canvas>

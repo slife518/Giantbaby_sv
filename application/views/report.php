@@ -6,7 +6,7 @@
 	}
 	</style>
 <form>
-	<div class="main xpull">
+	<div class="main xpull container-fluid">
 	<canvas id="canvas" width="400" height="400"></canvas>
 	<div class="row">
 			<div class="col-md-offset-1 col-md-2 col-xs-offset-1 col-xs-5">
