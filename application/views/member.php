@@ -32,7 +32,7 @@
        <!-- <div class="container bs-docs-container"> -->
          <div class="row">
              <div class="bs-docs-section">
-               <h1 id="js-overview" class="page-header"> 아기정보</h1>
+               <h1 id="js-overview" class="page-header">아기정보</h1>
              </div>
          </div>
          <!-- <div class="row"> -->
