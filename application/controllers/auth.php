@@ -115,7 +115,7 @@ class Auth extends My_Controller {
         $userinfo = $this->user_model->get($this->session->userdata('email'));
         log_message('debug',print_r($userinfo,TRUE));
 
-        $this->_head_notop();
+        $this->_head();
         $this->load->view('member', array('userinfo' => $userinfo));
         $this->_footer();
       }

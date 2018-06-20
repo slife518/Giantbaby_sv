@@ -1,8 +1,12 @@
 
     <!-- <form action="/index.php/auth/update" method="post"> -->
 <!-- <div class="main"> -->
+<div class="main">
+  <div class="container tim-container">
   <form id="form_member" method="post">
-      <div class="container tim-container">
+        <div class="row">
+          <a href="<?=base_url("record/record_list")?>" type="button" role="button" class="btn btn-default pull-right"><i class="fas fa-chart-bar"></i> 기록보기</a>
+        </div>
         <div class="form-group">
            <input type="email" class="form-control input-lg" id="email" name="email" value="<?=$userinfo->email?>"  readonly>
          </div>
@@ -25,10 +29,9 @@
                 <button type='button' id="save" name="save" class="btn btn-default"><i class="fas fa-save"></i> 회원정보수정</button>
             </div>
           </div>
-       </div>
  </form>
  <form id="form_baby" method="post">
-   <div class="container tim-container">
+   <!-- <div class="container tim-container"> -->
        <!-- <div class="container bs-docs-container"> -->
          <div class="row">
              <div class="bs-docs-section">
@@ -40,10 +43,10 @@
       <?php if(empty($userinfo->babyname)){   //등록된 아기가 없으면  ?>
             <div class="row">
               <div class="col-md-6 col-xs-6">
-                <input type="button" name="newbaby" id="newbaby" class="btn btn-warning"  data-toggle="modal" data-target="#newbabyModal" value="우리아기등록">
+                <button type='button' name="newbaby" id="newbaby" class="btn btn-default"  data-toggle="modal" data-target="#newbabyModal"><i class="fas fa-registered"></i> 아기등록</button>
               </div>
               <div class="col-md-6 col-xs-6">
-                <input type="button" name="findbaby" id="findbaby" class="btn btn-warning"  data-toggle="modal" data-target="#findbabyModal" value="우리아기찾기">
+                <button type='button' name="findbaby" id="findbaby" class="btn btn-default"  data-toggle="modal" data-target="#findbabyModal"><i class="fas fa-search"></i> 아기찾기</button>
               </div>
             </div>
       <?php }else{?>
@@ -109,7 +112,7 @@
               <!-- <input type="hidden" id="owner" name="owner"  value="<?=$userinfo->owner?>"/> -->
             </div>
 
-      </div>
+
                 <!-- 우리아기찾기 Modal start -->
                 <div class="modal fade" id="findbabyModal" tabindex="-1" role="dialog" aria-labelledby="findbabyModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -137,7 +140,7 @@
                             <input type="text" class="form-control input-lg" id="findmother" name="findmother" placeholder="엄마이름" text="엄마이름">
                           </div>
                           <div class="col-md-4 col-xs-4">
-                            <input type="button" class="btn btn-primary pull-right" name="search" id="search" value="검색">
+                            <button type='button' class="btn btn-default pull-right" name="search" id="search"><i class="fas fa-search"></i> 검색</button>
                           </div>
                         </div>
                       </div>
@@ -207,7 +210,7 @@
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <input type="button" class="btn btn-primary pull-right" name="registerbaby" id="registerbaby" value="아기등록">
+                        <button type='button' class="btn btn-default pull-right" name="registerbaby" id="registerbaby"><i class="fas fa-registered"></i> 아기등록</button>
                       </div>
                     </div>
                   </div>
@@ -226,10 +229,10 @@
             </form>
           </div>
         </div>
-      </div>
-    </div>
 <script>
 $( function(){
+
+
 
 		init();
 
@@ -261,8 +264,9 @@ $( function(){
       if (!fnReqiredCheck('findbabyModal')) return;
 
       var url = '<?=base_url("baby/findbaby")?>';
-      var data = $('#form_baby').serialize();
-      console.log(data);
+      var data = {};
+      data.findbabyname = $('#findbabyname').val();
+      data.findmother = $('#findmother').val();
       var callBack =  search;
       var errorMsg = "아기찾기검색";
     //   url, data, callBack, errorMsg

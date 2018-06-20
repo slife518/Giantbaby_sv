@@ -7,7 +7,7 @@
 	</style>
 <form>
 	<div class="main xpull container-fluid">
-	<button  class="btn btn-default pull-right" type='button' id='record' name='record'><i class="fas fa-edit"></i> 기록하기</button>
+	<button type='button' class="btn btn-default pull-right" type='button' id='record' name='record'><i class="fas fa-edit"></i> 기록하기</button>
 	<canvas id="canvas" width="400" height="400"></canvas>
 	<div class="row">
 			<div class="col-md-offset-1 col-md-2 col-xs-offset-1 col-xs-5">
@@ -24,7 +24,7 @@
 	<p>
 	<div class="row">
 			<div class="col-md-offset-4 col-md-3 col-xs-offset-4 col-xs-3">
-				<button class="btn btn-default btn-lg"name="search" id="search"><i class="fas fa-search"></i> 조회하기</button>
+				<button type='button' class="btn btn-default btn-lg"name="search" id="search"><i class="fas fa-search"></i> 조회하기</button>
 			</div>
 		</div></p>
 	</div>

@@ -15,7 +15,7 @@
 				 url: url,
 				 method: 'post',
 				 data: data,
-				 //dataType: 'json',
+				 // dataType: 'object',
 				 success: function(response){
 							 var data = JSON.parse(unescape(replaceAll(response, "\\", "%")));  //유니코드를 한글로 변경
                console.log(data);
