@@ -7,6 +7,7 @@
 	</style>
 <form>
 	<div class="main xpull container-fluid">
+	<button  class="btn btn-default pull-right" type='button' id='record' name='record'><i class="fas fa-edit"></i> 기록하기</button>
 	<canvas id="canvas" width="400" height="400"></canvas>
 	<div class="row">
 			<div class="col-md-offset-1 col-md-2 col-xs-offset-1 col-xs-5">
@@ -23,7 +24,7 @@
 	<p>
 	<div class="row">
 			<div class="col-md-offset-4 col-md-3 col-xs-offset-4 col-xs-3">
-				<input type="button" class="btn btn-warning btn-lg" value="조회하기" name="search" id="search"/>
+				<button class="btn btn-default btn-lg"name="search" id="search"><i class="fas fa-search"></i> 조회하기</button>
 			</div>
 		</div></p>
 	</div>
@@ -52,6 +53,7 @@
                         format: 'yyyy-mm-dd',
                         startView:'month',
                         minView:'month',
+												pickerPosition: "top-right",
                         todayHighlight:true,
                         ignoreReadonly: true,
                         autoclose:true,
@@ -62,6 +64,7 @@
                         format: 'yyyy-mm-dd',
                         startView:'month',
                         minView:'month',
+												pickerPosition: "top-left",
                         todayHighlight:true,
                         ignoreReadonly: true,
                         autoclose:true,
@@ -76,22 +79,22 @@
 							 labels: array_date,
 							 datasets: [{
 								 label: '분유',
-								 borderColor: 'Green',
-								 backgroundColor: 'Green',
+								// borderColor: 'Green',
+								 backgroundColor: 'rgba(75, 192, 192, 0.2)',
 								 fill: false,
 								 data: array_data1,
 								 yAxisID: 'y-axis-1',
 							 }, {
 								 label: '이유식',
-								 borderColor: 'blue',
-								 backgroundColor: 'blue',
+								// borderColor: 'blue',
+								 backgroundColor: 'rgba(255, 159, 64, 0.2)',
 								 fill: false,
 									data:array_data2,
 								 yAxisID: 'y-axis-1'
 							 }, {
 								 label: '총량',
-								 borderColor: 'red',
-								 backgroundColor: 'red',
+								// borderColor: 'red',
+								 backgroundColor: 'Green',
 								 fill: false,
 								 data:array_data3,
 								 yAxisID: 'y-axis-1'
@@ -138,6 +141,26 @@
 							 }
 					 });
 				}
+
+				$('#record').on('click', function(){
+					if("<?=$this->session->userdata('baby_id')?>"){   //값이 있으면 true
+						location.href='<?=base_url("record")?>';
+					}else{
+						popup_alert('아이를 등록 후 기록가능합니다.');
+						//location.href='<?=base_url("auth/member")?>';
+						$.confirm({
+									title: '아기등록',
+									content: '아이를 등록 후 기록가능합니다.',
+									buttons: {
+											아이등록하러가기: function () {
+												location.href='<?=base_url("auth/member")?>';
+											}
+									}
+							});
+
+					}
+
+				})
 
 				$('#search').on("click", function(e){
 			     ajaxExecute()

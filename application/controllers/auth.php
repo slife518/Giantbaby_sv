@@ -6,6 +6,7 @@ class Auth extends My_Controller {
           $this->load->database();
           $this->load->model('user_model');
           $this->load->library('form_validation');
+          // $this->load->library('my_form_validation');   //뭔가 설정이 더 필요한 거 같다..
      }
 
      function login()
@@ -71,16 +72,18 @@ class Auth extends My_Controller {
      function register()
      {
          $this->load->model('user_model');
-         $this->_head_nochk();
         // $this->load->library('form_validation');
 
-         $this->form_validation->set_rules('email', 'ID', 'required|is_unique[user.email]');
+         $this->form_validation->set_rules('email', '아이디', 'required|is_unique[user.email]');
          $this->form_validation->set_rules('nickname', '닉네임', 'required|min_length[2]|max_length[20]');
-         $this->form_validation->set_rules('password', '비밀번호', 'required|min_length[3]|max_length[30]|matches[re_password]');
+         $this->form_validation->set_rules('password', '비밀번호', 'required|min_length[4]|max_length[30]|matches[re_password]');
          $this->form_validation->set_rules('re_password', '비밀번호 확인', 'required');
+         $this->form_validation->set_rules('tel', '휴대폰번호', 'required');
 
          if($this->form_validation->run() === false){
+             $this->_head_nochk();
              $this->load->view('register');
+             $this->_footer();
          }else
          {
              if(!function_exists('password_hash'))
@@ -90,19 +93,18 @@ class Auth extends My_Controller {
              }
 
              $hash = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
-             $this->user_model->add(array(
-                 'email'=>$this->input->post('email'),
-                 'password'=>$hash,
-                 'nickname'=>$this->input->post('nickname')
-             ));
-
-log_message('debug', 'eeeeee');
-
+             $data = array(
+                           'email'=>$this->input->post('email'),
+                           'password'=>$hash,
+                           'nickname'=>$this->input->post('nickname'),
+                           'tel'=>$this->input->post('tel')
+                       );
+             log_message('debug', print_r($data,TRUE));
+             $this->user_model->add($data);
              $this->session->set_flashdata('message', '회원가입에 성공했습니다.');
              $this->load->helper('url');
              redirect('record/index');
            }
-        $this->_footer();
       }
 
       function member()
@@ -113,7 +115,7 @@ log_message('debug', 'eeeeee');
         $userinfo = $this->user_model->get($this->session->userdata('email'));
         log_message('debug',print_r($userinfo,TRUE));
 
-        $this->_head();
+        $this->_head_notop();
         $this->load->view('member', array('userinfo' => $userinfo));
         $this->_footer();
       }

@@ -32,10 +32,10 @@
                           <input type="number" id="milk" name="milk" class="form-control text-center input-lg" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
-                            <button type="button" class="btn glyphicon glyphicon-arrow-up btn-primary btn-lg" id="upQuantity">10</button>
+                            <button type="button" class="btn glyphicon glyphicon-arrow-up btn-default btn-lg" id="upQuantity">10</button>
                         </div>
                         <div class="col-md-1 col-xs-2">
-                            <button type="button" class="btn glyphicon glyphicon-arrow-down btn-primary btn-lg" id="downQuantity">10</button>
+                            <button type="button" class="btn glyphicon glyphicon-arrow-down btn-default btn-lg" id="downQuantity">10</button>
                         </div>
                     </div>
                     <div class="row">
@@ -48,10 +48,10 @@
                           <input type="number" id="rice" name="rice" class="form-control text-center input-lg" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
-                            <button type="button" class="btn glyphicon glyphicon-arrow-up btn-primary btn-lg" id="upRiceQuantity">10</button>
+                            <button type="button" class="btn glyphicon glyphicon-arrow-up btn-default btn-lg" id="upRiceQuantity">10</button>
                         </div>
                         <div class="col-md-1 col-xs-2">
-                            <button type="button" class="btn glyphicon glyphicon-arrow-down btn-primary btn-lg" id="downRiceQuantity">10</button>
+                            <button type="button" class="btn glyphicon glyphicon-arrow-down btn-default btn-lg" id="downRiceQuantity">10</button>
                         </div>
                         <div>
                           <input type="hidden" id="id" name="id"  value="<?=$recordinfo->id?>"/>
@@ -65,17 +65,17 @@
                     <div class="row">
                         <div class="col-sm-3" style="text-align:center;">
                           <div class="modal-footer">
-                            <a type='button' href="<?php echo base_url("record/record_list")?>" class="btn btn-lg pull-left btn-warning">기록보기</a>
+                            <a type='button' href="<?php echo base_url("record/record_list")?>" class="btn btn-lg pull-left btn-default"><i class="fas fa-glasses"></i> 기록보기</a>
                           <?php
                           if($recordinfo->id > 0){
                           ?>
-                              <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#exampleModal">삭제</button>
+                              <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt"></i> 삭제</button>
                               <!-- //<a href="<?php echo base_url("record/popup_confirm")?>/<?=$recordinfo->id?>" class="btn btn-default"  data-toggle="modal" data-target="#exampleModal">>삭제</a> -->
-                              <input type="submit" class="btn btn-primary btn-lg" value="수정하기"/>
+                              <button type="submit" class="btn btn-default btn-lg"><i class="fas fa-save"></i> 수정하기</button>
                           <?php
                           }else{
                           ?>
-                            <input type="submit" class="btn btn-primary btn-lg pull-right" value="기록하기"/>
+                            <button type="submit" class="btn btn-default btn-lg pull-right"><i class="fas fa-save"></i> 저장하기</button>
                           <?php
                           }
                           ?>

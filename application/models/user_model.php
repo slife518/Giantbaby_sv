@@ -33,11 +33,12 @@ class User_model extends CI_Model {
 
     function add($option)
     {
-        $this->db->set('email', $option['email']);
-        $this->db->set('password', $option['password']);
-        $this->db->set('nickname', $option['nickname']);
-        $this->db->set('created', 'NOW()', false);
-        $this->db->insert('user', $data);
+        // $this->db->set('email', $option['email']);
+        // $this->db->set('password', $option['password']);
+        // $this->db->set('nickname', $option['nickname']);
+        // $this->db->set('created', 'NOW()', false);
+        $this->db->insert('user', $option);
+        log_message('debug', $this->db->last_query());
         $result = $this->db->insert_id();
         return $result;
     }

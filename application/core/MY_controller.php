@@ -21,13 +21,28 @@ class MY_Controller extends CI_Controller {
 
       $this->load->view('record_head');
     }
+
+    function _head_notop()  // 로그인 상태여부는 체크하고 탑메뉴는 안보인다. 
+    {
+      if(!$this->session->userdata('is_login'))
+      {
+        log_message('debug', '로그인이 되어 있지 않습니다. ');
+        $this->load->helper('url');
+        redirect('/auth/login');
+      }
+
+      $this->load->view('record_head_nobody');
+    }
+
+    function _head_nochk()  //로그인상태여부를 체크하지 않는다. 즉 로그인 하지 않고 조회가능한 화면은 이 헤드를 사용해야 한다.
+    {
+      $this->load->view('record_head_nobody');
+    }
+
+
     function _footer()
     {
       $this->load->view('record_footer');
     }
 
-    function _head_nochk()  //로그인상태여부를 체크하지 않는다. 즉 로그인 하지 않고 조회가능한 화면은 이 헤드를 사용해야 한다.
-    {
-      $this->load->view('record_head');
-    }
 }

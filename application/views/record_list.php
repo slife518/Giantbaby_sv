@@ -1,8 +1,8 @@
 
 <form id='form'>
  <div class="main xpull container-fluid">
-    <button  class="btn btn-warning btn-lg pull-right" type='button' id='record' name='record'>기록하기</button>
-    <a href="<?=base_url("report")?>" type="button" role="button" class="btn btn-warning btn-lg pull-left">보고서</a>
+    <button  class="btn btn-default pull-right" type='button' id='record' name='record'><i class="fas fa-edit"></i> 기록하기</button>
+    <a href="<?=base_url("report")?>" type="button" role="button" class="btn btn-default pull-left"><i class="fas fa-chart-bar"></i> 보고서</a>
    	<canvas id="canvas" width="400" height="400"></canvas>
     <div class="row">
         <div class="col-md-offset-1 col-md-2 col-xs-offset-1 col-xs-5">
