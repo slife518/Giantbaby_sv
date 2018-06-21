@@ -17,9 +17,14 @@
 				 data: data,
 				 // dataType: 'object',
 				 success: function(response){
-							 var data = JSON.parse(unescape(replaceAll(response, "\\", "%")));  //유니코드를 한글로 변경
-               console.log(data);
-							 callBack(data);
+               console.log(response);
+               if(response.length > 0){
+							        var data = JSON.parse(unescape(replaceAll(response, "\\", "%")));  //유니코드를 한글로 변경
+                      console.log(data);
+
+               }
+               callBack(data);
+
 				 },
          error: function(error){
             console.log(errorMsg+"에러가 발생되었습니다");
@@ -45,14 +50,19 @@
 
   function popup_alert(message){
     $.confirm({
-          title: '알려드립니다.',
+          title: '',
           content: message,
           buttons: {
               확인: {
+                text: '확인', // With spaces and symbols
+                keys: ['enter'],
+                action:  function(){
 
+                             }
               }
           }
       });
+
 
   }
 

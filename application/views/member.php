@@ -4,37 +4,46 @@
 <div class="main">
   <div class="container tim-container">
   <form id="form_member" method="post">
-        <div class="row">
-          <a href="<?=base_url("record/record_list")?>" type="button" role="button" class="btn btn-default pull-right"><i class="fas fa-chart-bar"></i> 기록보기</a>
+     <div class="form-group">
+       <input type="email" class="form-control input-lg" id="email" name="email" value="<?=$userinfo->email?>"  readonly>
+     </div>
+     <div class="row">
+       <div class="col-md-6 col-xs-6">
+         <label class="control-label">닉네임</label>
+       </div>
+       <div class="col-md-6 col-xs-6">
+         <label class="control-label">연락처</label>
+       </div>
+     </div>
+     <div class="row form-group">
+        <div class='col-md-6 col-xs-6 essential'>
+          <input type="text" style = "ime-mode : active" class="form-control input-lg" id="nickname" text='닉네임' name="nickname" value="<?=$userinfo->nickname?>">
         </div>
-        <div class="form-group">
-           <input type="email" class="form-control input-lg" id="email" name="email" value="<?=$userinfo->email?>"  readonly>
-         </div>
-         <div class="form-group">
-            <?php echo form_error('nickname'); ?>
-            <input type="text" style = "ime-mode : active" class="form-control input-lg" id="nickname" name="nickname" value="<?=$userinfo->nickname?>">
+        <div class='col-md-6 col-xs-6 essential'>
+          <input type="text" style = "ime-mode : active" class="form-control input-lg" id="tel" text='연락처' name="tel" value="<?=$userinfo->tel?>">
+        </div>
+      </div>
+      <div class="form-group row">
+          <div class="col-md-6 col-xs-6">
+            <?=form_error('password'); ?>
+            <input type="password" class="form-control input-lg" id="password" name="password" placeholder="비밀번호">
           </div>
-          <div class="form-group row">
-              <div class="col-md-4 col-xs-4">
-                <?php echo form_error('password'); ?>
-                <input type="password" class="form-control input-lg" id="password" name="password" placeholder="비밀번호">
-              </div>
-              <div class="col-md-4 col-xs-5">
-                <input type="password" class="form-control input-lg" id="re_password" name="re_password" placeholder="비밀번호 확인">
-              </div>
+          <div class="col-md-6 col-xs-6">
+            <input type="password" class="form-control input-lg" id="re_password" name="re_password" placeholder="비밀번호 확인">
           </div>
+      </div>
 
-          <div class="row">
-            <div class="col-sm-3" style="text-align:center;">
-                <button type='button' id="save" name="save" class="btn btn-default"><i class="fas fa-save"></i> 회원정보수정</button>
-            </div>
-          </div>
+      <div class="row">
+        <div class="col-sm-3" style="text-align:center;">
+            <button type='button' id="memberInfoModi" name="memberinfomodi" class="btn btn-default"><i class="fas fa-save"></i> 회원정보수정</button>
+        </div>
+      </div>
  </form>
  <form id="form_baby" method="post">
    <!-- <div class="container tim-container"> -->
        <!-- <div class="container bs-docs-container"> -->
          <div class="row">
-             <div class="bs-docs-section">
+             <div class="form-group bs-docs-section">
                <h1 id="js-overview" class="page-header">아기정보</h1>
              </div>
          </div>
@@ -62,15 +71,15 @@
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg babyinfo" type="text" style = "ime-mode : active" id="babyname" name="babyname" placeholder="아기이름"  readonly value="<?=$userinfo->babyname?>" >
+              <div class="col-md-4 col-xs-4 essential">
+                <input class="form-control input-lg babyinfo" type="text" style = "ime-mode : active" id="babyname" name="babyname" text='아기이름' placeholder="아기이름"  readonly value="<?=$userinfo->babyname?>" >
               </div>
-              <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg babyinfo" type="text" id="birthday" name="birthday"  placeholder="생년월일" value="<?=$userinfo->birthday?>" readonly>
+              <div class="col-md-4 col-xs-4 essential">
+                <input class="form-control input-lg babyinfo" type="text" id="birthday" name="birthday" text='생년월일' placeholder="생년월일" value="<?=$userinfo->birthday?>" readonly>
               </div>
               <div class="col-md-4 col-xs-4">
                 <!-- <select class="form-control input-lg" type="text" id="sex" name="sex"  placeholder="성별" value="<?=$userinfo->sex?>" readonly> -->
-                <select class="form-control input-lg babyinfo" id="sex" name="sex" disabled required>
+                <select class="form-control input-lg babyinfo essential" text='성별' id="sex" name="sex" disabled required>
                   <option>성별</option>
                   <option value="1">남</option>
                   <option value="2">여</option>
@@ -89,11 +98,11 @@
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg babyinfo" type="text" style = "ime-mode : active" id="father" name="father" placeholder="아빠이름"  readonly value="<?=$userinfo->father?>" >
+              <div class="col-md-4 col-xs-4 essential">
+                <input class="form-control input-lg babyinfo" type="text" style = "ime-mode : active" id="father" name="father" text='아빠이름' placeholder="아빠이름"  readonly value="<?=$userinfo->father?>" >
               </div>
-              <div class="col-md-4 col-xs-4">
-                <input class="form-control input-lg babyinfo" type="text" id="mother" name="mother"  placeholder="엄마이름" value="<?=$userinfo->mother?>" readonly>
+              <div class="col-md-4 col-xs-4 essential">
+                <input class="form-control input-lg babyinfo" type="text" id="mother" name="mother" text='엄마이름' placeholder="엄마이름" value="<?=$userinfo->mother?>" readonly>
               </div>
               <div class="col-md-4 col-xs-4">
                 <input class="form-control input-lg" type="text" id="owner" name="owner"  placeholder="보호자" value="<?=$userinfo->owner?>" readonly>
@@ -112,7 +121,9 @@
               <!-- <input type="hidden" id="owner" name="owner"  value="<?=$userinfo->owner?>"/> -->
             </div>
 
+  </form>   <!-- id="form_baby"  -->
 
+  <form id="form_findbabyModal" method="post">
                 <!-- 우리아기찾기 Modal start -->
                 <div class="modal fade" id="findbabyModal" tabindex="-1" role="dialog" aria-labelledby="findbabyModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -153,8 +164,8 @@
                     </div>
                   </div>
                 </div>
-
-
+  </form>   <!-- id="form_findbabyModal"  -->
+  <form id="form_newbabyModal" method="post">
                 <!-- 우리아기등록 Modal -->
                 <div class="modal fade" id="newbabyModal" tabindex="-1" role="dialog" aria-labelledby="newbabyModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -215,8 +226,8 @@
                     </div>
                   </div>
                 </div>
-            </form>   <!-- id="form_baby"  -->
-            <form id="form_love" method="post">
+    </form>   <!-- id="form_newbabyModal"  -->
+    <form id="form_love" method="post">
             <?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
                 <div class="bs-docs-section">
                   <h1 id="js-overview" class="page-header">아기사랑</h1>
@@ -226,9 +237,9 @@
                 </div>
             <?php } ?>
 
-            </form>
-          </div>
-        </div>
+      </form>
+    </div>
+  </div>
 <script>
 $( function(){
 
@@ -245,7 +256,9 @@ $( function(){
       $('.babyinfo').attr('disabled', false);
 
       var url = '<?=base_url("baby/follower_list")?>';
-      var data = $('#form_baby').serialize();
+      // var data = $('#form_baby').serialize();
+      var data = {};
+      data.baby_id = $('baby_id').val();
       var callBack = reloadFollower;
       var errorMsg = "follower_list";
     //   url, data, callBack, errorMsg
@@ -343,7 +356,7 @@ $( function(){
         if (!fnReqiredCheck('newbabyModal')) return;
 
             var url = '<?=base_url("baby/registerBaby")?>';
-            var data = $('#form_baby').serialize();
+            var data = $('#form_newbabyModal').serialize();
             console.log(data);
             var callBack =  registerbaby;
             var errorMsg = "아기등록";
@@ -385,11 +398,12 @@ $( function(){
       }
 
 
-    $('#save').on("click",function(){  //회원정보수정
+    $('#memberInfoModi').on("click",function(){  //회원정보수정
+      if (!fnReqiredCheck('form_member')) return;
       var url = '<?=base_url("Auth/update")?>';
       var data = $('#form_member').serialize();
       console.log(data);
-      var callBack =  reload;
+      var callBack =  popup_alert;
       var errorMsg = "회원정보수정";
     //   url, data, callBack, errorMsg
        ajaxExecute(url, data, callBack, errorMsg);
@@ -397,12 +411,13 @@ $( function(){
     //  popup_alert("회원정보가 수정되었습니다.")
     });
 
-
+    //아기정보수정
     $('#babyinfoUpdate').on("click",function(){
+      if (!fnReqiredCheck('form_baby')) return;
       var url = '<?=base_url("baby/update")?>';
       var data = $('#form_baby').serialize();
       console.log(data);
-      var callBack =  reload;
+      var callBack =  popup_alert;
       var errorMsg = "아기정보수정";
     //   url, data, callBack, errorMsg
        ajaxExecute(url, data, callBack, errorMsg);
@@ -410,8 +425,10 @@ $( function(){
     });
 
     function reload(message){
-      popup_alert(message);
-      location.href="<?=base_url("auth/member")?>";
+      if(message.length > 0){
+        popup_alert(message);
+      }
+       location.href="<?=base_url("auth/member")?>";
     }
 
 

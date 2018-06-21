@@ -105,7 +105,7 @@ log_message('debug',$this->session->userdata('email'));
       {
         log_message('debug', '아기정보수정');
         $this->load->model('baby_model');
-        $this->_head();
+
       //  $this->load->library('form_validation');
 
       log_message('debug', '아기이름은 ' . $this->input->post('babyname')  );
@@ -118,7 +118,9 @@ log_message('debug',$this->session->userdata('email'));
         if($this->form_validation->run() === false)
         {
             log_message('debug', validation_errors())   ;
-             $this->load->view('member');
+            $this->_head();
+            $this->load->view('member');
+            $this->_footer();
         }else
         {
             log_message('debug', '아기정보저장 중')   ;
@@ -133,13 +135,16 @@ log_message('debug',$this->session->userdata('email'));
                       );
               log_message('debug', print_r($array, 'TRUE'));
               $this->baby_model->update($array);
-              $this->session->set_flashdata('message', '아기정보가 수정되었습니다.');
+              // $this->session->set_flashdata('message', '아기정보가 수정되었습니다.');
+              $this->set_babysession($array['baby_id'], $array['birthday'], $array['babyname'] );
+
+              echo json_encode('아기정보가 수정되었습니다.');
               // $this->load->helper('url');
 
-              $this->set_babysession($array['baby_id'], $array['birthday'], $array['babyname'] );
-              redirect('auth/member');
+
+            //  redirect('auth/member');
         }
-        $this->_footer();
+        //
       }
 
 

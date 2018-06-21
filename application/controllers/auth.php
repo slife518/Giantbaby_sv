@@ -115,7 +115,7 @@ class Auth extends My_Controller {
         $userinfo = $this->user_model->get($this->session->userdata('email'));
         log_message('debug',print_r($userinfo,TRUE));
 
-        $this->_head();
+        $this->_head_notop();
         $this->load->view('member', array('userinfo' => $userinfo));
         $this->_footer();
       }
@@ -128,11 +128,13 @@ class Auth extends My_Controller {
     //    $this->load->library('form_validation');
 
         $this->form_validation->set_rules('nickname', '닉네임', 'required|min_length[2]|max_length[20]');
+        $this->form_validation->set_rules('tel', '연락처', 'required|min_length[10]|max_length[11]');
         //var_dump(empty($this->input->post('password')));
       //  log_message('debug', 'afdfsdfsf');
         if($this->form_validation->run() === false)
         {
-            //  echo validation_errors();
+          //  log_message('debug', validation_errors());
+          //  echo validation_errors();
           //   $this->load->view('member');
         }else
         {
@@ -150,7 +152,8 @@ class Auth extends My_Controller {
                 $array = array(
                       'email'=>$this->input->post('email'),
                       'password'=>$hash,
-                      'nickname'=>$this->input->post('nickname')
+                      'nickname'=>$this->input->post('nickname'),
+                      'tel'=>$this->input->post('tel')
                     );
             }else  //비밀번호를 수정하지 않았을 경우
             {
@@ -158,7 +161,8 @@ class Auth extends My_Controller {
             log_message('debug', $this->input->post('email'));
                 $array = array(
                       'email'=>$this->input->post('email'),
-                      'nickname'=>$this->input->post('nickname')
+                      'nickname'=>$this->input->post('nickname'),
+                      'tel'=>$this->input->post('tel')
                       );
 
           }
