@@ -17,6 +17,14 @@ class Auth extends My_Controller {
        $this->_footer();
      }
 
+     function pwsearch()
+     {
+       //log_message('debug', "로그인페이지시작");
+       $this->_head_nochk();
+       $this->load->view('pwsearch');
+       $this->_footer();
+     }
+
      function logout()
      {
        $this->load->library('session');
@@ -216,6 +224,98 @@ class Auth extends My_Controller {
                  redirect('/auth/login');
              }
          }
+
+
+
+         public function pwsearchsubmit()
+             {
+
+                 $this->form_validation->set_rules("email", '이메일', 'required|valid_email|callback_email_exists');
+                 if($this->form_validation->run()==FALSE){
+                     //폼 검증이 실패했을 경우 또는 일력 페이지
+                     //log_message('debug', "로그인페이지시작");
+                     $this->_head_nochk();
+                     $this->load->view('pwsearch');
+                     $this->_footer();
+
+                 }else{ //폼 검증 성공 했을 경우
+
+                     //랜덤 비말번호 12자리 생성
+                     $random=$this->_GenerateString(12);
+
+                     log_message('debug', "폼 검증성");
+                     log_message('debug', $random);
+
+                     //비밀 번호 암호화
+                     if(!function_exists('password_hash')){
+                         $this->load->helper('password');
+                     }
+                     $hash=password_hash($random, PASSWORD_BCRYPT);
+                     $email=$this->input->post('email', true);
+
+                     //암호화된 비밀 번호 데이터베이스 업데이트
+                     $this->load->model('user_model');
+                     $result=$this->user_model->alterpw($hash, $email);
+
+                     //변경된 비밀번호 이메일로 발송
+                    if($result){
+                        $this->load->library('email');
+                        $this->email->from('kib78@daum.net', 'Jake');
+                        $this->email->to($email);
+                        $this->email->subject('자이언트 베이비 비밀번호 변경');
+                        $html="<h3>변경된 비밀번호 : " .$random . "<h3>";
+                        $this->email->message($html);
+                        if(!$this->email->send()){
+                          log_message('debug', '이메일전송실패');
+                            alert("이메일 발송에 실패 하였습니다.", "/");
+                            exit;
+                        }else{
+                          log_message('debug', '이메일전송성공');
+                            alert("이메일로  전송 했습니다.", "/");
+                        }
+                    }
+                }
+            }
+
+            //랜덤 문자열 생성
+       function _GenerateString($length) {
+           $characters = "0123456789";
+           $characters .= "abcdefghijklmnopqrstuvwxyz";
+           $characters .= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+           $string_generated = "";
+           $nmr_loops = $length;
+           while ($nmr_loops--) {
+               $string_generated .= $characters[mt_rand(0, strlen($characters))];
+           }
+           return $string_generated;
+       }
+
+
+
+           function email_exists($email)
+              {
+                 $this->load->database();
+                  if($email)
+                  {
+                      $result=array();
+                      $sql="select email from user where email = ?";
+                      $query=$this->db->query($sql, array('email'=>$email));
+                      $result=@$query->row();
+
+                      if(!$result)
+                      {
+                          $this->form_validation->set_message('email_exists', $email.' 은 존재하지 않는 이메일입니다.');
+                          return FALSE;
+                      }else
+                      {
+                          return TRUE;
+                      }
+
+                  }else{
+                      return FALSE;
+                  }
+              }
+
 
 
 }

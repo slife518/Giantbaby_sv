@@ -182,4 +182,15 @@ log_message('debug', $this->db->last_query());
     }
 
 
+    function alterpw($pw, $email){
+        $update=array('password'=>$pw);
+        $where=array('email'=>$email);
+        $result=@$this->db->update('user', $update, $where);
+      log_message('debug', $this->db->last_query());
+      log_message('debug', $result);
+        return $result;
+    }
+
+
+
   }

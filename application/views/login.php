@@ -28,8 +28,8 @@
     <br>
     <!-- <div class="col-xs-10 col-xs-offset-1"> -->
         <div class="row form-group text-center">
-          <h6>아이디찾기</h6>
-          <h6>비밀번호찾기</h6>
+          <a href="<?=base_url("auth/pwsearch")?>"><h6>아이디찾기</h6></a>
+          <a href="<?=base_url("auth/pwsearch")?>"><h6>비밀번호찾기</h6></a>
         </div>
     <!-- </div> -->
   </div>
