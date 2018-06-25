@@ -234,17 +234,19 @@ class Auth extends My_Controller {
                  if($this->form_validation->run()==FALSE){
                      //폼 검증이 실패했을 경우 또는 일력 페이지
                      //log_message('debug', "로그인페이지시작");
-                     $this->_head_nochk();
-                     $this->load->view('pwsearch');
-                     $this->_footer();
+                     // $this->_head_nochk();
+                     // $this->load->view('pwsearch');
+                     // $this->_footer();
 
                  }else{ //폼 검증 성공 했을 경우
 
                      //랜덤 비말번호 12자리 생성
                      $random=$this->_GenerateString(12);
 
-                     log_message('debug', "폼 검증성");
+                     log_message('debug', "폼 검증성공");
                      log_message('debug', $random);
+
+
 
                      //비밀 번호 암호화
                      if(!function_exists('password_hash')){
@@ -260,21 +262,29 @@ class Auth extends My_Controller {
                      //변경된 비밀번호 이메일로 발송
                     if($result){
                         $this->load->library('email');
-                        $this->email->from('kib78@daum.net', 'Jake');
+                        $this->email->set_newline("\r\n");
+                        $this->email->from('slife518@gmail.com', 'slife518@gmail.com');
                         $this->email->to($email);
                         $this->email->subject('자이언트 베이비 비밀번호 변경');
                         $html="<h3>변경된 비밀번호 : " .$random . "<h3>";
                         $this->email->message($html);
                         if(!$this->email->send()){
+                          echo $this->email->print_debugger();
                           log_message('debug', '이메일전송실패');
-                            alert("이메일 발송에 실패 하였습니다.", "/");
+                            // alert("이메일 발송에 실패 하였습니다.", "/");
+                            $this->session->set_flashdata('message', '이메일 발송에 실패 하였습니다.');
                             exit;
                         }else{
                           log_message('debug', '이메일전송성공');
-                            alert("이메일로  전송 했습니다.", "/");
+                            $this->session->set_flashdata('message', '이메일로  전송 했습니다.');
+                            // alert("이메일로  전송 했습니다.", "/");
                         }
                     }
                 }
+
+                $this->_head_nochk();
+                $this->load->view('pwsearch');
+                $this->_footer();
             }
 
             //랜덤 문자열 생성

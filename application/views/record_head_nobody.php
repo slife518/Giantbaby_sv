@@ -47,9 +47,25 @@
               <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-en-US.min.js"></script>
 
             </head>
+            <style>
+                .navbar-header .icon-bar {
+                  color: black;
+                  border-color: black;
+                  background-color: white;
+                }
+            </style>
+
             <body>
+              <?php
+              if($this->session->userdata('is_login')){
+              ?>
+
               <div class="container">
-                  <nav class="navbar navbar-ct-transparent navbar-transparent navbar-fixed-top" role="navigation">
+                <!-- <div class="blurred-container">
+                    <div class="img-src" style="background-image: url('/etc/assets/img/bg.jpg')"></div>
+                </div> -->
+                  <!-- <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation"> -->
+                  <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation">
                     <div class="container">
                       <!-- Brand and toggle get grouped for better mobile display -->
                       <div class="navbar-header">
@@ -59,7 +75,7 @@
                               <span class="icon-bar"></span>
                               <span class="icon-bar"></span>
                               <span class="icon-bar"></span>
-                          </button>
+                          </button>                          
                       </div>
                       <!-- Collect the nav links, forms, and other content for toggling -->
                       <div class="collapse" id="navbar-collapse-1">
@@ -73,12 +89,7 @@
                                   <li><a href="<?=base_url("auth/member")?>" class="btn btn-round btn-default">마이페이지</a></li>
                                   <li><a href="<?=base_url("auth/logout")?>" class="btn btn-round btn-default">로그아웃</a></li>
                                 <?php
-                                } else {
-                                ?>
-                                  <li><a href="<?=base_url("auth/login")?>" class="btn btn-round btn-default">로그인</a></li>
-                                  <li><a href="<?=base_url("auth/register")?>" class="btn btn-round btn-default">회원가입</a></li>
-                                <?php
-                              }
+                                }
                                 ?>
                            </ul>
                       </div>
@@ -86,3 +97,7 @@
                     </div><!-- /.container-fluid -->
                   </nav>
               </div><!--  end container-->
+
+              <?php
+              }
+              ?>

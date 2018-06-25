@@ -77,7 +77,8 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'korean';
+// $config['language']	= 'korean';
+$config['language']	= 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -539,7 +540,7 @@ $config['proxy_ips'] = '';
 
 
 
-$config['protocol'] = 'sendmail';
-$config['mailpath'] = '/usr/sbin/sendmail';
-//$config['charset'] = 'iso-8859-1';
-$config['wordwrap'] = TRUE;
+// $config['protocol'] = 'sendmail';
+// $config['mailpath'] = '/usr/sbin/sendmail';
+// //$config['charset'] = 'iso-8859-1';
+// $config['wordwrap'] = TRUE;
