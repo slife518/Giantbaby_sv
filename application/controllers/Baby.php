@@ -205,12 +205,24 @@ log_message('debug',$this->session->userdata('email'));
       function set_babysession($baby_id, $babybirthday, $babyname){
         $this->session->set_userdata('baby_id', $baby_id);
         $birthday = '20' .substr($babybirthday, 0,2) .'년' .substr($babybirthday, 2,2) .'월' .substr($babybirthday, 4,6) .'일';
-        log_message($birthday);
+        log_message('debug', $birthday);
         $this->session->set_userdata('birthday', $birthday);
         $this->session->set_userdata('babyname', $babyname);
       }
 
 
+      function disconnectbaby($id){
+
+        $data = array('email' => $this->session->userdata('email'),
+                      'baby_id'=>$id
+                );
+         $result = $this->baby_model->disconnectbaby($data);
+         log_message('debug', $result);
+         if($result){
+              $this->session->set_userdata('baby_id', '');
+              redirect('/auth/member');
+         }
+      }
 
 }
 ?>

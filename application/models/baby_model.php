@@ -83,4 +83,11 @@ class Baby_model extends CI_Model {
         return $result;
       }
 
+      function disconnectbaby($option)
+      {
+      $result = $this->db->delete('relation', $option);   //관계정보를 지운다 
+      log_message('debug', $this->db->last_query());
+      return $result;
+
+      }
   }

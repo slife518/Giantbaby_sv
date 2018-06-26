@@ -42,8 +42,8 @@
      <form id="form_baby" method="post">
        <div class="container tim-container">
            <!-- <div class="container bs-docs-container"> -->
-             <div class="row">
-                 <div class="form-group bs-docs-section">
+             <div class="form-group row">
+                 <div class="bs-docs-section">
                    <h1 id="js-overview" class="page-header">아기정보</h1>
                  </div>
              </div>
@@ -108,6 +108,12 @@
                     <input class="form-control input-lg" type="text" id="owner" name="owner"  placeholder="보호자" value="<?=$userinfo->owner?>" readonly>
                   </div>
                 </div>
+                <div class="form-group row">
+                  <div class="col-md-12 col-xs-12" class="pull-right">
+                     <button type='button' name='disconnectbaby' id='disconnectbaby' class="btn btn-default btn-xs"><i class="fab fa-angellist"></i>연결정보삭제</button>
+                  </div>
+                </div>
+
               <?php }?>
               <?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
                 <div class="row">
@@ -409,6 +415,15 @@ $( function(){
     //  popup_alert("회원정보가 수정되었습니다.")
     });
 
+    $('#disconnectbaby').on("click", function(e){
+      popup_confirm('아기정보삭제', '등록된 아기정보의 연결이 끊어집니다. 1주일 내에 재등록시 기존 기록은 복원됩니다.', disconnect_baby_info);
+    });
+
+    function disconnect_baby_info(){
+      var url = '<?=base_url("baby/disconnectbaby/$userinfo->baby_id")?>';
+      console.log(url);
+     location.href=url;
+    }
     //아기정보수정
     $('#babyinfoUpdate').on("click",function(){
       if (!fnReqiredCheck('form_baby')) return;

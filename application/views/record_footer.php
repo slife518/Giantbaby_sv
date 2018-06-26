@@ -66,8 +66,21 @@
 
   }
 
+  function popup_confirm(title, message, callBack){
 
+      $.confirm({
+          title: title,
+          content: message,
+          buttons: {
+              confirm: function () {
+                callBack();
+              },
+              cancel: function () {
 
+              }
+          }
+      });
+  }
          /**
               * 입력 항목의 필수 값을 체크
               * 필수항목 바로 위의 div class 에 essential 을 붙이고 , input, select 에 text 속성으로 이름을 붙여야 한다.
