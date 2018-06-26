@@ -1,6 +1,10 @@
 
 
+<div class="form-group row">
+    <div class="bs-docs-section">
 
+    </div>
+</div>
 
 <script>
     // $(function () {
@@ -122,6 +126,6 @@
 
 
 </script>
-  </body>
+</body>
 
 </html>

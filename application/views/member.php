@@ -63,10 +63,10 @@
                   <div class="col-md-4 col-xs-4">
                     <label class="control-label">아기이름</label>
                   </div>
-                  <div class="col-md-4 col-xs-4">
+                  <div class="col-md-6 col-xs-6">
                     <label class="control-label">아기생년월일</label>
                   </div>
-                  <div class="col-md-4 col-xs-4">
+                  <div class="col-md-2 col-xs-2">
                     <label class="control-label">성별</label>
                   </div>
                 </div>
@@ -74,10 +74,10 @@
                   <div class="col-md-4 col-xs-4 essential">
                     <input class="form-control input-lg babyinfo" type="text" style = "ime-mode : active" id="babyname" name="babyname" text='아기이름' placeholder="아기이름"  readonly value="<?=$userinfo->babyname?>" >
                   </div>
-                  <div class="col-md-4 col-xs-4 essential">
+                  <div class="col-md-5 col-xs-5 essential">
                     <input class="form-control input-lg babyinfo" type="text" id="birthday" name="birthday" text='생년월일' placeholder="생년월일" value="<?=$userinfo->birthday?>" readonly>
                   </div>
-                  <div class="col-md-4 col-xs-4">
+                  <div class="col-md-3 col-xs-3">
                     <!-- <select class="form-control input-lg" type="text" id="sex" name="sex"  placeholder="성별" value="<?=$userinfo->sex?>" readonly> -->
                     <select class="form-control input-lg babyinfo essential" text='성별' id="sex" name="sex" disabled required>
                       <option>성별</option>
@@ -187,10 +187,10 @@
                           <div class="col-md-4 col-xs-4">
                             <label>아기이름</label>
                           </div>
-                          <div class="col-md-4 col-xs-4">
+                          <div class="col-md-6 col-xs-6">
                             <label>생년월일(6자리)</label>
                           </div>
-                          <div class="col-md-4 col-xs-4">
+                          <div class="col-md-2 col-xs-2">
                             <label>성별</label>
                           </div>
                         </div>
@@ -198,10 +198,10 @@
                           <div class="col-md-4 col-xs-4 essential">
                             <input type="text" class="form-control input-lg" id="newbabyname" name="newbabyname" text='아기이름'>
                           </div>
-                          <div class="col-md-4 col-xs-4 essential">
+                          <div class="col-md-5 col-xs-5 essential">
                             <input type="text" class="form-control input-lg" id="newbirthday" name="newbirthday" text='아기생년월일'>
                           </div>
-                          <div class="col-md-4 col-xs-4" essential>
+                          <div class="col-md-3 col-xs-3 essential">
                               <select class="form-control input-lg" id="newsex" name="newsex" text='성별'>
                                 <option value="">성별</option>
                                 <option value="1">남</option>
