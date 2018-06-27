@@ -1,10 +1,10 @@
 
 
-<div class="form-group row">
+<!-- <div class="form-group row">
     <div class="bs-docs-section">
-
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp아기들의 식사량을 관리합니다.  - 자이언트베이비 -
     </div>
-</div>
+</div> -->
 
 <script>
     // $(function () {

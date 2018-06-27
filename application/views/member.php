@@ -61,25 +61,27 @@
           <?php }else{?>
                 <div class="row">
                   <div class="col-md-4 col-xs-4">
-                    <label class="control-label">아기이름</label>
+                      <!-- <a href="<?=base_url("upload/do_upload")?>"> -->
+                    <img src="/etc/assets/img/profile/1.PNG"  alt="..." class="img-thumbnail" name="profile" id="profile">
                   </div>
-                  <div class="col-md-6 col-xs-6">
-                    <label class="control-label">아기생년월일</label>
+                  <div class="col-md-4 col-xs-4">
+                    <label class="control-label">이름</label>
                   </div>
-                  <div class="col-md-2 col-xs-2">
-                    <label class="control-label">성별</label>
-                  </div>
-                </div>
-                <div class="form-group row">
                   <div class="col-md-4 col-xs-4 essential">
-                    <input class="form-control input-lg babyinfo" type="text" style = "ime-mode : active" id="babyname" name="babyname" text='아기이름' placeholder="아기이름"  readonly value="<?=$userinfo->babyname?>" >
+                    <input class="form-control babyinfo" type="text" style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" id="babyname" name="babyname" text='아기이름' placeholder="아기이름"  readonly value="<?=$userinfo->babyname?>" >
                   </div>
-                  <div class="col-md-5 col-xs-5 essential">
-                    <input class="form-control input-lg babyinfo" type="text" id="birthday" name="birthday" text='생년월일' placeholder="생년월일" value="<?=$userinfo->birthday?>" readonly>
+                  <div class="col-md-4 col-xs-4">
+                    <label class="control-label">생년월일</label>
+                  </div>
+                  <div class="col-md-4 col-xs-4 essential">
+                    <input class="form-control babyinfo" type="text" style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" id="birthday" name="birthday" text='생년월일' placeholder="생년월일" value="<?=$userinfo->birthday?>" readonly>
+                  </div>
+                  <div class="col-md-4 col-xs-4">
+                    <label class="control-label">성별</label>
                   </div>
                   <div class="col-md-3 col-xs-3">
                     <!-- <select class="form-control input-lg" type="text" id="sex" name="sex"  placeholder="성별" value="<?=$userinfo->sex?>" readonly> -->
-                    <select class="form-control input-lg babyinfo essential" text='성별' id="sex" name="sex" disabled required>
+                    <select class="form-control babyinfo essential" style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" text='성별' id="sex" name="sex" disabled required>
                       <option>성별</option>
                       <option value="1">남</option>
                       <option value="2">여</option>
@@ -87,26 +89,30 @@
                   </div>
                 </div>
                 <div class="row">
+                  <div class="col-md-offset-1 col-xs-offset-1 col-md-3 col-xs-3 essential">
+                    <!-- <p><?=$userinfo->babyname?></p> -->
+                    <input type="file" name="userfile" size="20" />
+                  </div>
                   <div class="col-md-4 col-xs-4">
                     <label class="control-label">아빠이름</label>
                   </div>
-                  <div class="col-md-4 col-xs-4">
+                  <div class="col-md-4 col-xs-4 essential">
+                    <input class="form-control babyinfo" type="text" style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" id="father" name="father" text='아빠이름' placeholder="아빠이름"  readonly value="<?=$userinfo->father?>" >
+                  </div>
+                  <div class="col-md-offset-4 col-xs-offset-4 col-md-4 col-xs-4">
                     <label class="control-label">엄마이름</label>
                   </div>
-                  <div class="col-md-4 col-xs-4">
+                  <div class="col-md-4 col-xs-4 essential">
+                    <input class="form-control babyinfo" style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" type="text" id="mother" name="mother" text='엄마이름' placeholder="엄마이름" value="<?=$userinfo->mother?>" readonly>
+                  </div>
+                  <div class="col-md-offset-4 col-xs-offset-4 col-md-4 col-xs-4">
                     <label class="control-label">보호자ID</label>
+                  </div>
+                  <div class="col-md-4 col-xs-4">
+                    <input class="form-control" style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" type="text" id="owner" name="owner"  placeholder="보호자" value="<?=$userinfo->owner?>" readonly>
                   </div>
                 </div>
                 <div class="form-group row">
-                  <div class="col-md-4 col-xs-4 essential">
-                    <input class="form-control input-lg babyinfo" type="text" style = "ime-mode : active" id="father" name="father" text='아빠이름' placeholder="아빠이름"  readonly value="<?=$userinfo->father?>" >
-                  </div>
-                  <div class="col-md-4 col-xs-4 essential">
-                    <input class="form-control input-lg babyinfo" type="text" id="mother" name="mother" text='엄마이름' placeholder="엄마이름" value="<?=$userinfo->mother?>" readonly>
-                  </div>
-                  <div class="col-md-4 col-xs-4">
-                    <input class="form-control input-lg" type="text" id="owner" name="owner"  placeholder="보호자" value="<?=$userinfo->owner?>" readonly>
-                  </div>
                 </div>
                 <div class="form-group row">
                   <div class="col-md-12 col-xs-12" class="pull-right">
@@ -444,6 +450,15 @@ $( function(){
        location.href="<?=base_url("auth/member")?>";
     }
 
+    $('#profile').on("click", function(){
+      var url = "<?=base_url("upload/do_upload")?>";
+      var data;
+      var callBack =  popup_alert;
+      var errorMsg = '사진업로드';
+      ajaxExecute(url, data, callBack, errorMsg);
+
+
+    })
 
 <?php if($userinfo->email == $userinfo->owner){   //우리아기 책임자이면 ?>
     var data = <?=$follower_list?>
