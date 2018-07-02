@@ -42,9 +42,21 @@
 					var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+pad(today.getDate());
 					$('#to_date').val(date);
 
-					var fromday = new Date();
-					var date2 = fromday.getFullYear()+'-'+pad((fromday.getMonth()))+'-'+pad(fromday.getDate());
-					$('#from_date').val(date2);
+					// var today = new Date();
+					// var dayOfMonth = today.getDate();
+					// var date = today.setDate(dayOfMonth - 7);
+					// $('#to_date').val(date);
+
+
+
+			//		var fromday = new Date();
+			//		var date2 = fromday.getFullYear()+'-'+pad((fromday.getMonth()+1))+'-'+pad(fromday.getDate());
+					//var myDate = new Date(date2);
+					var myDate = new Date();
+					var dayOfMonth = myDate.getDate();
+					myDate.setDate(dayOfMonth - 15);
+					var fromdate = myDate.getFullYear()+'-'+pad((myDate.getMonth()+1))+'-'+pad(myDate.getDate());
+					$('#from_date').val(fromdate);
 
 					ajaxExecute();
 

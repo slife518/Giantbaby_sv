@@ -44,9 +44,24 @@
           var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+pad(today.getDate());
           $('#to_date').val(date);
 
-          var fromday = new Date();
-          var date2 = fromday.getFullYear()+'-'+pad((fromday.getMonth()))+'-'+pad(fromday.getDate());
-          $('#from_date').val(date2);
+          // var today = new Date();
+          // var dayOfMonth = today.getDate();
+          // console.log(dayOfMonth);
+          // var date = today.setDate(dayOfMonth - 7);
+          // $('#to_date').val(date);
+
+
+          // var fromday = new Date();
+          // var date2 = fromday.getFullYear()+'-'+pad((fromday.getMonth()))+'-'+pad(fromday.getDate());
+          // $('#from_date').val(date2);
+
+          var myDate = new Date();
+          var dayOfMonth = myDate.getDate();
+          myDate.setDate(dayOfMonth - 15);  // 보름 전 꺼부터 조회 
+          var fromdate = myDate.getFullYear()+'-'+pad((myDate.getMonth()+1))+'-'+pad(myDate.getDate());
+          $('#from_date').val(fromdate);
+
+
 
           var url = '<?=base_url("report/reportInfo")?>';
           var data = $('#form').serialize();
