@@ -110,7 +110,7 @@
 									stacked: false,
 									title: {
 										display: true,
-										text: '우리아기 식사량'
+										text: '우리아기 시간대별 식사량'
 									},
 									scales: {
 										yAxes: [{
@@ -127,17 +127,17 @@
 
 				function ajaxExecute(){
 					$.ajax({
-							 url:'<?=base_url("report/reportInfo")?>',
+							 url:'<?=base_url("report/timeCountInfo")?>',
 							 method: 'post',
 							 data: $('form').serialize(),
 							 dataType: 'json',
 							 success: function(response){
 								 console.log(response);
-										 var record_date = response["record_date"];
+										 var xx = response["xx"];
 										 var milk = response["milk"];
 										 var rice = response["rice"];
 										 var sum =  response["sum"];
-										 search( record_date, milk, rice, sum );
+										 search( xx, milk, rice, sum );
 							 }
 					 });
 				}

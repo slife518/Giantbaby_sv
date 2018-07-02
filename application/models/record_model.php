@@ -15,19 +15,43 @@ class Record_model extends CI_Model {
       // $result = $this->db->get_where('');
        // var_dump($this->db->last_query());
        // return $result;
-        $result =  $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date, DATE_FORMAT(a.record_time, '%H:%i') as record_time, milk,rice, description, a.id, b.nickname
-                FROM record AS a join user AS b on a.author = b.email WHERE a.baby_id =
-              ( select baby_id from relation WHERE email = ?)
-                ORDER BY record_date DESC, record_time DESC", $email)->result_array();   //result_array 로도 가능
+        $result =  $this->db->query("SELECT  DATE_FORMAT(a.record_date, '%m-%d') as record_date,
+                                             DATE_FORMAT(a.record_time, '%H:%i') as record_time,
+                                             milk,rice, description, a.id, b.nickname
+                                       FROM record AS a join user AS b on a.author = b.email
+                                       WHERE a.baby_id = ( select baby_id
+                                                             from relation
+                                                            WHERE email = ?)
+                                         AND a.author in ( select email
+                                                             from relation
+                                                            where baby_id = ( select baby_id
+                                                                                  from relation
+                                                                                 WHERE email = ?)
+                                                              and approval = 1 )
+                                       ORDER BY record_date DESC, record_time DESC", array($email, $email))->result_array();   //result_array 로도 가능
 
+        log_message('debug',$this->db->last_query());
         return json_encode($result);
-      //  var_dump($this->db->last_query());
+
     }
 
     function getReportInfo($option){
       log_message('debug',print_r($option, TRUE));
-      $result = $this->db->query("SELECT SUBSTR(record_date,6,5) as record_date, sum(milk) as milk, sum(rice) as rice from record where baby_id = ?
-      and record_date BETWEEN ? and ? group by record_date order by record_date", $option)->result_array();
+      $result = $this->db->query("SELECT SUBSTR(record_date,6,5) as record_date, sum(milk) as milk, sum(rice) as rice from record
+                                  where baby_id = ?
+                                    and author in ( select email from relation where baby_id = ? and approval = 1 )
+                                    and record_date BETWEEN ? and ? group by record_date order by record_date", $option)->result_array();
+      log_message('debug', $this->db->last_query());
+
+      log_message('debug',print_r($result, TRUE));
+
+      return $result;
+    }
+
+    function getTimeCount($option){
+      log_message('debug',print_r($option, TRUE));
+      $result = $this->db->query("SELECT SUBSTRING(record_time,1, 2) AS time , sum(milk) as milk, sum(rice) as rice FROM `record` where baby_id = ?
+      and record_date BETWEEN ? and ? group by time order by time", $option)->result_array();
       log_message('debug', $this->db->last_query());
 
       log_message('debug',print_r($result, TRUE));

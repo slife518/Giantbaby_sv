@@ -85,7 +85,7 @@ class Record extends My_Controller {
          //print "<script type=\"text/javascript\">alert('Some text');</script>";
           //$this->_head($this->router->fetch_method());
           $this->_head();
-          $record = $this->record_model->gets($this->session->userdata('email'));
+          $record = $this->record_model->gets( array( $this->session->userdata('email')));
           $this->load->view('record_list', array('record'=>$record));
           $this-> _footer();
       }
