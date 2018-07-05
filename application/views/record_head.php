@@ -66,7 +66,7 @@
                               </button>
                               <div class="logo-container">
                                 <div class="logo">
-                                    <a href="<?=base_url("auth/member")?>"><img src="/etc/assets/img/profile/1.PNG" class="img-rounded"></a>
+                                    <a href="<?=base_url("auth/member")?>"><img src="/etc/assets/img/profile/<?=$this->session->userdata('baby_id')?>.PNG" onerror="this.src='/etc/assets/img/profile/default.jpeg'" class="img-rounded"></a>
                                 </div>
                                 <div style="color: white;">
                                     <a href="<?=base_url("record/record_list")?>" style="color: white"><h3 class="masthead-title"><?=$this->session->userdata('babyname');?></h3><h6>(<?=$this->session->userdata('birthday');?>생) <?=$this->session->userdata('nickname')?> 환영합니다.</h6></a>

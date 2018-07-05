@@ -4,6 +4,8 @@
 <div class="main">
   <div class="container tim-container">
       <form id="form_member" method="post">
+        <button  class="btn btn-default pull-right" type='button' id='record' name='record'><i class="fas fa-edit"></i> 기록하기</button>
+        <a href="<?=base_url("record_list")?>" type="button" role="button" class="btn btn-default pull-left"><i class="fas fa-chart-bar"></i> 목록</a>
          <div class="form-group">
            <input type="email" class="form-control input-lg" id="email" name="email" value="<?=$userinfo->email?>"  readonly>
          </div>
@@ -62,7 +64,8 @@
                 <div class="row">
                   <div class="col-md-4 col-xs-4">
                       <!-- <a href="<?=base_url("upload/do_upload")?>"> -->
-                    <img src="/etc/assets/img/profile/1.PNG"  alt="..." class="img-thumbnail" name="profile" id="profile">
+                    <!-- <img src="/etc/assets/img/profile/1.PNG"  alt="..." class="img-thumbnail" name="profile" id="profile"> -->
+                    <img src="/etc/assets/img/profile/<?=$userinfo->baby_id?>.PNG" onerror="this.src='/etc/assets/img/profile/default.jpeg'"  alt="..." class="img-thumbnail" name="profile" id="profile">
                   </div>
                   <div class="col-md-4 col-xs-4">
                     <label class="control-label">이름</label>
@@ -558,5 +561,26 @@ $( function(){
          }
 
          <?php }?>
+
+
+         $('#record').on('click', function(){
+           if("<?=$this->session->userdata('baby_id')?>"){   //값이 있으면 true
+             location.href='<?=base_url("record")?>';
+           }else{
+             popup_alert('아이를 등록 후 기록가능합니다.');
+             //location.href='<?=base_url("auth/member")?>';
+             $.confirm({
+                   title: '아기등록',
+                   content: '아이를 등록 후 기록가능합니다.',
+                   buttons: {
+                       아이등록하러가기: function () {
+                         location.href='<?=base_url("auth/member")?>';
+                       }
+                   }
+               });
+
+           }
+
+         })
 
     </script>

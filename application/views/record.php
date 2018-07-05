@@ -29,7 +29,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-xs-5">
-                          <input type="number" id="milk" name="milk" class="form-control text-center input-lg" value=""/>
+                          <input type="tel" id="milk" name="milk" class="form-control text-center input-lg" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="btn glyphicon glyphicon-arrow-up btn-default btn-lg" id="upQuantity">10</button>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-2 col-xs-5">
-                          <input type="number" id="rice" name="rice" class="form-control text-center input-lg" value=""/>
+                          <input type="tel" id="rice" name="rice" class="form-control text-center input-lg" value=""/>
                         </div>
                         <div class="col-md-1 col-xs-3">
                             <button type="button" class="btn glyphicon glyphicon-arrow-up btn-default btn-lg" id="upRiceQuantity">10</button>
@@ -159,10 +159,10 @@ $( function() {
                 time = '<?=$recordinfo->record_time?>' || time;
                 $('#record_time').val(time);
 
-                var milk = '<?=$recordinfo->milk?>' || '200';
+                var milk = '<?=$recordinfo->milk?>' || '0';
                 $('#milk').val(milk);
 
-                var rice = '<?=$recordinfo->rice?>' || '50';
+                var rice = '<?=$recordinfo->rice?>' || '0';
                 $('#rice').val(rice);
 
 
