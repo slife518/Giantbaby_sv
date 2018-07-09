@@ -236,14 +236,16 @@ class Auth extends My_Controller {
              {
 
                  $this->form_validation->set_rules("email", '이메일', 'required|valid_email|callback_email_exists');
-                 if($this->form_validation->run()==FALSE){
+                 if($this->form_validation->run()==FALSE)
+                 {
                      //폼 검증이 실패했을 경우 또는 일력 페이지
                      //log_message('debug', "로그인페이지시작");
                      // $this->_head_nochk();
                      // $this->load->view('pwsearch');
                      // $this->_footer();
 
-                 }else{ //폼 검증 성공 했을 경우
+                 }else
+                 { //폼 검증 성공 했을 경우
 
                      //랜덤 비말번호 12자리 생성
                      $random=$this->_GenerateString(12);
@@ -266,25 +268,57 @@ class Auth extends My_Controller {
 
                      //변경된 비밀번호 이메일로 발송
                     if($result){
-                        $this->load->library('email');
-                        $this->email->set_newline("\r\n");
-                        $this->email->from('slife518@gmail.com', 'slife518@gmail.com');
-                        $this->email->to($email);
-                        $this->email->subject('자이언트 베이비 비밀번호 변경');
-                        $html="<h3>변경된 비밀번호 : " .$random . "<h3>";
-                        $this->email->message($html);
-                        if(!$this->email->send()){
-                          echo $this->email->print_debugger();
-                          log_message('debug', '이메일전송실패');
-                            // alert("이메일 발송에 실패 하였습니다.", "/");
-                            $this->session->set_flashdata('message', '이메일 발송에 실패 하였습니다.');
-                            exit;
-                        }else{
-                          log_message('debug', '이메일전송성공');
-                            $this->session->set_flashdata('message', '이메일로  전송 했습니다.');
-                            // alert("이메일로  전송 했습니다.", "/");
-                        }
-                    }
+                      /* 클래스 파일 로드 */
+                      include "Sendmail.php"; /* 클래스 객체 변수 선언 */
+                      /*
+                      + host : smtp 호스트 주소
+                      + smtp_id : smtp 계정 아이디
+                      + smtp_pw : smtp 계정 비번
+                      + debug : 디버그표시기능 [1 : 활성 0 : 비활성]
+                      + charset : 문자 인코딩
+                      + ctype : 메일 컨텐츠의 타입
+                      */
+                      $config=array( 'host'=>'ssl://smtp.gmail.com', 'smtp_id'=>'slife518@gmail.com', 'smtp_pw'=>'jkjkjk7878', 'debug'=>1, 'charset'=>'utf-8', 'ctype'=>'text/plain' );
+                      $sendmail = new Sendmail($config);
+
+                      /* + $to : 받는사람 메일주소 ( ex. $to="hong <hgd@example.com>" 으로도 가능)
+
+                      + $from : 보내는사람 이름
+                      + $subject : 메일 제목
+                      + $body : 메일 내용
+                      + $cc_mail : Cc 메일 있을경우 (옵션값으로 생략가능)
+                      + $bcc_mail : Bcc 메일이 있을경우 (옵션값으로 생략가능)
+                      */
+                      $to="slife705@naver.com";
+                      $from="Master";
+                      $subject="메일 제목입니다.";
+                      $body="메일 내용입니다.";
+                    //  $cc_mail="cc@example.com";
+                    //  $bcc_mail="bcc@example.com";
+
+                      /* 메일 보내기 */
+                      $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail)
+
+
+                        // $this->load->library('email');
+                        // $this->email->set_newline("\r\n");
+                        // $this->email->from('slife518@gmail.com', 'slife518@gmail.com');
+                        // $this->email->to($email);
+                        // $this->email->subject('자이언트 베이비 비밀번호 변경');
+                        // $html="<h3>변경된 비밀번호 : " .$random . "<h3>";
+                        // $this->email->message($html);
+                        // if(!$this->email->send()){
+                        //   echo $this->email->print_debugger();
+                        //   log_message('debug', '이메일전송실패');
+                        //     // alert("이메일 발송에 실패 하였습니다.", "/");
+                        //     $this->session->set_flashdata('message', '이메일 발송에 실패 하였습니다.');
+                        //     exit;
+                        // }else{
+                        //   log_message('debug', '이메일전송성공');
+                        //     $this->session->set_flashdata('message', '이메일로  전송 했습니다.');
+                        //     // alert("이메일로  전송 했습니다.", "/");
+                        // }
+                     //}
                 }
 
                 $this->_head_nochk();
