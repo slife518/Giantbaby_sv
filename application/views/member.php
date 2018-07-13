@@ -93,8 +93,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-offset-1 col-xs-offset-1 col-md-3 col-xs-3 essential">
-                    <!-- <p><?=$userinfo->babyname?></p> -->
-                    <input type="file" name="userfile" size="20" />
+                    <p<i class="fas fa-camera"></i></p>                    
                   </div>
                   <div class="col-md-4 col-xs-4">
                     <label class="control-label">아빠이름</label>

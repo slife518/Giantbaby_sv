@@ -64,7 +64,7 @@ class Auth extends My_Controller {
               $this->session->set_userdata('email', $user['email']);
               $this->session->set_userdata('baby_id', $user['baby_id']);
               $birthday = '20' .substr($user['birthday'], 0,2) .'년' .substr($user['birthday'], 2,2) .'월' .substr($user['birthday'], 4,6) .'일';
-              log_message($birthday);
+            //   log_message($birthday);
               $this->session->set_userdata('birthday', $birthday);
               $this->session->set_userdata('babyname', $user['babyname']);
 
