@@ -2,7 +2,7 @@
         <div class="main">
             <div class="container tim-container">
                 <div name="inputs">
-                    <div class="row">
+                    <!-- <div class="row">
                       <div class="col-md-2 col-xs-5">
                         <h4>날짜</h4>
                       </div>
@@ -21,6 +21,20 @@
                               <input type="text" class="form-control text-center input-lg" id="record_time" name="record_time" value="" readonly/>
                             </div>
                         </div>
+                    </div> -->
+                    <div class="row">
+                      <div class="col-md-3 col-xs-6">
+                        <h4>일시</h4>
+                      </div>                      
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-xs-6">
+                          	<div>
+                              <input type="text" class="form-control text-center input-lg" id="record_datetime" name="record_datetime"  value="" readonly/>
+                              <input type="hidden" class="form-control text-center input-lg" id="record_time" name="record_time" value="" readonly/>
+                              <input type="hidden" class="form-control text-center input-lg" id="record_date" name="record_date"  value="" readonly/>
+                            </div>
+                        </div>                        
                     </div>
                     <div class="row">
                       <div class="col-md-2 col-xs-5">
@@ -151,13 +165,10 @@ $( function() {
                 var date = today.getFullYear()+'-'+pad((today.getMonth()+1))+'-'+pad(today.getDate());
                 //var date = pad((today.getMonth()+1))+'-'+today.getDate();
                 date = '<?=$recordinfo->record_date?>'|| date;
-
-                $('#record_date').val(date);
-
                 var time = pad(today.getHours()) + ':' + pad(today.getMinutes());
-
                 time = '<?=$recordinfo->record_time?>' || time;
-                $('#record_time').val(time);
+                var datetime = date + ' ' + time;
+                $('#record_datetime').val(datetime);                
 
                 var milk = '<?=$recordinfo->milk?>' || '0';
                 $('#milk').val(milk);
@@ -168,23 +179,23 @@ $( function() {
 
             });
 
-            $('#record_date').datetimepicker({
-                            format: 'yyyy-mm-dd',
-                            startView:'month',
-                            minView:'month',
+            $('#record_datetime').datetimepicker({
+                            format: 'yyyy-mm-dd hh:ii',
+                            startView:'hour',
+                            minView:'hour',
                             todayHighlight:true,
                             ignoreReadonly: true,
                             autoclose:true,
                             allowInputToggle: true
             });
 
-            $('#record_time').datetimepicker({
-                            format: 'hh:ii',
-                            ignoreReadonly: true,
-                            autoclose:true,
-                            startView:'hour',
-                            allowInputToggle: true
-            });
+            // $('#record_time').datetimepicker({
+            //                 format: 'hh:ii',
+            //                 ignoreReadonly: true,
+            //                 autoclose:true,
+            //                 startView:'hour',
+            //                 allowInputToggle: true
+            // });
             $('#upQuantity').on('click', function () {
                var aaa = parseInt($("#milk").val()) + 10;
                if(aaa < 0){
@@ -262,7 +273,33 @@ $( function() {
             //   event.preventDefault();
                //alert($('#record_date').val());               // process form
             });
+
+            $('#record_datetime')
+            .datetimepicker()
+            .on('changeDate', function(ev){
+              console.log(ev);
+              console.log(ev.timeStamp);
+              var date = new Date(ev.timeStamp);
+
+              
+              // $('#record_date').val(sysdate.format('{yyyy}-{MM}-{dd}'));    
+              // $('#record_time').val(sysdate.format('{hh}:{mm}'));
+
+              
+              
+              
+              var sysdate = new Sugar.Date(ev.timeStamp);
+              console.log(sysdate);
+              $('#record_date').val(Sugar.Date.foramt(sysdate,'%Y-%m-%d'));    
+              $('#record_time').val(Sugar.Date.foramt(sysdate,'%h-%i'));
+              
+              
+            });
+                    
+            
 } );
+
+
 </script>
 <style>
 #record_date, #record_time {

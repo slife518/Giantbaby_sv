@@ -185,7 +185,7 @@
 
         $('#record').on('click', function(){
           if("<?=$this->session->userdata('baby_id')?>"){   //값이 있으면 true
-            location.href='<?=base_url("record")?>';
+            location.href='<?=base_url("record/newRecord")?>';
           }else{
             popup_alert('아이를 등록 후 기록가능합니다.');
             //location.href='<?=base_url("auth/member")?>';

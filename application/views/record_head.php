@@ -45,7 +45,7 @@
               <script type="text/javascript"  src="/etc/bootstrap3/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
               <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
               <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-en-US.min.js"></script>
-
+              <script type="text/javascript"  src="/etc/assets/js/sugar.js"></script>
             </head>
             <body>
                   <div class="container">
@@ -80,7 +80,7 @@
                                     if($this->session->userdata('is_login')){
                                     ?>
                                       <li><a href="<?=base_url("record/record_list")?>" class="btn btn-round btn-default">기록보기</a></li>
-                                      <li><a href="<?=base_url("record/index")?>" class="btn btn-round btn-default">기록하기</a></li>
+                                      <li><a href="<?=base_url("record/newRecord")?>" class="btn btn-round btn-default">기록하기</a></li>
                                       <li><a href="<?=base_url("report/index")?>" class="btn btn-round btn-default">보고서</a></li>
                                       <li><a href="<?=base_url("auth/member")?>" class="btn btn-round btn-default">마이페이지</a></li>
                                       <li><a href="<?=base_url("auth/logout")?>" class="btn btn-round btn-default">로그아웃</a></li>

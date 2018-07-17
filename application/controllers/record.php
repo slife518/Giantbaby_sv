@@ -70,6 +70,12 @@ class Record extends My_Controller {
       }
 
 
+      function newRecord()
+     {       
+         $this->_head();
+         $this->load->view('record');
+         $this->_footer();
+      }
 
       function get($id)
       {
