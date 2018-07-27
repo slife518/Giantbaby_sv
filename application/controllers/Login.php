@@ -16,7 +16,7 @@ class Login extends My_Controller {
         $this->authentication();
 
      }
-     function authentication()
+     function signin()
      {
           log_message('debug', 'authentication  시작');
           log_message('debug', $this->input->post('email'));
@@ -41,11 +41,6 @@ class Login extends My_Controller {
             echo $output;
           }else
           {   log_message('debug', '로그인 실패');
-              //echo $user;
-            //   //log_message('debug',$user);
-            //   $this->session->set_flashdata('message', '이메일 또는 비밀번호가 잘못되었습니다.');
-            //   $this->load->helper('url');
-            //   redirect('/auth/login');
             $output = '{"result": "false"} ';   //맴버정보  -- json 은 맴버정보 뿐 아니라 센터 정도도 한번에 조회해서 보낼 수 있다.
             echo $output;
           }
