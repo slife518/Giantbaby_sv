@@ -77,6 +77,14 @@ CREATE TABLE environment (
   PRIMARY KEY (email)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+  CREATE TABLE board (
+      id  int(11) NOT NULL AUTO_INCREMENT,
+      writer varchar(20),
+      title varchar(30),
+      content text NULL,
+      registDay  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (id)
+  );
 
   ALTER TABLE `baby` ADD `father` VARCHAR(20) NULL AFTER `sex`, ADD `mother` VARCHAR(20) NULL AFTER `father`, ADD `owner` VARCHAR(50) NOT NULL AFTER `mother`;
   ALTER TABLE `relation` ADD `level` INT(3) NULL AFTER `email`;

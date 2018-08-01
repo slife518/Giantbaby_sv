@@ -131,7 +131,7 @@ log_message('debug', $this->db->last_query());
       log_message('debug', $this->db->last_query());
 
       return $result;
-     
+
     }
 
 
@@ -145,10 +145,18 @@ log_message('debug', $this->db->last_query());
     }
 
 
+<<<<<<< HEAD
     function buyItem($option){
         $this->db->insert('buy', $option);
         log_message('debug', $this->db->last_query());
         $result = $this->db->insert_id();
         return $result;
     }
+=======
+    function getBoardData()
+    {
+        return $this->db->query("SELECT * FROM board")->row_array();
+    }
+
+>>>>>>> 54f57623868ed6daa92af91fe8228bbe599ae310
   }
