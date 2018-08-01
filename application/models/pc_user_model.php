@@ -145,5 +145,10 @@ log_message('debug', $this->db->last_query());
     }
 
 
-
+    function buyItem($option){
+        $this->db->insert('buy', $option);
+        log_message('debug', $this->db->last_query());
+        $result = $this->db->insert_id();
+        return $result;
+    }
   }
