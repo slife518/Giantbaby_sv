@@ -131,7 +131,7 @@ log_message('debug', $this->db->last_query());
       log_message('debug', $this->db->last_query());
 
       return $result;
-     
+
     }
 
 
@@ -145,5 +145,9 @@ log_message('debug', $this->db->last_query());
     }
 
 
+    function getBoardData()
+    {
+        return $this->db->query("SELECT * FROM board")->row_array();
+    }
 
   }
