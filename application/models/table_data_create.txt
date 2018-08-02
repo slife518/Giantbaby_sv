@@ -77,6 +77,27 @@ CREATE TABLE environment (
   PRIMARY KEY (email)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+
+  ALTER TABLE `baby` ADD `father` VARCHAR(20) NULL AFTER `sex`, ADD `mother` VARCHAR(20) NULL AFTER `father`, ADD `owner` VARCHAR(50) NOT NULL AFTER `mother`;
+  ALTER TABLE `relation` ADD `level` INT(3) NULL AFTER `email`;
+  ALTER TABLE `relation` ADD `approval` VARCHAR(5) NOT NULL AFTER `level`;
+  ALTER TABLE `relation` DROP `relation`;
+  ALTER TABLE `relation` CHANGE `approval` `approval` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0';
+
+
+CREATE TABLE `buy` (
+  `email` varchar(50) NOT NULL,
+  `buyDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `itemCode` varchar(10) NOT NULL,
+  `deliveryStatus` varchar(2) DEFAULT '0',
+  `sendCount` int(11) DEFAULT NULL COMMENT '발송건수',
+  `backCount` int(11) DEFAULT NULL COMMENT '반품건수',
+  `amount` int(11) DEFAULT NULL COMMENT '결재금액 ',
+  `payDate` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
   CREATE TABLE board (
       id  int(11) NOT NULL AUTO_INCREMENT,
       writer varchar(20),
@@ -85,9 +106,3 @@ CREATE TABLE environment (
       registDay  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
       PRIMARY KEY (id)
   );
-
-  ALTER TABLE `baby` ADD `father` VARCHAR(20) NULL AFTER `sex`, ADD `mother` VARCHAR(20) NULL AFTER `father`, ADD `owner` VARCHAR(50) NOT NULL AFTER `mother`;
-  ALTER TABLE `relation` ADD `level` INT(3) NULL AFTER `email`;
-  ALTER TABLE `relation` ADD `approval` VARCHAR(5) NOT NULL AFTER `level`;
-  ALTER TABLE `relation` DROP `relation`;
-  ALTER TABLE `relation` CHANGE `approval` `approval` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0';

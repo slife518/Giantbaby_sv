@@ -29,14 +29,14 @@ class Login extends My_Controller {
           {
               $this->load->helper('password');
           }
-           $log = 'email: ' .$user['email'] .' pw: ' .$user['password'];
+           $log = 'email: ' .$user['email'] .' password: ' .$user['password'];
            log_message('debug',$log);
-
+           
            log_message('debug',$this->input->post('email'));
            log_message('debug',$this->input->post('password'));
           if( $this->input->post('email') == $user['email'] &&
               password_verify($this->input->post('password'), $user['password']))
-          {   log_message('debug', '로그인 성공');
+          {   log_message('debug', '로그인 성공');          
             $output = json_encode($user);;   //맴버정보  -- json 은 맴버정보 뿐 아니라 센터 정도도 한번에 조회해서 보낼 수 있다.
             echo $output;
           }else
@@ -47,9 +47,9 @@ class Login extends My_Controller {
       }
 
 
-    
 
 
+      
      function newMember()
      {
          $this->load->model('user_model');
@@ -76,11 +76,11 @@ class Login extends My_Controller {
                     'tel'=>$this->input->post('mobile')
                 );
         log_message('debug', print_r($data,TRUE));
-        $result = $this->user_model->add($data);
-
+        $result = $this->user_model->add($data);                        
+        
         log_message('debug', $result);
         if($result==0){
-            $output = '{"result": "true"} ';
+            $output = '{"result": "true"} '; 
             echo $output;
         }else{
             echo $result;

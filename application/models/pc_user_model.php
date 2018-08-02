@@ -145,18 +145,17 @@ log_message('debug', $this->db->last_query());
     }
 
 
-<<<<<<< HEAD
     function buyItem($option){
         $this->db->insert('buy', $option);
         log_message('debug', $this->db->last_query());
         $result = $this->db->insert_id();
         return $result;
     }
-=======
-    function getBoardData()
-    {
-        return $this->db->query("SELECT * FROM board")->row_array();
+    
+    function getBoardData(){
+        $rs = $this->db->query("SELECT * FROM board")->row_array();   
+        log_message('debug', $this->db->last_query());
+        return rs;  //{"rs":{"id":"1","writer":"관리자","title":"테스트 중입니다. ","content":"동해물과"}"}
     }
 
->>>>>>> 54f57623868ed6daa92af91fe8228bbe599ae310
   }
