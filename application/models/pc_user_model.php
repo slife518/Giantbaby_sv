@@ -153,9 +153,12 @@ log_message('debug', $this->db->last_query());
     }
     
     function getBoardData(){
-        $rs = $this->db->query("SELECT * FROM board")->row_array();   
+        $rs = $this->db->query("SELECT * FROM board")->result_array();   
+
         log_message('debug', $this->db->last_query());
-        return rs;  //{"rs":{"id":"1","writer":"관리자","title":"테스트 중입니다. ","content":"동해물과"}"}
+        log_message('debug',print_r($rs, TRUE));
+        $data["rs"] = $rs;    
+        return $data;  //{"rs":{"id":"1","writer":"관리자","title":"테스트 중입니다. ","content":"동해물과"}"}
     }
 
   }

@@ -11,8 +11,6 @@ class BuyTransation extends My_Controller {
 
      function buyItem()
      {
-          log_message('debug', 'buyItem  시작');
-          $this->load->model('pc_user_model');          
           log_message('debug','buyItem 실행완료');
           log_message('debug',$this->input->post('email'));
           log_message('debug',$this->input->post('buyItem'));
@@ -33,14 +31,7 @@ class BuyTransation extends My_Controller {
       }
 
       function getBoardData(){
-          log_message('debug', 'getBoardData 시작');
-          $this->load->model('pc_user_model');
           $result = $this->pc_user_model->getBoardData();
-          
-          $data["rs"] = $result; 
-          log_message('debug',print_r(json_encode($data), TRUE));
-          echo json_encode($data);  //{"rs":{"id":"1","writer":"관리자","title":"테스트 중입니다. ","content":"동해물과"}"}
-            
-          
+          echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  //{"rs":[{"id":"1","writer":"관리자","title":"테스트 중입니다. ","content":"동해물과"}]"}               
       }
 }
