@@ -155,9 +155,6 @@ class Login extends My_Controller {
                 $emailText="<h2><a href='http://slife705.cafe24.com/index.php/user/register/email_auth?authcode=".$register_email_code."'>이메일 인증</a></h2> "; ;
 
                 $this->email->message($emailText);
-
-
-
                 $result=$this->email->send();
 
                 if(!$result){
