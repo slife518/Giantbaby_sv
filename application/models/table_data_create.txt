@@ -37,12 +37,14 @@ CREATE TABLE user (
   tel varchar(15),
   address1 varchar(50),
   address2 varchar(50),
+  register_email_code varchar(100),
+  register_auth_code varchar(1) NOT NULL DEFAULT '0'
   created datetime NOT NULL,
   updated datetime,
   PRIMARY KEY (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+ALTER TABLE `user` ADD `register_email_code` VARCHAR(100) NULL AFTER `address2`, ADD `register_auth_code` VARCHAR(1) NOT NULL DEFAULT '0' COMMENT '이메일인증시 1' AFTER `register_email_code`;
 
 CREATE TABLE relation (
 baby_id int(11) NOT NULL,

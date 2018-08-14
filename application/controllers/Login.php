@@ -92,4 +92,157 @@ class Login extends My_Controller {
         $this->load->view('addresspost');
       }
 
+
+       // 메일인증번호 생성함수
+       function _coupon_generator()
+       {
+           log_message('debug', '_coupon_generator 시작') ;
+           $len = 32;
+           $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ123456789';
+       
+           srand((double)microtime()*1000000);
+       
+           $i = 0;
+           $str ='';
+           while(true){
+                
+                   while ($i < $len) {
+                       $num = rand() % strlen($chars);
+                       $tmp = substr($chars, $num, 1);
+                       $str .= $tmp;
+                       $i++;
+                   }
+                   $str = preg_replace('/([0-9A-Z]{4})([0-9A-Z]{4})([0-9A-Z]{4})([0-9A-Z]{4})/', '\1-\2-\3-\4', $str);
+                   //DB에 중복 코드 존재 하는지 확인
+                   
+                   $sql="select * from user where register_email_code =? " ;
+                   $query=$this->db->query($sql, array('0' => $str));
+                   if($query->num_rows() ==0)break;
+           }             
+            
+           return $str; 
+       }
+
+
+       function send_auth_email(){
+                        
+                
+                // $config['useragent']        = 'PHPMailer';
+                // $config['protocol'] = 'mail';
+                // // $config['smtp_host']        = 'ssl://smtp.gmail.com';
+                // $config['smtp_host']        = 'mw-002.cafe24.com';
+                // $config['smtp_user']        = 'slife705';
+                // $config['smtp_pass']        = 'minjuni0801!';
+                // $config['mailpath'] = '/usr/sbin/sendmail';
+                // $config['charset'] = 'UTF-8';
+                // $config['wordwrap'] = TRUE;
+                // $config['smtp_port']        = 465;
+                // $config['smtp_timeout']     = 30; 
+
+                // $this->email->initialize($config);
+
+                
+                $toEmail = 'slife705@naver.com';
+                $register_email_code=$this->_coupon_generator();
+
+                log_message('debug', $register_email_code);
+                $this->load->library('email');   
+                $this->email->from('slife518@gmail.com', 'slife518', 'slife518@gmail.com');
+                $this->email->to('slife705@naver.com');
+                
+                $this->email->subject('이메일 인증');
+                
+                $emailText="<h2><a href='http://slife705.cafe24.com/index.php/user/register/email_auth?authcode=".$register_email_code."'>이메일 인증</a></h2> "; ;
+
+                $this->email->message($emailText);
+
+
+
+                $result=$this->email->send();
+
+                if(!$result){
+                    var_dump($result);
+                    echo '<br />';
+                    echo $this->email->print_debugger();
+                    echo '이메일 발송 실패';
+                    exit;
+                }
+            
+                alert('회원가입 되었습니다. 로그하려면 이메일 인증이 필요합니다.' , '/'); 
+       }
+
+       //이메일 인증
+    public function email_auth()
+    {
+     
+        $authcode=$this->input->get('authcode', TRUE);    
+        $sql="select * from user  where register_email_code =? and register_auth_code= 0";
+        $query=$this->db->query($sql, array('0'=>$authcode));
+         
+               
+        $message['authcode']=$authcode;
+        if($query->num_rows() >0){ //인증 대기 상태  코드 존재
+   
+                $message['message']="인증에 실패 하였습니다."; 
+            
+               //register_auth_code 를 1 로 업데이트       
+                $arrayData=array( 'register_auth_code'=>'1'); 
+               $where=array('register_email_code'=>$authcode) ;
+               $result=$this->db->update('user', $arrayData, $where);
+               
+               if($result){
+                 $message['message']="인증에 성공 하였습니다.";    
+               }else{
+                   $message['message']="인증에 실패 하였습니다.";
+               }
+   
+        }else{
+           $message['message']="잘못된 접근입니다."; 
+        }
+       
+        $this->load->view('welcome',$message);    
+    }
+
+
+    function testmail(){
+        $this->load->library('email');
+
+        $subject = 'This is a test';
+        $message = '<p>This message has been sent for testing purposes.</p>';
+
+        // Get full html:
+        $body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                    <html xmlns="http://www.w3.org/1999/xhtml">
+                    <head>
+                        <meta http-equiv="Content-Type" content="text/html; charset=' . strtolower(config_item('charset')) . '" />
+                        <title>' . html_escape($subject) . '</title>
+                        <style type="text/css">
+                            body {
+                                font-family: Arial, Verdana, Helvetica, sans-serif;
+                                font-size: 16px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ' . $message . '
+                    </body>
+                    </html>';
+        // Also, for getting full html you may use the following internal method:
+        //$body = $this->email->full_html($subject, $message);
+
+        $result = $this->email
+            ->from('slife518@gmail.com')
+            ->reply_to('slife0@hotmail.com')    // Optional, an account where a human being reads.
+            ->to('slife705@naver.com')
+            ->subject($subject)
+            ->message($body)
+            ->send();
+
+        var_dump($result);
+        echo '<br />';
+        echo $this->email->print_debugger();
+
+        exit;
+    }
 }
+
