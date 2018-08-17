@@ -46,15 +46,9 @@ class Login extends My_Controller {
           }
       }
 
-
-
-
-
      function newMember()
-     {
-         $this->load->model('user_model');
+     {         
         // $this->load->library('form_validation');
-
         $this->form_validation->set_rules('email', '아이디', 'required|is_unique[user.email]');
         $this->form_validation->set_rules('name', '이름', 'required|min_length[2]|max_length[20]');
         $this->form_validation->set_rules('password', '비밀번호', 'required|min_length[4]|max_length[30]|matches[re_password]');
@@ -76,7 +70,7 @@ class Login extends My_Controller {
                     'tel'=>$this->input->post('mobile')
                 );
         log_message('debug', print_r($data,TRUE));
-        $result = $this->user_model->add($data);
+        $result = $this->pc_user_model->add($data);
 
         log_message('debug', $result);
         if($result==0){
@@ -88,9 +82,48 @@ class Login extends My_Controller {
 
       }
 
-      function addresspost(){
+      function addresspost(){   //우편번호로 주소 찾기 
         $this->load->view('addresspost');
       }
+
+
+      function save_customer_info()
+      {          
+         // $this->load->library('form_validation');
+ 
+         $this->form_validation->set_rules('email', '아이디', 'required|is_unique[user.email]');
+         $this->form_validation->set_rules('name', '이름', 'required|min_length[2]|max_length[20]');
+         $this->form_validation->set_rules('mobile', '휴대폰번호', 'required');
+         $data = array(
+                     'email'=>$this->input->post('email'),
+                     'nickname'=>$this->input->post('name'),
+                     'address1'=>$this->input->post('address'),
+                     'address2'=>$this->input->post('address_detail'),
+                     'tel'=>$this->input->post('mobile')
+                 );
+         log_message('debug', print_r($data,TRUE));
+         $result = $this->pc_user_model->update($data);
+ 
+         log_message('debug', $result);
+         if($result==0){
+             $output = '{"result": "true"} ';
+             echo $output;
+         }else{
+             echo $result;
+         }
+ 
+       }
+
+       function select_customer_info()
+       {
+         
+         $email = $this->input->post('email');
+         log_message('debug', $email);         
+         $userinfo = $this->pc_user_model->getByEmail($email);
+         log_message('debug',print_r($userinfo,TRUE));
+         echo $userinfo;
+ 
+       }
 
 
        // 메일인증번호 생성함수
