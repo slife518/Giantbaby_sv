@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class BuyTransation extends My_Controller {
+class Pc_BuyTransation extends My_Controller {
      function __construct()
      {
           parent::__construct();
@@ -16,13 +16,13 @@ class BuyTransation extends My_Controller {
           log_message('debug',$this->input->post('buyItem'));
 
           $data = array(
-            'email'=>$this->input->post('email'),            
-            'itemCode'=>$this->input->post('itemCode')            
+            'email'=>$this->input->post('email'),
+            'itemCode'=>$this->input->post('itemCode')
         );
         log_message('debug', print_r($data,TRUE));
-        $result = $this->pc_user_model->buyItem($data);  
+        $result = $this->pc_user_model->buyItem($data);
         if($result==0){
-            $output = '{"result": "true"} '; 
+            $output = '{"result": "true"} ';
             echo $output;
         }else{
             echo $result;
@@ -30,8 +30,4 @@ class BuyTransation extends My_Controller {
 
       }
 
-      function getBoardData(){
-          $result = $this->pc_user_model->getBoardData();
-          echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  //{"rs":[{"id":"1","writer":"관리자","title":"테스트 중입니다. ","content":"동해물과"}]"}               
-      }
 }

@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Login extends My_Controller {
+class Pc_Login extends My_Controller {
      function __construct()
      {
           parent::__construct();
@@ -22,7 +22,7 @@ class Login extends My_Controller {
           log_message('debug', $this->input->post('email'));
 
           $this->load->model('pc_user_model');
-          $user = $this->pc_user_model->getByEmail(array('email'=>$this->input->post('email')));
+          $user = $this->pc_user_model->getByEmail($this->input->post('email'));
           //var_dump($user);
           log_message('debug','getByEmail 실행완료');
           if(!function_exists('password_hash'))
@@ -31,13 +31,10 @@ class Login extends My_Controller {
           }
            $log = 'email: ' .$user['email'] .' password: ' .$user['password'];
            log_message('debug',$log);
-
-           log_message('debug',$this->input->post('email'));
-           log_message('debug',$this->input->post('password'));
           if( $this->input->post('email') == $user['email'] &&
               password_verify($this->input->post('password'), $user['password']))
           {   log_message('debug', '로그인 성공');
-            $output = json_encode($user);;   //맴버정보  -- json 은 맴버정보 뿐 아니라 센터 정도도 한번에 조회해서 보낼 수 있다.
+            $output = json_encode($user);;   //맴버정보
             echo $output;
           }else
           {   log_message('debug', '로그인 실패');
@@ -47,7 +44,7 @@ class Login extends My_Controller {
       }
 
      function newMember()
-     {         
+     {
         // $this->load->library('form_validation');
         $this->form_validation->set_rules('email', '아이디', 'required|is_unique[user.email]');
         $this->form_validation->set_rules('name', '이름', 'required|min_length[2]|max_length[20]');
@@ -82,15 +79,15 @@ class Login extends My_Controller {
 
       }
 
-      function addresspost(){   //우편번호로 주소 찾기 
+      function addresspost(){   //우편번호로 주소 찾기
         $this->load->view('addresspost');
       }
 
 
       function save_customer_info()
-      {          
+      {
          // $this->load->library('form_validation');
- 
+
          $this->form_validation->set_rules('email', '아이디', 'required|is_unique[user.email]');
          $this->form_validation->set_rules('name', '이름', 'required|min_length[2]|max_length[20]');
          $this->form_validation->set_rules('mobile', '휴대폰번호', 'required');
@@ -103,7 +100,7 @@ class Login extends My_Controller {
                  );
          log_message('debug', print_r($data,TRUE));
          $result = $this->pc_user_model->update($data);
- 
+
          log_message('debug', $result);
          if($result==0){
              $output = '{"result": "true"} ';
@@ -111,18 +108,19 @@ class Login extends My_Controller {
          }else{
              echo $result;
          }
- 
+
        }
 
-       function select_customer_info()
+       function select_customer_info()  //고객정보 조회
        {
-         
+
          $email = $this->input->post('email');
-         log_message('debug', $email);         
+         log_message('debug', $email);
          $userinfo = $this->pc_user_model->getByEmail($email);
          log_message('debug',print_r($userinfo,TRUE));
-         echo $userinfo;
- 
+         
+         echo json_encode($userinfo);
+
        }
 
 
