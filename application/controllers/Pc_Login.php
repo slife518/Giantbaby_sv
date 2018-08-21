@@ -1,4 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+
+
 class Pc_Login extends My_Controller {
      function __construct()
      {
@@ -17,14 +20,8 @@ class Pc_Login extends My_Controller {
 
      }
      function signin()
-     {
-          log_message('debug', 'authentication  시작');
-          log_message('debug', $this->input->post('email'));
-
-          $this->load->model('pc_user_model');
-          $user = $this->pc_user_model->getByEmail($this->input->post('email'));
-          //var_dump($user);
-          log_message('debug','getByEmail 실행완료');
+     {    $this->load->model('pc_user_model');
+          $user = $this->pc_user_model->getByEmail($this->input->post('email'));                
           if(!function_exists('password_hash'))
           {
               $this->load->helper('password');
@@ -34,8 +31,8 @@ class Pc_Login extends My_Controller {
           if( $this->input->post('email') == $user['email'] &&
               password_verify($this->input->post('password'), $user['password']))
           {   log_message('debug', '로그인 성공');
-            $output = json_encode($user);;   //맴버정보
-            echo $output;
+                $output = json_encode($user);;   //맴버정보
+                echo $output;
           }else
           {   log_message('debug', '로그인 실패');
             $output = '{"result": "false"} ';   //맴버정보  -- json 은 맴버정보 뿐 아니라 센터 정도도 한번에 조회해서 보낼 수 있다.
@@ -70,7 +67,8 @@ class Pc_Login extends My_Controller {
         $result = $this->pc_user_model->add($data);
 
         log_message('debug', $result);
-        if($result==0){
+        if($result){
+            $this->send_auth_email($this->input->post('email'));   //이메일 인증 후 로그인 가능 
             $output = '{"result": "true"} ';
             echo $output;
         }else{
@@ -94,9 +92,10 @@ class Pc_Login extends My_Controller {
          $data = array(
                      'email'=>$this->input->post('email'),
                      'nickname'=>$this->input->post('name'),
-                     'address1'=>$this->input->post('address'),
-                     'address2'=>$this->input->post('address_detail'),
-                     'tel'=>$this->input->post('mobile')
+                     'birthday'=>$this->input->post('birthday'),
+                     'address1'=>$this->input->post('address1'),
+                     'address2'=>$this->input->post('address2'),
+                     'tel'=>$this->input->post('tel')
                  );
          log_message('debug', print_r($data,TRUE));
          $result = $this->pc_user_model->update($data);
@@ -114,12 +113,11 @@ class Pc_Login extends My_Controller {
        function select_customer_info()  //고객정보 조회
        {
 
-         $email = $this->input->post('email');
-         log_message('debug', $email);
-         $userinfo = $this->pc_user_model->getByEmail($email);
-         log_message('debug',print_r($userinfo,TRUE));
+         $email = $this->input->post('email');         
+         $result = $this->pc_user_model->getByEmail($email);
+         log_message('debug',print_r($result,TRUE));         
          
-         echo json_encode($userinfo);
+         echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 
        }
 
@@ -155,41 +153,35 @@ class Pc_Login extends My_Controller {
        }
 
 
-       function send_auth_email(){
+       function send_auth_email($toEmail){
 
-                $this->load->library('email');
-                $config['useragent']        = 'PHPMailer';
-                $config['protocol'] = 'mail';
-                // $config['smtp_host']        = 'ssl://smtp.gmail.com';
-                $config['smtp_host']        = 'smtp.gmail.com';
-              //  $config['smtp_host']        = 'mw-002.cafe24.com';
-                $config['smtp_user']        = 'slife518';
-                $config['smtp_pass']        = 'jkjkjk7878';
-                // $config['smtp_user']        = 'slife705';
-                // $config['smtp_pass']        = 'minjuni0801!';
-                $config['mailpath'] = '/usr/sbin/sendmail';
-                $config['charset'] = 'UTF-8';
-                $config['wordwrap'] = TRUE;
-                $config['smtp_port']        = 465;
-                $config['smtp_timeout']     = 30;
+                 //    $toEmail = $this->input->post('email');
+                // $toEmail = "slife705@naver.com";
 
-                $this->email->initialize($config);
+                $register_email_code=$this->_coupon_generator();   //이메일 인증키 생성하기 
 
+                //이메일 인증키 업데이트 하기 
+                $arrayData=array( 'register_email_code'=>$register_email_code);
+                $where=array('email'=>$toEmail) ;
+                $result=$this->db->update('user', $arrayData, $where);
 
-                $toEmail = 'slife705@naver.com';
-                $register_email_code=$this->_coupon_generator();
+                if(!$result){  //인증키 업데이트 실패스 
+                    echo '이메일인증 메일 발송 실패';
+                    exit;
+                }
+                
+                //운영
+                // $emailText="<h2><a href='http://slife705.cafe24.com/index.php/pc_login/email_auth?email=".$toEmail."authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> ";
+                
+                //개발 
+                $emailText="<h2><a href='http://localhost/dev.php/pc_login/email_auth?email=".$toEmail."&authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> "; ;
 
-                log_message('debug', $register_email_code);
+                $to=$toEmail;   //받는 이메일 주소
+                $from="코디네이터";   //보내는 사람 이름 
+                $subject="이메일인증";    //제목
+                $body=$emailText;    //내용 
 
-                $this->email->from('slife518@gmail.com', 'slife518', 'slife518@gmail.com');
-                $this->email->to('slife705@naver.com');
-
-                $this->email->subject('이메일 인증');
-
-                $emailText="<h2><a href='http://slife705.cafe24.com/index.php/user/register/email_auth?authcode=".$register_email_code."'>이메일 인증</a></h2> "; ;
-
-                $this->email->message($emailText);
-                $result=$this->email->send();
+                $result = $this->sendmail($to, $from, $subject, $body);
 
                 if(!$result){
                     var_dump($result);
@@ -199,16 +191,18 @@ class Pc_Login extends My_Controller {
                     exit;
                 }
 
-                alert('회원가입 되었습니다. 로그하려면 이메일 인증이 필요합니다.' , '/');
+                alert('회원가입을 축하드립니다. 로그인하려면 이메일 인증이 필요합니다.' , '/');
        }
 
        //이메일 인증
     public function email_auth()
     {
 
+        $email=$this->input->get('email', TRUE);
         $authcode=$this->input->get('authcode', TRUE);
-        $sql="select * from user  where register_email_code =? and register_auth_code= 0";
-        $query=$this->db->query($sql, array('0'=>$authcode));
+        $sql="select * from user  where email = ? and register_email_code =? and register_auth_code= 0";
+        $query=$this->db->query($sql, array('0'=>$email, '1'=>$authcode));
+        log_message('debug', $this->db->last_query());
 
 
         $message['authcode']=$authcode;
@@ -231,39 +225,28 @@ class Pc_Login extends My_Controller {
            $message['message']="잘못된 접근입니다.";
         }
 
-        $this->load->view('welcome',$message);
+       echo true;
     }
 
 
-    function testmail(){
-         $mail = new PHPMailer;
+    function sendmail($to, $from, $subject, $body){
+   
+        // include "Sendmail.php";
+        $this->load->library('Sendmail');
 
-         $mail->IsSMTP();
-         $mail->SMTPDebug = 1;
-         $mail->SMTPAuth = true;
-         $mail->SMTPSecure = 'ssl';
-         $mail->Host = "smtp.gmail.com";
-         $mail->Port = 465; // or 587
-         $mail->IsHTML(true);
-         $mail->Username = "slife518@gmail.com";
-         $mail->Password = "jkjkjk7878";
+        $sendmail = new Sendmail();
 
-         $mail->setFrom('support@some.com', 'support');
-         $mail->addAddress('validEmail', 'Uma');
-         $mail->addReplyTo('validEmail', 'Support');
-         $mail->isHTML(true);
+        // $to="slife705@naver.com";   //받는 이메일 주소
+        // $from="신용협동조합";   //보내는 사람 이름 
+        // $subject="테스트메일발송";    //제목
+        // $body="첨부파일이 추가되었습니다.";    //내용 
+        $cc_mail="";   //참조 
+        $bcc_mail="";  //참조 
 
-         $mail->Subject = 'Subject';
-         $mail->Body = 'Body';
-         $mail->AltBody = 'Dear Uma, Thank you for your interest.';
+        $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
 
-
-         if(!$mail->send()) {
-           echo "Opps! For some technical reasons we couldn't able to sent you an email. We will shortly get back to you with download details.";
-        		echo "Mailer Error: " . $mail->ErrorInfo;
-        	} else {
-        		echo "Message has been sent";
-        	}
+        return true;
 
     }
 }
+
