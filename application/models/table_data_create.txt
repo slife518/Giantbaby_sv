@@ -34,6 +34,7 @@ CREATE TABLE user (
   email varchar(50) NOT NULL,
   password varchar(255) NOT NULL,
   nickname varchar(20),
+  birthday varchar(20),
   tel varchar(15),
   address1 varchar(50),
   address2 varchar(50),
@@ -44,6 +45,7 @@ CREATE TABLE user (
   PRIMARY KEY (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `user` ADD `birthday` VARCHAR(20) NULL COMMENT '생년월일' AFTER `nickname`;
 
 
 CREATE TABLE relation (

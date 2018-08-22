@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-
+             header('Content-Type: application/json');
 
 class Pc_Login extends My_Controller {
      function __construct()
      {
+            
           parent::__construct();
           $this->load->database();
           $this->load->model('pc_user_model');
@@ -20,7 +20,7 @@ class Pc_Login extends My_Controller {
 
      }
      function signin()
-     {    $this->load->model('pc_user_model');
+     {   
           $user = $this->pc_user_model->getByEmail($this->input->post('email'));                
           if(!function_exists('password_hash'))
           {
@@ -108,6 +108,42 @@ class Pc_Login extends My_Controller {
              echo $result;
          }
 
+       }
+
+    function save_customer_pw(){
+         // 기존 비밀번호 확인
+         $user = $this->pc_user_model->getByEmail($this->input->post('email'));                
+         if(!function_exists('password_hash'))
+         {
+             $this->load->helper('password');
+         }
+          $log = 'email: ' .$user['email'] .' password: ' .$user['password'];
+          log_message('debug',$log);
+         if( $this->input->post('email') == $user['email'] &&
+             password_verify($this->input->post('password'), $user['password']))
+         {  //기준 비밀번호 맞음. 
+         }else{   
+            //기준비밀번호 맞지 않음.
+            $result = '{"result": "기존 비밀번호가 맞지 않습니다."}';           
+            echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+            exit;
+         }
+          $data = array(
+                      'email'=>$this->input->post('email'),
+                      'password'=>$this->input->post('password')
+                  );
+          log_message('debug', print_r($data,TRUE));
+          $result = $this->pc_user_model->update($data);
+ 
+          log_message('debug', $result);
+          if($result==0){
+              $result = '{"result": "true"} ';
+              echo $result;
+          }else{
+              echo $result;
+          }
+ 
+        
        }
 
        function select_customer_info()  //고객정보 조회
