@@ -37,9 +37,11 @@ class Pc_user_model extends CI_Model {
 
         $this->db->set('updated', 'NOW()', false);
         $this->db->where('email',  $email);
-        $result = $this->db->update('user', $option)->row_array();   //update(테이블, 데이터, where)        
+        $result = $this->db->update('user', $option);   //update(테이블, 데이터, where)  결과가 1 이면 성공   
+        
 
         log_message('debug', $this->db->last_query());
+        log_message('debug', $result);     
         return $result;
     }
 

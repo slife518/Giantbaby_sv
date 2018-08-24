@@ -101,8 +101,9 @@ class Pc_Login extends My_Controller {
          $result = $this->pc_user_model->update($data);
 
          log_message('debug', $result);
-         if($result==0){
-             $output = '{"result": "true"} ';
+         if($result==1){
+             $output =  array("result"=>"true");   //'{"result": "true"} ';
+
              echo $output;
          }else{
              echo $result;
