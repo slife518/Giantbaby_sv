@@ -34,6 +34,18 @@ class MY_Controller extends CI_Controller {
       $this->load->view('record_head_nobody');
     }
 
+    function _native_head()
+    {      
+      if(!$this->session->userdata('is_login'))
+      {
+        log_message('debug', '로그인이 되어 있지 않습니다. ');
+        $this->load->helper('url');
+        redirect('/native/auth/login');
+      }
+
+      $this->load->view('native/record_head');
+    }
+
     function _head_nochk()  //로그인상태여부를 체크하지 않는다. 즉 로그인 하지 않고 조회가능한 화면은 이 헤드를 사용해야 한다.
     {
       $this->load->view('record_head_nobody');
