@@ -1,6 +1,7 @@
 
 <form id='form'>
- <div class="main xpull container-fluid">    
+ <div class="table xpull container-fluid">   
+    <button  class="btn btn-default pull-right" type='button' id='record' name='record'><i class="fas fa-edit"></i> 기록하기</button> 
    	<canvas id="canvas" width="400" height="400"></canvas>
     <div class="row">
         <div class="col-md-offset-1 col-md-2 col-xs-offset-1 col-xs-5">
@@ -142,7 +143,7 @@
             // row: the record corresponding to the clicked row,
             // $element: the tr element,
             // field: the field name corresponding to the clicked cell.
-            var url = "<?php echo base_url("record/index/")?>" + row.id ;
+            var url = "<?php echo base_url("native/record/index/")?>" + row.id ;
 //            console.log(element);
             location.href = url;
              },
@@ -182,7 +183,7 @@
 
         $('#record').on('click', function(){
           if("<?=$this->session->userdata('baby_id')?>"){   //값이 있으면 true
-            location.href='<?=base_url("record/newRecord")?>';
+            location.href='<?=base_url("native/record/newRecord")?>';
           }else{
             popup_alert('아이를 등록 후 기록가능합니다.');
             //location.href='<?=base_url("auth/member")?>';
