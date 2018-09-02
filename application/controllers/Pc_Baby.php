@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Baby extends My_Controller {
+class Pc_Baby extends My_Controller {
 
      function __construct()
      {
@@ -15,11 +15,12 @@ class Baby extends My_Controller {
 
     }
 
-    function get_baby_info(){
-      $email = $this->input->post('email');     
+    function get_baby_info($email){
+      // $email = $this->input->get('email');
+      log_message('debug', 'get_baby_info 시작' + $email);
       $result = $this->pc_baby_model->getbabylist($email);
-      log_message('debug',print_r($result,TRUE));  
-      echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
+      log_message('debug',print_r($result,TRUE));
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
     }
 
 }

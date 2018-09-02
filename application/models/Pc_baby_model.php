@@ -1,5 +1,5 @@
 <?php
-class Baby_model extends CI_Model {
+class Pc_baby_model extends CI_Model {
 
     function __construct()
     {
@@ -62,11 +62,11 @@ class Baby_model extends CI_Model {
     log_message('debug',print_r($option, TRUE));
       // $this->db->where($option);
       // $this->db->SELECT('baby_id, babyname, birthday, mother, father');
-      
-      $result = $this->db->get_where('baby', array('email'=>$option))->result_array();
+
+      $result = $this->db->get_where('baby', array('owner'=>$option))->result_array();
 
   log_message('debug', $this->db->last_query());
-  log_message('debug',print_r($result, TRUE));
+  // log_message('debug',print_r($result, TRUE));
 
       return $result;
     }
@@ -86,7 +86,7 @@ class Baby_model extends CI_Model {
 
       function disconnectbaby($option)
       {
-      $result = $this->db->delete('relation', $option);   //관계정보를 지운다 
+      $result = $this->db->delete('relation', $option);   //관계정보를 지운다
       log_message('debug', $this->db->last_query());
       return $result;
 
