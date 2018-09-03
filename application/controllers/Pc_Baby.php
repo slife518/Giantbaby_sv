@@ -15,13 +15,22 @@ class Pc_Baby extends My_Controller {
 
     }
 
-    function get_baby_info($email){
-      // $email = $this->input->get('email');
-      log_message('debug', 'get_baby_info 시작' + $email);
+    function get_baby_info(){
+      $email = $this->input->post('email');
+      log_message('debug', print_r($email, TRUE));      
       $result = $this->pc_baby_model->getbabylist($email);
       log_message('debug',print_r($result,TRUE));
       echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
     }
 
+    function get_baby_info_detail(){
+      $email = $this->input->post('email');
+      $baby_id = $this->input->post('baby_id');
+      log_message('debug', $baby_id);      
+
+      $result = $this->pc_baby_model->getbabydetail(array("email"=>$email,"baby_id"=>$baby_id));
+      log_message('debug',print_r($result,TRUE));
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+    }
 }
 ?>

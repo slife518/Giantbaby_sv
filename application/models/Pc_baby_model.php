@@ -71,6 +71,21 @@ class Pc_baby_model extends CI_Model {
       return $result;
     }
 
+    function getbabydetail($option){
+        log_message('debug', "getbabylist 시작");
+        log_message('debug',print_r($option, TRUE));
+          // $this->db->where($option);
+          // $this->db->SELECT('baby_id, babyname, birthday, mother, father');
+    
+          $result = $this->db->get_where('baby', $option)->result_array();
+    
+      log_message('debug', $this->db->last_query());
+      // log_message('debug',print_r($result, TRUE));
+    
+          return $result;
+        }
+
+        
 
     function update($option)
       {
