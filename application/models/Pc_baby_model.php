@@ -87,21 +87,19 @@ class Pc_baby_model extends CI_Model {
 
         
 
-    function update($option)
+    function update($option) // 아기 정보 변경
       {
-          //아기 정보 변경
         $id = $option['baby_id'];
         unset($option['baby_id']);
-
-        $this->db->where('baby_id', $id);
-        $result = $this->db->update('baby', $option);   //관계된 정보를 지우고 다시 등록
-        log_message('debug', $this->db->last_query());
+                  $this->db->where('baby_id', $id);
+        $result = $this->db->update('baby', $option);  // 성공이면 1 
         return $result;
       }
 
       function disconnectbaby($option)
       {
       $result = $this->db->delete('relation', $option);   //관계정보를 지운다
+      log_message('debug', $result);
       log_message('debug', $this->db->last_query());
       return $result;
 

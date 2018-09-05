@@ -97,36 +97,31 @@ class Pc_Login extends My_Controller {
          
        }
 
-    function save_customer_pw(){
-         // 기존 비밀번호 확인
-        $user = $this->pc_user_model->getByEmail($this->input->post('email'));                
-        if(!function_exists('password_hash'))
-        {
-             $this->load->helper('password');
+        function save_customer_pw(){
+            $user = $this->pc_user_model->getByEmail($this->input->post('email'));          // 기존 비밀번호 확인               
+            if(!function_exists('password_hash'))
+            {
+                $this->load->helper('password');
+            }
+            $log = 'email: ' .$user['email'] .' password: ' .$user['password'];
+            log_message('debug',$log);
+            log_message('debug', $this->input->post('oldpassword'));
+            if( $this->input->post('email') == $user['email'] && password_verify($this->input->post('oldpassword'), $user['password']))
+            {  //기준 비밀번호 맞음. 
+            }else{    //기준비밀번호 맞지 않음.
+                
+                $result = array("result"=>"기존 비밀번호가 맞지 않습니다.");           
+                echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+                exit;
+            }
+            $hash = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
+            $data = array(
+                        'email'=>$this->input->post('email'),
+                        'password'=>$hash
+                    );        
+            $result = $this->pc_user_model->update($data);
+            echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  //결과값 보내기         
         }
-        $log = 'email: ' .$user['email'] .' password: ' .$user['password'];
-        log_message('debug',$log);
-        log_message('debug', $this->input->post('oldpassword'));
-        if( $this->input->post('email') == $user['email'] &&
-             password_verify($this->input->post('oldpassword'), $user['password']))
-        {  //기준 비밀번호 맞음. 
-        }else{   
-            //기준비밀번호 맞지 않음.
-            $result = array("result"=>"기존 비밀번호가 맞지 않습니다.");           
-            echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
-            exit;
-        }
-        $hash = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
-        $data = array(
-                      'email'=>$this->input->post('email'),
-                      'password'=>$hash
-                  );
-        log_message('debug', print_r($data,TRUE));
-        $result = $this->pc_user_model->update($data);
- 
-        log_message('debug', $result);
-        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  //결과값 보내기         
-       }
 
        function select_customer_info()  //고객정보 조회
        {

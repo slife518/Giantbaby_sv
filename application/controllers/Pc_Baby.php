@@ -53,22 +53,11 @@ class Pc_Baby extends My_Controller {
 
 
     function update(){
-      log_message('debug', '아기정보수정');
-    //  $this->load->library('form_validation');
-      log_message('debug', '아기이름은 ' . $this->input->post('babyname')  );
-          log_message('debug', '아기정보저장 중')   ;
-          log_message('debug', $this->input->post('email'));
-            $array = array(
-                    'baby_id'=>$this->input->post('baby_id'),
-                    'mother'=>$this->input->post('mother'),
-                    'father'=>$this->input->post('father'),
-                    'babyname'=>$this->input->post('babyname'),
-                    'sex'=>$this->input->post('sex'),
-                    'birthday'=>$this->input->post('birthday')
-                    );
-            log_message('debug', print_r($array, 'TRUE'));
-            $this->pc_baby_model->update($array);                        
-            echo json_encode('아기정보가 수정되었습니다.');
+      // $object = json_decode(file_get_contents('php://input', true));
+      // $array = json_decode(json_encode($object), True);      
+      $array = json_decode(json_encode(json_decode(file_get_contents('php://input', true))), True); //\오프젝트로 반환된 것을 array 로 변환 
+      $result = $this->pc_baby_model->update($array);                        
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
     }
 }
 ?>
