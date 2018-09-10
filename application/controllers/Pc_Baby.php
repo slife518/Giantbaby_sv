@@ -57,7 +57,24 @@ class Pc_Baby extends My_Controller {
       // $array = json_decode(json_encode($object), True);      
       $array = json_decode(json_encode(json_decode(file_get_contents('php://input', true))), True); //\오프젝트로 반환된 것을 array 로 변환 
       $result = $this->pc_baby_model->update($array);                        
-      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다. 
     }
+
+    function save_record(){
+      log_message('debug', "save_record 시작 ");
+      $array = array(
+        'baby_id'=>$this->input->post('baby_id'),
+        'record_date'=>$this->input->post('record_date'),
+        'record_time'=>$this->input->post('record_time'),
+        'milk'=>$this->input->post('milk'),
+        'rice'=>$this->input->post('rice'),
+        'description'=>$this->input->post('description'),
+        'author'=>$this->input->post('email')      
+      );
+      $record_id = $this->pc_baby_model->addRecord($array);
+      echo json_encode(array("result"=>$record_id),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다. 
+
+    }
+
 }
 ?>
