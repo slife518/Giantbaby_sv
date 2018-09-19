@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Record extends My_Controller {
+class Pc_record extends My_Controller {
      function __construct()
      {
           parent::__construct();
           $this->load->database();
-          $this->load->model('record_model');
+          $this->load->model('Pc_record_model');
      }
 
 
@@ -78,22 +78,21 @@ class Record extends My_Controller {
       }
 
       function get($id)
-      {
-        //print "<script type=\"text/javascript\">alert('some_text');</script>";
-          $this->_native_head();
-          $record = $this->record_model->get($id);
-          $this->load->view('index', array('record'=>$record));
-          $this-> _footer();
-      }
+      {  
+          $result = $this->record_model->get($id);     
+          log_message('debug',print_r($result,TRUE));
+          echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
+      } 
 
-      function record_list()
+      function record_list()    // 앱에서 사용 
       {
          //print "<script type=\"text/javascript\">alert('Some text');</script>";
           //$this->_head($this->router->fetch_method());
-          $this->_native_head();
-          $record = $this->record_model->gets( array( $this->session->userdata('email')));
-          $this->load->view('native/record_list', array('record'=>$record));
-          $this-> _footer();
+          $baby_id= $this->input->post('baby_id');
+          $result = $this->Pc_record_model->gets($baby_id);
+          log_message('debug',print_r($result,TRUE));
+          echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
+
       }
 
       function delete($id)
