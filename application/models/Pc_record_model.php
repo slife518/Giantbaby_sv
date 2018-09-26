@@ -6,7 +6,6 @@ class Pc_record_model extends CI_Model {
         parent::__construct();
     }
 
-    
     function gets($option){
       log_message('debug', "gets 시작");
       log_message('debug',print_r($option, TRUE));
@@ -15,8 +14,5 @@ class Pc_record_model extends CI_Model {
     // log_message('debug',print_r($result, TRUE));
       return $result;
       }
-
-
-
 }
 ?>
