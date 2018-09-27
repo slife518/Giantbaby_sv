@@ -6,12 +6,8 @@ class Pc_record_model extends CI_Model {
         parent::__construct();
     }
 
-<<<<<<< HEAD
     
     function gets($email){
-=======
-    function gets($option){
->>>>>>> 43b67dd4857665db603430de2a405755ff7270d6
       log_message('debug', "gets 시작");
       log_message('debug',print_r($option, TRUE));
       $this->db->order_by("record_date", "desc");
@@ -37,7 +33,6 @@ class Pc_record_model extends CI_Model {
     // log_message('debug',print_r($result, TRUE));
       return $result;
       }
-<<<<<<< HEAD
 
 
     function getChartData($option){
@@ -86,7 +81,5 @@ class Pc_record_model extends CI_Model {
     return $result;
   }
 
-=======
->>>>>>> 43b67dd4857665db603430de2a405755ff7270d6
 }
 ?>
