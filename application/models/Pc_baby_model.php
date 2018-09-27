@@ -106,15 +106,6 @@ class Pc_baby_model extends CI_Model {
       }
 
 
-    function addRecord($option){
-        $this->db->set('created', 'NOW()', false);
-      //  var_dump($option);
-        $option['record_time'] = $option['record_time'] .':00';   //시간:분 까지만 받고 있기 때문에 db 입력시 초를 00 으로 넣어준다.
-        $this->db->insert('record',$option);
-        log_message('debug', $this->db->last_query());
-        $result = $this->db->insert_id();
-        return $result;
-    }
 
 
   }

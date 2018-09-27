@@ -60,21 +60,6 @@ class Pc_Baby extends My_Controller {
       echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다. 
     }
 
-    function save_record(){
-      log_message('debug', "save_record 시작 ");
-      $array = array(
-        'baby_id'=>$this->input->post('baby_id'),
-        'record_date'=>$this->input->post('record_date'),
-        'record_time'=>$this->input->post('record_time'),
-        'milk'=>$this->input->post('milk'),
-        'rice'=>$this->input->post('rice'),
-        'description'=>$this->input->post('description'),
-        'author'=>$this->input->post('email')      
-      );
-      $record_id = $this->pc_baby_model->addRecord($array);
-      echo json_encode(array("result"=>$record_id),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다. 
-
-    }
 
 }
 ?>
