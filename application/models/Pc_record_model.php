@@ -49,7 +49,7 @@ class Pc_record_model extends CI_Model {
 
     }
       
-    function addRecord($option, $id){
+    function addRecord($option, $id){    //신규기록 저장 또는 수정 
       $this->db->set('created', 'NOW()', false);
     //  var_dump($option);
       $option['record_time'] = $option['record_time'] .':00';   //시간:분 까지만 받고 있기 때문에 db 입력시 초를 00 으로 넣어준다.

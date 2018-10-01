@@ -37,14 +37,27 @@ class Pc_baby_model extends CI_Model {
       return $result;
     }
 
-    function registerBaby($option){
-        $this->db->insert('baby', $option);
-        $baby_id = $this->db->insert_id('baby_id');
-        $relationinfo = array('baby_id'=>$baby_id, 'email'=>$option['owner'], 'approval'=>'1'); // 1 : 승인
-        $result = $this->db->insert('relation', $relationinfo);
+    function modifyBaby($option, $baby_id){
+
+        if(empty($baby_id)){    //신규등록
+
+            $this->db->insert('baby', $option);
+            $baby_id = $this->db->insert_id('baby_id');
+            $relationinfo = array('baby_id'=>$baby_id, 'email'=>$option['owner'], 'approval'=>'1'); // 1 : 승인
+            $result = $this->db->insert('relation', $relationinfo);
+
+        }else{    //기존 아기정보 변경 
+
+            // $id = $option['baby_id'];
+            // unset($option['baby_id']);
+                      $this->db->where('baby_id', $baby_id);
+            $result = $this->db->update('baby', $option);  // 성공이면 1 
+            
+        }
+
         log_message('debug', $this->db->last_query());
         log_message('debug',print_r($result, TRUE));
-        return $baby_id;
+        return $result;
 
 
     }
@@ -87,14 +100,14 @@ class Pc_baby_model extends CI_Model {
 
         
 
-    function update($option) // 아기 정보 변경
-      {
-        $id = $option['baby_id'];
-        unset($option['baby_id']);
-                  $this->db->where('baby_id', $id);
-        $result = $this->db->update('baby', $option);  // 성공이면 1 
-        return $result;
-      }
+    // function update($option) // 아기 정보 변경
+    //   {
+    //     $id = $option['baby_id'];
+    //     unset($option['baby_id']);
+    //               $this->db->where('baby_id', $id);
+    //     $result = $this->db->update('baby', $option);  // 성공이면 1 
+    //     return $result;
+    //   }
 
       function disconnectbaby($option)
       {

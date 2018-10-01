@@ -1,10 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 $active_group = 'default';
 $active_record = TRUE;
+//개발
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = 'slife0';
 $db['default']['database'] = 'a01';
+
+
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = FALSE;   //database sesstion 사용시 false 
