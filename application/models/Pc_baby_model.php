@@ -43,8 +43,11 @@ class Pc_baby_model extends CI_Model {
 
             $this->db->insert('baby', $option);
             $baby_id = $this->db->insert_id('baby_id');
-            $relationinfo = array('baby_id'=>$baby_id, 'email'=>$option['owner'], 'approval'=>'1'); // 1 : 승인
+            $relationinfo = array('baby_id'=>$baby_id, 'email'=>$option['owner'], 'approval'=>'1'); // 1 : 승인            
             $result = $this->db->insert('relation', $relationinfo);
+            $this->db->where('email', $option['owner']);
+            $this->db->update('user', array('baby_id'=>$baby_id));  // 성공이면 1 
+
 
         }else{    //기존 아기정보 변경 
 
