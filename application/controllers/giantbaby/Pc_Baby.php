@@ -17,7 +17,7 @@ class Pc_Baby extends My_Controller {
 
     function get_baby_info(){
       $email = $this->input->post('email');
-      log_message('debug', print_r($email, TRUE));      
+      log_message('debug', print_r($email, TRUE));
       $result = $this->pc_baby_model->getbabylist($email);
       log_message('debug',print_r($result,TRUE));
       echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
@@ -26,7 +26,7 @@ class Pc_Baby extends My_Controller {
     function get_baby_info_detail(){
       $email = $this->input->post('email');
       $baby_id = $this->input->post('baby_id');
-      log_message('debug', $baby_id);      
+      log_message('debug', $baby_id);
 
       $result = $this->pc_baby_model->getbabydetail(array("owner"=>$email,"baby_id"=>$baby_id));
       log_message('debug',print_r($result,TRUE));
@@ -54,27 +54,43 @@ class Pc_Baby extends My_Controller {
 
     // function update(){
     //   // $object = json_decode(file_get_contents('php://input', true));
-    //   // $array = json_decode(json_encode($object), True);      
-    //   $array = json_decode(json_encode(json_decode(file_get_contents('php://input', true))), True); //\오프젝트로 반환된 것을 array 로 변환 
-    //   $result = $this->pc_baby_model->update($array);                        
-    //   echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다. 
+    //   // $array = json_decode(json_encode($object), True);
+    //   $array = json_decode(json_encode(json_decode(file_get_contents('php://input', true))), True); //\오프젝트로 반환된 것을 array 로 변환
+    //   $result = $this->pc_baby_model->update($array);
+    //   echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
     // }
 
     function modifyBaby(){
       log_message('debug', 'modifyBaby 시작');
       $baby_id = $this->input->post('baby_id');
-      $array = array(        
+      $array = array(
         'owner'=>$this->input->post('owner'),
         'babyname'=>$this->input->post('babyname'),
         'birthday'=>$this->input->post('birthday'),
         // 'mother'=>$this->input->post('mother'),
         // 'father'=>$this->input->post('father'),
-        'sex'=>$this->input->post('sex')      
-      );      
+        'sex'=>$this->input->post('sex')
+      );
       $result = $this->pc_baby_model->modifyBaby($array, $baby_id);
-      echo json_encode(array("result"=>$record_id),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다. 
+      echo json_encode(array("result"=>$record_id),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
 
     }
 
+    function deleteBaby(){
+      log_message('debug', 'deleteBaby start');
+      $baby_id = $this->input->post('baby_id');
+      $email = $this->input->post('email');
+
+      $condition = array(
+                     'baby_id' => $baby_id,
+                     'email' => $email
+                  );
+
+      $this->db->where($condition);
+      $result = $this->db->delete('relation')
+      
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+
+    }
 }
 ?>
