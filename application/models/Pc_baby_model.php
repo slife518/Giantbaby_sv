@@ -37,33 +37,33 @@ class Pc_baby_model extends CI_Model {
       return $result;
     }
 
-    function modifyBaby($option, $baby_id){
+    // function modifyBaby($option, $baby_id){
 
-        if(empty($baby_id)){    //신규등록
+    //     if(empty($baby_id)){    //신규등록
 
-            $this->db->insert('baby', $option);
-            $baby_id = $this->db->insert_id('baby_id');
-            $relationinfo = array('baby_id'=>$baby_id, 'email'=>$option['owner'], 'approval'=>'1'); // 1 : 승인            
-            $result = $this->db->insert('relation', $relationinfo);
-            $this->db->where('email', $option['owner']);
-            $this->db->update('user', array('baby_id'=>$baby_id));  // 성공이면 1 
+    //         $this->db->insert('baby', $option);
+    //         $baby_id = $this->db->insert_id('baby_id');
+    //         $relationinfo = array('baby_id'=>$baby_id, 'email'=>$option['owner'], 'approval'=>'1'); // 1 : 승인            
+    //         $result = $this->db->insert('relation', $relationinfo);
+    //         $this->db->where('email', $option['owner']);
+    //         $this->db->update('user', array('baby_id'=>$baby_id));  // 성공이면 1 
 
 
-        }else{    //기존 아기정보 변경 
+    //     }else{    //기존 아기정보 변경 
 
-            // $id = $option['baby_id'];
-            // unset($option['baby_id']);
-                      $this->db->where('baby_id', $baby_id);
-            $result = $this->db->update('baby', $option);  // 성공이면 1 
+    //         // $id = $option['baby_id'];
+    //         // unset($option['baby_id']);
+    //                   $this->db->where('baby_id', $baby_id);
+    //         $result = $this->db->update('baby', $option);  // 성공이면 1 
             
-        }
+    //     }
 
-        log_message('debug', $this->db->last_query());
-        log_message('debug',print_r($result, TRUE));
-        return $result;
+    //     log_message('debug', $this->db->last_query());
+    //     log_message('debug',print_r($result, TRUE));
+    //     return $result;
 
 
-    }
+    // }
 
     function registerRelation($option){   //아기찾기를 통해 등록 한 경우 관계만 넣어준다.
         $result = $this->db->replace('relation', $option);
@@ -73,19 +73,19 @@ class Pc_baby_model extends CI_Model {
     }
 
 
-    function getbabylist($option){
-    log_message('debug', "getbabylist 시작");
-    log_message('debug',print_r($option, TRUE));
-      // $this->db->where($option);
-      // $this->db->SELECT('baby_id, babyname, birthday, mother, father');
+//     function getbabylist($option){
+//     log_message('debug', "getbabylist 시작");
+//     log_message('debug',print_r($option, TRUE));
+//       // $this->db->where($option);
+//       // $this->db->SELECT('baby_id, babyname, birthday, mother, father');
 
-      $result = $this->db->get_where('baby', array('owner'=>$option))->result_array();
+//       $result = $this->db->get_where('baby', array('owner'=>$option))->result_array();
 
-  log_message('debug', $this->db->last_query());
-  // log_message('debug',print_r($result, TRUE));
+//   log_message('debug', $this->db->last_query());
+//   // log_message('debug',print_r($result, TRUE));
 
-      return $result;
-    }
+//       return $result;
+//     }
 
     function getbabydetail($option){
         log_message('debug', "getbabylist 시작");
