@@ -2,9 +2,7 @@
              header('Content-Type: application/json');
 
 class Pc_Login extends My_Controller {
-     function __construct()
-     {
-            
+     function __construct(){
           parent::__construct();
           $this->load->database();
           $this->load->model('pc_user_model');
@@ -12,36 +10,24 @@ class Pc_Login extends My_Controller {
           // $this->load->library('my_form_validation');   //뭔가 설정이 더 필요한 거 같다..
      }
 
-
-
-     function index(){
-        log_message('debug', 'index 시작');
-        $this->authentication();
-
-     }
-     function signin()
-     {   
-          $user = $this->pc_user_model->getByEmail($this->input->post('email'));                
-          if(!function_exists('password_hash'))
-          {
+     function signin(){
+          $email = $this->input->post('email');
+          $password = $this->input->post('password');        
+          $user = $this->db->get_where('user', array('email'=>$email))->row_array();             
+          if(!function_exists('password_hash')){
               $this->load->helper('password');
           }
-           $log = 'email: ' .$user['email'] .' password: ' .$user['password'];
-           log_message('debug',$log);
-          if( $this->input->post('email') == $user['email'] &&
-              password_verify($this->input->post('password'), $user['password']))
-          {   log_message('debug', '로그인 성공');
+           $log = 'email: ' .$user['email'] .' password: ' .$user['password'];           
+          if( $email == $user['email'] && password_verify($password, $user['password'])){  
                 $output = json_encode($user);;   //맴버정보
                 echo $output;
-          }else
-          {   log_message('debug', '로그인 실패');
+          }else{
             $output = '{"result": "false"} ';   //맴버정보  -- json 은 맴버정보 뿐 아니라 센터 정도도 한번에 조회해서 보낼 수 있다.
             echo $output;
           }
       }
 
-     function newMember()
-     {
+     function newMember(){
         // $this->load->library('form_validation');
         $this->form_validation->set_rules('email', '아이디', 'required|is_unique[user.email]');
         $this->form_validation->set_rules('name', '이름', 'required|min_length[2]|max_length[20]');
@@ -82,8 +68,7 @@ class Pc_Login extends My_Controller {
       }
 
 
-      function save_customer_info()
-      {
+      function save_customer_info(){
          $data = array(
                      'email'=>$this->input->post('email'),
                      'nickname'=>$this->input->post('name'),
@@ -136,8 +121,7 @@ class Pc_Login extends My_Controller {
 
 
        // 메일인증번호 생성함수
-       function _coupon_generator()
-       {
+       function _coupon_generator(){
            log_message('debug', '_coupon_generator 시작') ;
            $len = 32;
            $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ123456789';
@@ -208,8 +192,7 @@ class Pc_Login extends My_Controller {
        }
 
        //이메일 인증
-    public function email_auth()
-    {
+    public function email_auth(){
 
         $email=$this->input->get('email', TRUE);
         $authcode=$this->input->get('authcode', TRUE);

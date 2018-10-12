@@ -20,16 +20,16 @@ class Pc_Baby extends My_Controller {
           echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
         }
 
-        function get_baby_info_detail(){
-          $email = $this->input->post('email');
-          $baby_id = $this->input->post('baby_id');
-          log_message('debug', $baby_id);
+    function get_baby_info_detail(){
+      $email = $this->input->post('email');
+      $baby_id = $this->input->post('baby_id');
+      log_message('debug', $baby_id);
 
-          // $result = $this->pc_baby_model->getbabydetail(array("owner"=>$email,"baby_id"=>$baby_id));
-          $result = $this->db->get_where('baby', array("owner"=>$email,"baby_id"=>$baby_id))->result_array();
+      // $result = $this->pc_baby_model->getbabydetail(array("owner"=>$email,"baby_id"=>$baby_id));
+      $result = $this->db->get_where('baby', array("owner"=>$email,"baby_id"=>$baby_id))->result_array();
 
-          log_message('debug',print_r($result,TRUE));
-          echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+      log_message('debug',print_r($result,TRUE));
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
     }
 
 

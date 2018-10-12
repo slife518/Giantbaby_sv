@@ -59,7 +59,7 @@ class Pc_user_model extends CI_Model {
       $this->db->join('user', 'baby.baby_id = user.baby_id');
       $this->db->where('user.email', $email);
       $result = $this->db->get()->row_array();   //->row_array 결과값을 한줄의 array 행태로 리턴 .. 참고 http://codeigniter-kr.org/user_guide_2.1.0/database/results.html
-    //     log_message('debug', $this->db->last_query());
+      log_message('debug', $this->db->last_query());
     //   if(empty($babyinfo)){
     //     log_message('debug','$babyinfo는 비어 있다.');
     //     $result = $userinfo;
