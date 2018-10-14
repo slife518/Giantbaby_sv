@@ -245,4 +245,17 @@ class Pc_Login extends My_Controller {
         return true;
 
     }
+
+    function findUser(){
+      $email = $this->input->post('email');
+      $tel = $this->input->post('tel');
+      if(!$email.empty()){
+        $result = $this->db->get_where('user', array('email'=>$email))->row_array;
+      }else{
+        $result = $this->db->get_where('user', array('tel'=>tel))->row_array;
+      }
+
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
+
+    }
 }

@@ -5,7 +5,7 @@ class Pc_Baby extends My_Controller {
      {
           parent::__construct();
           $this->load->database();
-          $this->load->model('pc_baby_model');
+        //  $this->load->model('pc_baby_model');
           $this->load->library('form_validation');
      }
 
@@ -48,16 +48,16 @@ class Pc_Baby extends My_Controller {
 
             $this->db->insert('baby', $array);
             $baby_id = $this->db->insert_id('baby_id');
-            $relationinfo = array('baby_id'=>$baby_id, 'email'=>$array['owner'], 'approval'=>'1'); // 1 : 승인            
+            $relationinfo = array('baby_id'=>$baby_id, 'email'=>$array['owner'], 'approval'=>'1'); // 1 : 승인
             $result = $this->db->insert('relation', $relationinfo);
             $this->db->where('email', $array['owner']);
-            $this->db->update('user', array('baby_id'=>$baby_id));  // 성공이면 1 
+            $this->db->update('user', array('baby_id'=>$baby_id));  // 성공이면 1
 
-          }else{    //기존 아기정보 변경 
+          }else{    //기존 아기정보 변경
 
             $this->db->where('baby_id', $baby_id);
-            $result = $this->db->update('baby', $array);  // 성공이면 1 
-              
+            $result = $this->db->update('baby', $array);  // 성공이면 1
+
           }
 
           echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
@@ -69,7 +69,7 @@ class Pc_Baby extends My_Controller {
           $baby_id = $this->input->post('baby_id');
           $email = $this->input->post('email');
 
-          //기록된 정보가 있는 지 확인 하고 기록된 정보가 있으면 삭제 불가 
+          //기록된 정보가 있는 지 확인 하고 기록된 정보가 있으면 삭제 불가
           $recordCondition = array(
             'baby_id' => $baby_id,
             'author' => $email
@@ -79,18 +79,18 @@ class Pc_Baby extends My_Controller {
           $result = $this->db->count_all_results('record');
 
           if($result > 0){
-            echo json_encode("기록된 정보가 있는 아이는 삭제 할 수 없습니다.",JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
+            echo json_encode("기록된 정보가 있는 아이는 삭제 할 수 없습니다.",JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
             exit;
           }
 
           $condition = array(
             'baby_id' => $baby_id,
             'email' => $email
-          );     
+          );
 
           $this->db->where($condition);
           $result = $this->db->delete('relation');
-        
+
           $babyCondition = array(
             'baby_id' => $baby_id,
             'owner' => $email
