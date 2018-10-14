@@ -12,13 +12,13 @@ class Pc_Login extends My_Controller {
 
      function signin(){
           $email = $this->input->post('email');
-          $password = $this->input->post('password');        
-          $user = $this->db->get_where('user', array('email'=>$email))->row_array();             
+          $password = $this->input->post('password');
+          $user = $this->db->get_where('user', array('email'=>$email))->row_array();
           if(!function_exists('password_hash')){
               $this->load->helper('password');
           }
-           $log = 'email: ' .$user['email'] .' password: ' .$user['password'];           
-          if( $email == $user['email'] && password_verify($password, $user['password'])){  
+           $log = 'email: ' .$user['email'] .' password: ' .$user['password'];
+          if( $email == $user['email'] && password_verify($password, $user['password'])){
                 $output = json_encode($user);;   //맴버정보
                 echo $output;
           }else{
@@ -54,7 +54,7 @@ class Pc_Login extends My_Controller {
 
         log_message('debug', $result);
         if($result){
-            $this->send_auth_email($this->input->post('email'));   //이메일 인증 후 로그인 가능 
+            $this->send_auth_email($this->input->post('email'));   //이메일 인증 후 로그인 가능
             $output = '{"result": "true"} ';
             echo $output;
         }else{
@@ -76,14 +76,14 @@ class Pc_Login extends My_Controller {
                      'address1'=>$this->input->post('address1'),
                      'address2'=>$this->input->post('address2'),
                      'tel'=>$this->input->post('tel')
-                 );         
+                 );
          $result = $this->pc_user_model->update($data);
-         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  //결과값 보내기 
-         
+         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  //결과값 보내기
+
        }
 
         function save_customer_pw(){
-            $user = $this->pc_user_model->getByEmail($this->input->post('email'));          // 기존 비밀번호 확인               
+            $user = $this->pc_user_model->getByEmail($this->input->post('email'));          // 기존 비밀번호 확인
             if(!function_exists('password_hash'))
             {
                 $this->load->helper('password');
@@ -92,10 +92,10 @@ class Pc_Login extends My_Controller {
             log_message('debug',$log);
             log_message('debug', $this->input->post('oldpassword'));
             if( $this->input->post('email') == $user['email'] && password_verify($this->input->post('oldpassword'), $user['password']))
-            {  //기준 비밀번호 맞음. 
+            {  //기준 비밀번호 맞음.
             }else{    //기준비밀번호 맞지 않음.
-                
-                $result = array("result"=>"기존 비밀번호가 맞지 않습니다.");           
+
+                $result = array("result"=>"기존 비밀번호가 맞지 않습니다.");
                 echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
                 exit;
             }
@@ -103,18 +103,19 @@ class Pc_Login extends My_Controller {
             $data = array(
                         'email'=>$this->input->post('email'),
                         'password'=>$hash
-                    );        
+                    );
             $result = $this->pc_user_model->update($data);
-            echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  //결과값 보내기         
+            echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  //결과값 보내기
         }
 
        function select_customer_info()  //고객정보 조회
        {
 
-         $email = $this->input->post('email');         
-         $result = $this->pc_user_model->getByEmail($email);
-         log_message('debug',print_r($result,TRUE));         
-         
+         $email = $this->input->post('email');
+         $result = $this->db->get_where('user', array('email'=>$email))->row_array();
+         // $result = $this->pc_user_model->getByEmail($email);
+         log_message('debug',print_r($result,TRUE));
+
          echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 
        }
@@ -155,28 +156,28 @@ class Pc_Login extends My_Controller {
                  //    $toEmail = $this->input->post('email');
                 // $toEmail = "slife705@naver.com";
 
-                $register_email_code=$this->_coupon_generator();   //이메일 인증키 생성하기 
+                $register_email_code=$this->_coupon_generator();   //이메일 인증키 생성하기
 
-                //이메일 인증키 업데이트 하기 
+                //이메일 인증키 업데이트 하기
                 $arrayData=array( 'register_email_code'=>$register_email_code);
                 $where=array('email'=>$toEmail) ;
                 $result=$this->db->update('user', $arrayData, $where);
 
-                if(!$result){  //인증키 업데이트 실패스 
+                if(!$result){  //인증키 업데이트 실패스
                     echo '이메일인증 메일 발송 실패';
                     exit;
                 }
-                
+
                 //운영
                 // $emailText="<h2><a href='http://slife705.cafe24.com/index.php/pc_login/email_auth?email=".$toEmail."authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> ";
-                
-                //개발 
+
+                //개발
                 $emailText="<h2><a href='http://localhost/dev.php/pc_login/email_auth?email=".$toEmail."&authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> "; ;
 
                 $to=$toEmail;   //받는 이메일 주소
-                $from="코디네이터";   //보내는 사람 이름 
+                $from="코디네이터";   //보내는 사람 이름
                 $subject="이메일인증";    //제목
-                $body=$emailText;    //내용 
+                $body=$emailText;    //내용
 
                 $result = $this->sendmail($to, $from, $subject, $body);
 
@@ -226,18 +227,18 @@ class Pc_Login extends My_Controller {
 
 
     function sendmail($to, $from, $subject, $body){
-   
+
         // include "Sendmail.php";
         $this->load->library('Sendmail');
 
         $sendmail = new Sendmail();
 
         // $to="slife705@naver.com";   //받는 이메일 주소
-        // $from="신용협동조합";   //보내는 사람 이름 
+        // $from="신용협동조합";   //보내는 사람 이름
         // $subject="테스트메일발송";    //제목
-        // $body="첨부파일이 추가되었습니다.";    //내용 
-        $cc_mail="";   //참조 
-        $bcc_mail="";  //참조 
+        // $body="첨부파일이 추가되었습니다.";    //내용
+        $cc_mail="";   //참조
+        $bcc_mail="";  //참조
 
         $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
 
@@ -245,4 +246,3 @@ class Pc_Login extends My_Controller {
 
     }
 }
-
