@@ -45,32 +45,32 @@ class Pc_user_model extends CI_Model {
         return $result;
     }
 
-    function getByEmail($email){
-    //     log_message('debug', 'getByEmail 시작 ');
-    //   $result = $this->db->get_where('user', array('email'=>$email))->row_array();
-    //   log_message('debug', $this->db->last_query());
+    // function getByEmail($email){
+    // //     log_message('debug', 'getByEmail 시작 ');
+    // //   $result = $this->db->get_where('user', array('email'=>$email))->row_array();
+    // //   log_message('debug', $this->db->last_query());
 
+    // //   return $result;
+
+      
+    // //   $userinfo = $this->db->get_where('user', array('email'=>$email))->row_array();
+    //   $this->db->select('*');
+    //   $this->db->from('baby');
+    //   $this->db->join('user', 'baby.baby_id = user.baby_id');
+    //   $this->db->where('user.email', $email);
+    //   $result = $this->db->get()->row_array();   //->row_array 결과값을 한줄의 array 행태로 리턴 .. 참고 http://codeigniter-kr.org/user_guide_2.1.0/database/results.html
+    //   log_message('debug', $this->db->last_query());
+    // //   if(empty($babyinfo)){
+    // //     log_message('debug','$babyinfo는 비어 있다.');
+    // //     $result = $userinfo;
+    // //   }else{
+    // //   //  log_message('debug',print_r($array2));
+    // //     $result = array_merge($userinfo,$babyinfo);   // 두개의 배열을 합치기
+    // //   };
+      
     //   return $result;
 
-      
-    //   $userinfo = $this->db->get_where('user', array('email'=>$email))->row_array();
-      $this->db->select('*');
-      $this->db->from('baby');
-      $this->db->join('user', 'baby.baby_id = user.baby_id');
-      $this->db->where('user.email', $email);
-      $result = $this->db->get()->row_array();   //->row_array 결과값을 한줄의 array 행태로 리턴 .. 참고 http://codeigniter-kr.org/user_guide_2.1.0/database/results.html
-      log_message('debug', $this->db->last_query());
-    //   if(empty($babyinfo)){
-    //     log_message('debug','$babyinfo는 비어 있다.');
-    //     $result = $userinfo;
-    //   }else{
-    //   //  log_message('debug',print_r($array2));
-    //     $result = array_merge($userinfo,$babyinfo);   // 두개의 배열을 합치기
-    //   };
-      
-      return $result;
-
-    }
+    // }
 
 
     function alterpw($pw, $email){

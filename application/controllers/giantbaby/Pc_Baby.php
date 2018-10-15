@@ -100,5 +100,18 @@ class Pc_Baby extends My_Controller {
           $result = $this->db->delete('baby');
           echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
     }
+
+    function get_parents_info(){
+          log_message('debug', 'get_parents_info start');
+          $baby_id = $this->input->post('baby_id');
+          $this->db->select('*');
+          $this->db->from('user');
+          $this->db->join('relation', 'user.email = relation.email', 'left');
+          $this->db->where('relation.baby_id',$baby_id);
+          $result = $this->db->get()->result_array();
+          log_message('debug', $this->db->last_query());
+          log_message('debug',print_r($result, TRUE));
+          echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+    }
 }
 ?>

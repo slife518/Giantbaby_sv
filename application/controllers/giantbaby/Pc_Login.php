@@ -246,10 +246,11 @@ class Pc_Login extends My_Controller {
 
     }
 
-    function findUser(){
+    function find_user(){
+        log_message('debug' , 'find_user 시작');
       $email = $this->input->post('email');
       $tel = $this->input->post('tel');
-      if(!$email.empty()){
+      if(!empty($email)){
         $result = $this->db->get_where('user', array('email'=>$email))->row_array;
       }else{
         $result = $this->db->get_where('user', array('tel'=>tel))->row_array;
