@@ -22,7 +22,7 @@ class Pc_Baby extends My_Controller {
 
     function get_baby_info_detail(){
       $email = $this->input->post('email');
-      $baby_id = $this->input->post('baby_id');
+      $baby_id = $this->input->post('baby_id'); 
       log_message('debug', $baby_id);
 
       // $result = $this->pc_baby_model->getbabydetail(array("owner"=>$email,"baby_id"=>$baby_id));
@@ -111,7 +111,7 @@ class Pc_Baby extends My_Controller {
           $result = $this->db->get()->result_array();
           log_message('debug', $this->db->last_query());
           log_message('debug',print_r($result, TRUE));
-          echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+          echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);          
     }
 }
 ?>
