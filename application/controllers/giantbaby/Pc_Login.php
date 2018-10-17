@@ -1,5 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-             header('Content-Type: application/json');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');            
 
 class Pc_Login extends My_Controller {
      function __construct(){
@@ -260,7 +259,9 @@ class Pc_Login extends My_Controller {
 
         log_message('debug', $this->db->last_query());   
         log_message('debug',print_r($result, TRUE));   
-        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.             
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+        // echo json_encode(array("result"=>$result));   // 1을 넘기면 true Boolean 으로 넘어간다.        
+             
 
     }
 }

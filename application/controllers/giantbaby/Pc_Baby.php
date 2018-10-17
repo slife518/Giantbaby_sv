@@ -1,8 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Pc_Baby extends My_Controller {
 
-     function __construct()
-     {
+     function __construct(){
           parent::__construct();
           $this->load->database();
         //  $this->load->model('pc_baby_model');
@@ -113,5 +112,25 @@ class Pc_Baby extends My_Controller {
           log_message('debug',print_r($result, TRUE));
           echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);          
     }
+
+    
+    function find_user(){
+      log_message('debug' , 'find_user 시작');
+      $email = $this->input->post('email');
+      $tel = $this->input->post('tel');
+      log_message('debug', $email);     
+      log_message('debug', $$tel);  
+      if(!empty($email)){
+          $result = $this->db->get_where('user', array('email'=>$email))->result_array();
+      }else{
+          $result = $this->db->get_where('user', array('tel'=>$tel))->result_array();        
+      }
+
+      log_message('debug', $this->db->last_query());   
+      log_message('debug',print_r($result, TRUE));   
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+      // echo json_encode(array("result"=>$result));   // 1을 넘기면 true Boolean 으로 넘어간다.    
+
+      }
 }
 ?>
