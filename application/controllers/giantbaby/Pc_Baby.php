@@ -132,5 +132,14 @@ class Pc_Baby extends My_Controller {
       // echo json_encode(array("result"=>$result));   // 1을 넘기면 true Boolean 으로 넘어간다.    
 
       }
+
+    function invite_user(){
+      log_message('debug', 'invite_user 시작');
+      $baby_id = $this->input->post('baby_id');
+      $email = $this->input->post('email');
+      $result = $this->db->insert('relation', array('email'=>$email, 'baby_id'=>$baby_id, 'approval'=>'1'));
+      log_message('debug', 'result는 ' + $result);
+      echo $result;
+    }
 }
 ?>
