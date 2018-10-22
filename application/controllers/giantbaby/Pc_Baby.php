@@ -147,5 +147,16 @@ class Pc_Baby extends My_Controller {
       log_message('debug', 'result는 ' + $result);
       echo $result;
     }
+
+    function delete_relation(){
+      log_message('debug', 'delete_relation 시작');
+      $baby_id = $this->input->post('baby_id');
+      $email = $this->input->post('email');
+      
+      $result = $this->db->delete('relation', array('email'=>$email, 'baby_id'=>$baby_id));                
+      
+      log_message('debug', 'result는 ' + $result);
+      echo $result;
+    }
 }
 ?>
