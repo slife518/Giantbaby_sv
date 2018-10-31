@@ -33,12 +33,12 @@ class Pc_record extends My_Controller {
       echo json_encode(array("result"=>$record_id),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다. 
 
     }
-    function get($id)
-    {  
-        $result = $this->record_model->get($id);     
-        log_message('debug',print_r($result,TRUE));
-        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
-    } 
+    // function get($id)
+    // {  
+    //     $result = $this->record_model->get($id);     
+    //     log_message('debug',print_r($result,TRUE));
+    //     echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
+    // } 
 
     function record_list()    // 앱에서 사용 
     {

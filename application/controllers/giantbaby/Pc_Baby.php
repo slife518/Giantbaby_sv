@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Pc_Baby extends My_Controller {
+class Pc_baby extends My_Controller {
 
      function __construct(){
           parent::__construct();
@@ -10,9 +10,13 @@ class Pc_Baby extends My_Controller {
 
     function get_baby_info(){
           $email = $this->input->post('email');
-          log_message('debug', print_r($email, TRUE));
+          log_message('debug', print_r($email, TRUE));          
 
-          $result = $this->db->get_where('baby', array('owner'=>$email))->result_array();
+          $this->db->select('*');
+          $this->db->from('baby');
+          $this->db->join('relation', 'baby.baby_id = relation.baby_id', 'left');
+          $this->db->where('relation.email',$email);
+          $result = $this->db->get()->result_array();
 
           //$result = $this->pc_baby_model->getbabylist($email);
           log_message('debug',print_r($result,TRUE));
@@ -25,7 +29,7 @@ class Pc_Baby extends My_Controller {
       log_message('debug', $baby_id);
 
       // $result = $this->pc_baby_model->getbabydetail(array("owner"=>$email,"baby_id"=>$baby_id));
-      $result = $this->db->get_where('baby', array("owner"=>$email,"baby_id"=>$baby_id))->result_array();
+      $result = $this->db->get_where('baby', array("baby_id"=>$baby_id))->result_array();
 
       log_message('debug',print_r($result,TRUE));
       echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);

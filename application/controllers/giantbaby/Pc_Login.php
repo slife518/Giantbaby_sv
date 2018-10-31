@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');            
 
-class Pc_Login extends My_Controller {
+class Pc_login extends My_Controller {
      function __construct(){
           parent::__construct();
           $this->load->database();
