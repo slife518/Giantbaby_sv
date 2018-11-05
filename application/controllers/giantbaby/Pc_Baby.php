@@ -10,7 +10,7 @@ class Pc_baby extends My_Controller {
 
     function get_baby_info(){
           $email = $this->input->post('email');
-          log_message('debug', print_r($email, TRUE));          
+          log_message('debug', print_r($email, TRUE));
 
           $this->db->select('*');
           $this->db->from('baby');
@@ -18,10 +18,16 @@ class Pc_baby extends My_Controller {
           $this->db->where('relation.email',$email);
           $result = $this->db->get()->result_array();
 
+          $this->db->select('baby_id');
+          $this->db->from('user');
+          $this->db->where('email',$email);
+          $main_baby = $this->db->get()->result_array();
+
           //$result = $this->pc_baby_model->getbabylist($email);
           log_message('debug',print_r($result,TRUE));
-          echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+          echo json_encode(array("result"=>$result, "main_baby"=>$main_baby),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
         }
+
 
     function get_baby_info_detail(){
       $email = $this->input->post('email');
@@ -35,7 +41,14 @@ class Pc_baby extends My_Controller {
       echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
     }
 
+    function set_main_baby(){
+      $baby_id = $this->input->post('baby_id');
+      $email = $this->input->post('email');
+      $this->db->where('email', $email);
+      $result = $this->db->update('user', array('baby_id'=>$baby_id));
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
 
+    }
     function modifyBaby(){
 
           log_message('debug', 'modifyBaby 시작');
@@ -156,9 +169,9 @@ class Pc_baby extends My_Controller {
       log_message('debug', 'delete_relation 시작');
       $baby_id = $this->input->post('baby_id');
       $email = $this->input->post('email');
-      
-      $result = $this->db->delete('relation', array('email'=>$email, 'baby_id'=>$baby_id));                
-      
+
+      $result = $this->db->delete('relation', array('email'=>$email, 'baby_id'=>$baby_id));
+
       log_message('debug', 'result는 ' + $result);
       echo $result;
     }
