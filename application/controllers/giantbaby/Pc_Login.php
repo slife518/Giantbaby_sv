@@ -269,12 +269,16 @@ class Pc_login extends My_Controller {
     }
 
     function send_mail_pw(){
-        log_message('debug' , 'send_mail_pw 시작');
+        
+        $toEmail = $this->input->post('email');
+
+        log_message('debug' , 'send_mail_pw 시작' .$toEmail );
+
 
         $new_password = 't12345!';
         $hash = password_hash($new_password, PASSWORD_BCRYPT);
         $data = array(
-                    'email'=>$this->input->post('email'),
+                    'email'=>$toEmail,
                     'password'=>$hash
                 );
         $result = $this->pc_user_model->update($data);
@@ -283,7 +287,7 @@ class Pc_login extends My_Controller {
         // $emailText="<h2><a href='http://slife705.cafe24.com/index.php/pc_login/email_auth?email=".$toEmail."authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> ";
 
         //개발
-        $emailText="<h2>비밀번호가 " . new_password . " 로 초기화 되었습니다.</h2> "; ;
+        $emailText="<h2>비밀번호가 " . $new_password . " 로 초기화 되었습니다.</h2> "; ;
 
         $to=$toEmail;   //받는 이메일 주소
         $from="자이언트베이비";   //보내는 사람 이름
