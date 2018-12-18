@@ -12,7 +12,7 @@ class Auth extends My_Controller {
      function login()
      {
          if(!$this->session->userdata('is_login')){
-           log_message('debug', "로그인페이지시작");
+           //log_message('debug', "로그인페이지시작");
            $this->_head_nochk();
            $this->load->view('login');
            $this->_footer();

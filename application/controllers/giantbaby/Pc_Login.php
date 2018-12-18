@@ -10,7 +10,6 @@ class Pc_login extends My_Controller {
      }
 
      function signin(){
-        log_message('debug', "로그인페이지시작");
           $email = $this->input->post('email');
           $password = $this->input->post('password');
           $user = $this->db->get_where('user', array('email'=>$email))->row_array();
