@@ -27,7 +27,7 @@ class Pc_record_model extends CI_Model {
                                                                                   from user
                                                                                  WHERE email = ?)
                                                               and approval = 1 )
-                                       ORDER BY record_date DESC, record_time DESC", array($email, $email))->result_array();   //result_array 로도 가능
+                                       ORDER BY record_date DESC, record_time DESC, a.created DESC", array($email, $email))->result_array();   //result_array 로도 가능
 
       log_message('debug', $this->db->last_query());
     // log_message('debug',print_r($result, TRUE));

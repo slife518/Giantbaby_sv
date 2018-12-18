@@ -151,7 +151,9 @@ class Pc_login extends My_Controller {
        }
 
 
-       function send_auth_email($toEmail){
+       
+
+       function send_auth_email($toEmail){   //가입인증메일 보내기 
 
                  //    $toEmail = $this->input->post('email');
                 // $toEmail = "slife705@naver.com";
@@ -263,6 +265,38 @@ class Pc_login extends My_Controller {
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
         // echo json_encode(array("result"=>$result));   // 1을 넘기면 true Boolean 으로 넘어간다.        
              
+
+    }
+
+    function send_mail_pw(){
+        
+        $toEmail = $this->input->post('email');
+
+        log_message('debug' , 'send_mail_pw 시작' .$toEmail );
+
+
+        $new_password = 't12345!';
+        $hash = password_hash($new_password, PASSWORD_BCRYPT);
+        $data = array(
+                    'email'=>$toEmail,
+                    'password'=>$hash
+                );
+        $result = $this->pc_user_model->update($data);
+
+        //운영
+        // $emailText="<h2><a href='http://slife705.cafe24.com/index.php/pc_login/email_auth?email=".$toEmail."authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> ";
+
+        //개발
+        $emailText="<h2>비밀번호가 " . $new_password . " 로 초기화 되었습니다.</h2> "; ;
+
+        $to=$toEmail;   //받는 이메일 주소
+        $from="자이언트베이비";   //보내는 사람 이름
+        $subject="비밀번호초기화";    //제목
+        $body=$emailText;    //내용
+
+        $result = $this->sendmail($to, $from, $subject, $body);
+
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 
     }
 }
