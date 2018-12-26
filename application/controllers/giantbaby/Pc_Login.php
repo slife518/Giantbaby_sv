@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');            
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Pc_login extends My_Controller {
      function __construct(){
@@ -83,7 +83,8 @@ class Pc_login extends My_Controller {
        }
 
         function save_customer_pw(){
-            $user = $this->pc_user_model->getByEmail($this->input->post('email'));          // 기존 비밀번호 확인
+            // $user = $this->pc_user_model->getByEmail($this->input->post('email'));          // 기존 비밀번호 확인
+            $user = $this->db->get_where('user', array('email'=>$this->input->post('email')))->row_array();
             if(!function_exists('password_hash'))
             {
                 $this->load->helper('password');
@@ -151,9 +152,9 @@ class Pc_login extends My_Controller {
        }
 
 
-       
 
-       function send_auth_email($toEmail){   //가입인증메일 보내기 
+
+       function send_auth_email($toEmail){   //가입인증메일 보내기
 
                  //    $toEmail = $this->input->post('email');
                 // $toEmail = "slife705@naver.com";
@@ -252,24 +253,24 @@ class Pc_login extends My_Controller {
         log_message('debug' , 'find_user 시작');
         $email = $this->input->post('email');
         $tel = $this->input->post('tel');
-        log_message('debug', $email);     
-        log_message('debug', $$tel);  
+        log_message('debug', $email);
+        log_message('debug', $$tel);
         if(!empty($email)){
             $result = $this->db->get_where('user', array('email'=>$email))->result_array();
         }else{
-            $result = $this->db->get_where('user', array('tel'=>$tel))->result_array();        
+            $result = $this->db->get_where('user', array('tel'=>$tel))->result_array();
         }
 
-        log_message('debug', $this->db->last_query());   
-        log_message('debug',print_r($result, TRUE));   
+        log_message('debug', $this->db->last_query());
+        log_message('debug',print_r($result, TRUE));
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
-        // echo json_encode(array("result"=>$result));   // 1을 넘기면 true Boolean 으로 넘어간다.        
-             
+        // echo json_encode(array("result"=>$result));   // 1을 넘기면 true Boolean 으로 넘어간다.
+
 
     }
 
     function send_mail_pw(){
-        
+
         $toEmail = $this->input->post('email');
 
         log_message('debug' , 'send_mail_pw 시작' .$toEmail );
