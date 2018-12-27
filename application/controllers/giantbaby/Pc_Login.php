@@ -50,8 +50,15 @@ class Pc_login extends My_Controller {
                     'tel'=>$this->input->post('mobile')
                 );
         log_message('debug', print_r($data,TRUE));
-        $result = $this->pc_user_model->add($data);
 
+        $this->db->insert('user', $data);
+        log_message('debug', $this->db->last_query());
+        $result = $this->db->insert_id();  //성공하면 0
+        log_message('debug',$result);
+        if($result==0){
+          $result = TRUE;
+          log_message('debug', "result 는 ".$result);
+        }
         log_message('debug', $result);
         if($result){
             $this->send_auth_email($this->input->post('email'));   //이메일 인증 후 로그인 가능
@@ -178,7 +185,7 @@ class Pc_login extends My_Controller {
                 $emailText="<h2><a href='http://localhost/dev.php/pc_login/email_auth?email=".$toEmail."&authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> "; ;
 
                 $to=$toEmail;   //받는 이메일 주소
-                $from="코디네이터";   //보내는 사람 이름
+                $from="자이언트베이비";   //보내는 사람 이름
                 $subject="이메일인증";    //제목
                 $body=$emailText;    //내용
 
@@ -192,7 +199,7 @@ class Pc_login extends My_Controller {
                     exit;
                 }
 
-                alert('회원가입을 축하드립니다. 로그인하려면 이메일 인증이 필요합니다.' , '/');
+                // alert('회원가입을 축하드립니다. 로그인하려면 이메일 인증이 필요합니다.' , '/');
        }
 
        //이메일 인증
