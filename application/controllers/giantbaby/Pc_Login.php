@@ -27,17 +27,20 @@ class Pc_login extends My_Controller {
           }
       }
 
-     function newMember(){
-        // $this->load->library('form_validation');
+     function register_Member(){
+        log_message('debug', "newMember 호출 "); 
+        $this->load->library('form_validation');
         $this->form_validation->set_rules('email', '아이디', 'required|is_unique[user.email]');
-        $this->form_validation->set_rules('name', '이름', 'required|min_length[2]|max_length[20]');
-        $this->form_validation->set_rules('password', '비밀번호', 'required|min_length[4]|max_length[30]|matches[re_password]');
-        $this->form_validation->set_rules('repassword', '비밀번호 확인', 'required');
-        $this->form_validation->set_rules('mobile', '휴대폰번호', 'required');
+
+        if ($this->form_validation->run() == FALSE){   //DB 조회와 관련된 유효성 체크만 여기서 함. 
+                log_message('debug', "기존 이메일 존재함. ");                                
+                echo "이미 등록된 이메일이 있습니다.";
+                return false;
+        }        
 
         if(!function_exists('password_hash'))
         {
-        log_message('debug', 'password_hash 존재하지 않음');
+            log_message('debug', 'password_hash 존재하지 않음');
             $this->load->helper('password');
         }
 
@@ -48,22 +51,11 @@ class Pc_login extends My_Controller {
                     'nickname'=>$this->input->post('name'),
                     'address1'=>$this->input->post('address'),
                     'tel'=>$this->input->post('mobile')
-                );
-        log_message('debug', print_r($data,TRUE));
-
-        $this->db->insert('user', $data);
-        log_message('debug', $this->db->last_query());
-        $result = $this->db->insert_id();  //성공하면 0
-        log_message('debug',$result);
-        if($result==0){
-          $result = TRUE;
-          log_message('debug', "result 는 ".$result);
-        }
-        log_message('debug', $result);
-        if($result){
-            $this->send_auth_email($this->input->post('email'));   //이메일 인증 후 로그인 가능
-            $output = '{"result": "true"} ';
-            echo $output;
+                );        
+        $result = $this->db->insert('user', $data);
+        if($result){            
+            echo $result;
+            $result = $this->send_auth_email($this->input->post('email'));   //이메일 인증 후 로그인 가능                        
         }else{
             echo $result;
         }
@@ -179,7 +171,7 @@ class Pc_login extends My_Controller {
                 }
 
                 //운영
-                // $emailText="<h2><a href='http://slife705.cafe24.com/index.php/pc_login/email_auth?email=".$toEmail."authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> ";
+                //$emailText="<h2><a href='http://slife705.cafe24.com/index.php/pc_login/email_auth?email=".$toEmail."authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> ";
 
                 //개발
                 $emailText="<h2><a href='http://localhost/dev.php/pc_login/email_auth?email=".$toEmail."&authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> "; ;
@@ -190,14 +182,16 @@ class Pc_login extends My_Controller {
                 $body=$emailText;    //내용
 
                 $result = $this->sendmail($to, $from, $subject, $body);
-
-                if(!$result){
-                    var_dump($result);
-                    echo '<br />';
-                    echo $this->email->print_debugger();
-                    echo '이메일 발송 실패';
-                    exit;
-                }
+               
+                
+                return $result;
+                // if(!$result){
+                //     var_dump($result);
+                //     echo '<br />';
+                //     echo $this->email->print_debugger();
+                //     echo '이메일 발송 실패';
+                //     exit;
+                // }
 
                 // alert('회원가입을 축하드립니다. 로그인하려면 이메일 인증이 필요합니다.' , '/');
        }
@@ -249,8 +243,8 @@ class Pc_login extends My_Controller {
         // $body="첨부파일이 추가되었습니다.";    //내용
         $cc_mail="";   //참조
         $bcc_mail="";  //참조
-
-        $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
+        
+        $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);        
 
         return true;
 
@@ -301,6 +295,7 @@ class Pc_login extends My_Controller {
         $from="자이언트베이비";   //보내는 사람 이름
         $subject="비밀번호초기화";    //제목
         $body=$emailText;    //내용
+
 
         $result = $this->sendmail($to, $from, $subject, $body);
 

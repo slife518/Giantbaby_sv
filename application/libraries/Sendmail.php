@@ -228,7 +228,7 @@ class Sendmail {
     }
     /* 메일을 전송한다. */
     function send_mail($to, $from, $subject, $body,$cc_mail=false,$bcc_mail=false) {
-		
+        log_message('debug', '메일발송.. send_mailsend_mail 전송 됐음. ');
 		
 		$from.=" <".$this->smtp_id.">";
       
@@ -238,8 +238,7 @@ class Sendmail {
 		}
 		else{	
 			$rel_to=implode(',',$to);
-		}
-			
+		}		
 			
         $data = $this->build_data($subject, $body);
         if($this->host == "auto") {
@@ -249,7 +248,7 @@ class Sendmail {
                         if($conn = $this->connect($host[$i])) break;
                     }
                     if($conn) {
-                        $this->smtp_send($email, $from, $data,$cc_mail,$bcc_mail);
+                        $this->smtp_send($email, $from, $data,$cc_mail,$bcc_mail);                        
                         $this->close();
                     }
                 }
