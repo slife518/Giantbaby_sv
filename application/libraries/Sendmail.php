@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
 =================================================================================
  + 안내 : 이 파일은 아래의 웹싸이트 자료를 참고로 수정하였음을 알려드립니다.
  + 출처 : http://redqueen-textcube.blogspot.kr/2011/07/php-class.html
@@ -20,9 +20,9 @@ class Sendmail {
     var $smtp_id="slife518@gmail.com";
     /* smtp 계정 비밀번호 입력 */
 	var $smtp_pw="jkjkjk7878";
-	
+
     /* 디버그모드 - 활성 :1, 비활성 : 0; */
-    var $debug = 1; 
+    var $debug = 1;
 	/* 문자 인코딩 종류 설정*/
     var $charset="UTF-8";
 	/* 메일의 기본 타입을 설정 */
@@ -35,7 +35,7 @@ class Sendmail {
     var $lastmsg;
     var $parts=array();
 
-	
+
 	/* 기본설정대신 초기화 할 값이 있다면 클래스 초기화시 배열로 값을넘겨준다. */
     function Sendmail($data=false) {
 
@@ -46,7 +46,7 @@ class Sendmail {
 			  $this->host = !empty($data['host'])?$data['host']:$this->host;
 			  $this->smtp_id = !empty($data['smtp_id'])?$data['smtp_id']:$this->smtp_id;
 			  $this->smtp_pw = !empty($data['smtp_pw'])?$data['smtp_pw']:$this->smtp_pw;
-			  $this->debug = !empty($data['debug'])?$data['debug']:$this->debug; 
+			  $this->debug = !empty($data['debug'])?$data['debug']:$this->debug;
 			  $this->charset = !empty($data['charset'])?$data['charset']:$this->charset;
 			  $this->ctype = !empty($data['ctype'])?$data['ctype']:$this->ctype;
 			}
@@ -99,18 +99,18 @@ class Sendmail {
     }
      /*  메시지를 보낸다. */
     function smtp_send($email, $from, $data,$cc_mail,$bcc_mail,$rel_to=false) {
-		
+
 		$id = $this->smtp_id;
         $pwd = $this->smtp_pw;
 
-		
-			
+
+
 		/* 이메일 형식 검사 구간*/
         if(!$mail_from = $this->get_email($from)) return false;
-        if(!$rcpt_to = $this->get_email($email)) return false;   
-		
-	
-		
+        if(!$rcpt_to = $this->get_email($email)) return false;
+
+
+
 		/* smtp  검사 구간 */
 		if(!$this->dialogue(334, "AUTH LOGIN")) { return false; }
         if(!$this->dialogue(334, base64_encode($id)))  return false;
@@ -118,37 +118,37 @@ class Sendmail {
         if(!$this->dialogue(250, "MAIL FROM:".$mail_from)) return false;
         if(!$this->dialogue(250, "RCPT TO:".$rcpt_to)) {
             $this->dialogue(250, "RCPT TO:");
-            $this->dialogue(354, "DATA");  
+            $this->dialogue(354, "DATA");
             $this->dialogue(250, ".");
             return false;
         }
-		
+
 		if($rel_to==false){ $rel_to=$email;}
-		
-		
+
+
 		$this->dialogue(354, "DATA");
         $mime = "Message-ID: <".$this->get_message_id().">\r\n";
         $mime .= "From: ".$from."\r\n";
         $mime .= "To: ".$rel_to."\r\n";
-      	
+
 		/* CC 메일 이 있을경우 */
         if($cc_mail!=false){
 
 			 $mime .= "Cc: ".$cc_mail. "\r\n";
-			 
+
 		}
         /* BCC 메일 이 있을경우 */
 		if($bcc_mail!=false) $mime .= "Bcc: ".$bcc_mail. "\r\n";
-		
-		
-        
+
+
+
         fputs($this->fp, $mime);
         fputs($this->fp, $data);
         $this->dialogue(250, ".");
-		
-		
-		
-	
+
+
+
+
     }
     /* Message ID 를 얻는다. */
     function get_message_id() {
@@ -166,7 +166,7 @@ class Sendmail {
         $three = strtoupper(substr(strrev($uniqchr),0,8));
         return "----=_NextPart_000_000${one}_${two}.${three}";
     }
-	
+
     /* 첨부파일이 있을 경우 이 함수를 이용해 파일을 첨부한다. */
     function attach($path, $name="", $ctype="application/octet-stream") {
         if(is_file($path)) {
@@ -174,8 +174,8 @@ class Sendmail {
             $message = fread($fp, filesize($path));
             fclose($fp);
             $this->parts[] = array ("ctype" => $ctype, "message" => $message, "name" => $name);
-		
-			
+
+
         } else return false;
     }
      /*  Multipart 메시지를 생성시킨다. */
@@ -187,7 +187,7 @@ class Sendmail {
         $msg .= chunk_split(base64_encode($part['message']));
         return $msg;
     }
-	
+
     /*  SMTP에 보낼 DATA를 생성시킨다. */
     function build_data($subject, $body) {
         $boundary = $this->get_boundary();
@@ -202,7 +202,7 @@ class Sendmail {
         }
         $mime .= "Content-Type: ".$this->ctype."; charset=\"".$this->charset."\"\r\n".
             "Content-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode($body));
-       
+
         if($attcnt > 0) {
             $mime .= "\r\n\r\n--".$boundary;
             for($i=0; $i<$attcnt; $i++) {
@@ -215,7 +215,7 @@ class Sendmail {
     }
     /* MX 값을 찾는다. */
     function get_mx_server($email) {
-        
+
         if(!preg_match("/([\._0-9a-zA-Z-]+)@([0-9a-zA-Z-]+\.[a-zA-Z\.]+)/", $email, $matches)) return false;
         getmxrr($matches[2], $host);
         if(!$host) $host[0] = $matches[2];
@@ -229,17 +229,17 @@ class Sendmail {
     /* 메일을 전송한다. */
     function send_mail($to, $from, $subject, $body,$cc_mail=false,$bcc_mail=false) {
         log_message('debug', '메일발송.. send_mailsend_mail 전송 됐음. ');
-		
+
 		$from.=" <".$this->smtp_id.">";
-      
+
 		if(!is_array($to)){
 			$rel_to=$to;
-			$to = explode(",",$to);	
+			$to = explode(",",$to);
 		}
-		else{	
+		else{
 			$rel_to=implode(',',$to);
-		}		
-			
+		}
+
         $data = $this->build_data($subject, $body);
         if($this->host == "auto") {
             foreach($to as $email) {
@@ -248,50 +248,50 @@ class Sendmail {
                         if($conn = $this->connect($host[$i])) break;
                     }
                     if($conn) {
-                        $this->smtp_send($email, $from, $data,$cc_mail,$bcc_mail);                        
+                        $this->smtp_send($email, $from, $data,$cc_mail,$bcc_mail);
                         $this->close();
                     }
                 }
             }
         } else {
-          
-		    
-		  	
+
+
+
             foreach($to as $key=>$email){
 			 $this->connect($this->host);
 			 $this->smtp_send($email, $from, $data,$cc_mail,$bcc_mail,$rel_to);
 			 $this->close();
 			}
-			
+
 			if($cc_mail!=false){
-			$this->cc_email($rel_to,$from,$data,$cc_mail,$bcc_mail);	
+			$this->cc_email($rel_to,$from,$data,$cc_mail,$bcc_mail);
 			}
 			if($bcc_mail!=false){
-			$this->bcc_email($rel_to,$from,$data,$cc_mail,$bcc_mail);		
+			$this->bcc_email($rel_to,$from,$data,$cc_mail,$bcc_mail);
 			}
         }
     }
-	
+
 	function cc_email($rel_to,$from,$data,$cc_mail,$bcc_mail)
 	{
 		if(!is_array($cc_mail)) $cc = explode(",",$cc_mail);
-		
-		foreach($cc as $email){		
+
+		foreach($cc as $email){
 			 $this->connect($this->host);
 			 $this->smtp_send($email, $from, $data,$cc_mail,$bcc_mail,$rel_to);
-			 $this->close();	
+			 $this->close();
 		}
 	}
 	function bcc_email($rel_to,$from,$data,$cc_mail,$bcc_mail){
 
 		if(!is_array($bcc_mail)) $bcc = explode(",",$bcc_mail);
-		
-		foreach($bcc as $email){		
+
+		foreach($bcc as $email){
 			 $this->connect($this->host);
 			 $this->smtp_send($email, $from, $data,$cc_mail,$bcc_mail,$rel_to);
-			 $this->close();	
+			 $this->close();
 		}
-		
+
 	}
 }
 ?>

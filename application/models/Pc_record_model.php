@@ -6,7 +6,7 @@ class Pc_record_model extends CI_Model {
         parent::__construct();
     }
 
-    
+
     function gets($email){
       log_message('debug', "gets 시작");
       log_message('debug',print_r($option, TRUE));
@@ -16,7 +16,7 @@ class Pc_record_model extends CI_Model {
 
       $result =  $this->db->query("SELECT a.record_date,
                                              a.record_time,
-                                             milk,rice, description, a.id, b.nickname as author
+                                             milk,mothermilk, rice, description, a.id, b.nickname as author
                                        FROM record AS a join user AS b on a.author = b.email
                                        WHERE a.baby_id = ( select baby_id
                                                              from user
@@ -38,18 +38,18 @@ class Pc_record_model extends CI_Model {
     function getChartData($option){
 
       log_message('debug',print_r($option, TRUE));
-      $result = $this->db->query("SELECT record_date, sum(milk) as milk, sum(rice) as rice from record
+      $result = $this->db->query("SELECT record_date, sum(milk) as milk,sum(mothermilk) as mothermilk, sum(rice) as rice from record
                                   where baby_id = ( select baby_id
                                                              from user
-                                                            WHERE email = ?)                                      
+                                                            WHERE email = ?)
                                     group by record_date order by record_date desc", $option)->result_array();
       log_message('debug', $this->db->last_query());
       // log_message('debug',print_r($result, TRUE));
       return $result;
 
     }
-      
-    function addRecord($option, $id){    //신규기록 저장 또는 수정 
+
+    function addRecord($option, $id){    //신규기록 저장 또는 수정
       $this->db->set('created', 'NOW()', false);
     //  var_dump($option);
       $option['record_time'] = $option['record_time'] .':00';   //시간:분 까지만 받고 있기 때문에 db 입력시 초를 00 으로 넣어준다.
@@ -62,13 +62,13 @@ class Pc_record_model extends CI_Model {
         $this->db->where('id', $id);
         $result = $this->db->update('record',$option);
       }
-      
+
       log_message('debug', $this->db->last_query());
-      
+
       return $result;
   }
 
-  
+
   function deleteRecord($option)
   {
     //$this->db->set('updated', 'NOW()', false);

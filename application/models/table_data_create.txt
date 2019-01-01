@@ -21,6 +21,7 @@ CREATE TABLE record (
     baby_id int(11) NOT NULL,
     record_date date NOT NULL,
     record_time time NOT NULL,
+    mothermilk varchar(3),
     milk varchar(3),
     rice varchar(3),
     author varchar(50),

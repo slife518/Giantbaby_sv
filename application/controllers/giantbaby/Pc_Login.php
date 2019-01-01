@@ -28,15 +28,15 @@ class Pc_login extends My_Controller {
       }
 
      function register_Member(){
-        log_message('debug', "newMember 호출 "); 
+        log_message('debug', "newMember 호출 ");
         $this->load->library('form_validation');
         $this->form_validation->set_rules('email', '아이디', 'required|is_unique[user.email]');
 
-        if ($this->form_validation->run() == FALSE){   //DB 조회와 관련된 유효성 체크만 여기서 함. 
-                log_message('debug', "기존 이메일 존재함. ");                                
+        if ($this->form_validation->run() == FALSE){   //DB 조회와 관련된 유효성 체크만 여기서 함.
+                log_message('debug', "기존 이메일 존재함. ");
                 echo "이미 등록된 이메일이 있습니다.";
                 return false;
-        }        
+        }
 
         if(!function_exists('password_hash'))
         {
@@ -51,11 +51,13 @@ class Pc_login extends My_Controller {
                     'nickname'=>$this->input->post('name'),
                     'address1'=>$this->input->post('address'),
                     'tel'=>$this->input->post('mobile')
-                );        
+                );
         $result = $this->db->insert('user', $data);
-        if($result){            
+        if($result){
             echo $result;
-            $result = $this->send_auth_email($this->input->post('email'));   //이메일 인증 후 로그인 가능                        
+
+            //메일발송을 실행하면 회원등록 function 이 다시 실행되는 오류가 있어서 일단 메일 인증을 하지 않기로 함. 
+            // $result = $this->send_auth_email($this->input->post('email'));   //이메일 인증 후 로그인 가능
         }else{
             echo $result;
         }
@@ -182,8 +184,8 @@ class Pc_login extends My_Controller {
                 $body=$emailText;    //내용
 
                 $result = $this->sendmail($to, $from, $subject, $body);
-               
-                
+
+
                 return $result;
                 // if(!$result){
                 //     var_dump($result);
@@ -243,8 +245,8 @@ class Pc_login extends My_Controller {
         // $body="첨부파일이 추가되었습니다.";    //내용
         $cc_mail="";   //참조
         $bcc_mail="";  //참조
-        
-        $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);        
+
+        $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
 
         return true;
 
@@ -300,6 +302,7 @@ class Pc_login extends My_Controller {
         $result = $this->sendmail($to, $from, $subject, $body);
 
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+        log_message('debug' , 'send_mail_pw 끝 ' );
 
     }
 }

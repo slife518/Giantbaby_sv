@@ -15,30 +15,31 @@ class Pc_record extends My_Controller {
         'record_date'=>$this->input->post('record_date'),
         'record_time'=>$this->input->post('record_time'),
         'milk'=>$this->input->post('milk'),
+        'mothermilk'=>$this->input->post('mothermilk'),
         'rice'=>$this->input->post('rice'),
         'description'=>$this->input->post('description'),
-        'author'=>$this->input->post('email')      
+        'author'=>$this->input->post('email')
       );
       $record_id = $this->Pc_record_model->addRecord($array, $this->input->post('record_id'));
-      echo json_encode(array("result"=>$record_id),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다. 
+      echo json_encode(array("result"=>$record_id),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
 
     }
 
     function delete_record(){
       log_message('debug', "save_record 시작 ");
-      $array = array(        
-        'id'=>$this->input->post('record_id')      
+      $array = array(
+        'id'=>$this->input->post('record_id')
       );
       $record_id = $this->Pc_record_model->deleteRecord($array);
-      echo json_encode(array("result"=>$record_id),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다. 
+      echo json_encode(array("result"=>$record_id),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
 
     }
     // function get($id)
-    // {  
-    //     $result = $this->record_model->get($id);     
+    // {
+    //     $result = $this->record_model->get($id);
     //     log_message('debug',print_r($result,TRUE));
-    //     echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
-    // } 
+    //     echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+    // }
 
     function record_list()    // 앱에서 사용 
     {
@@ -49,8 +50,8 @@ class Pc_record extends My_Controller {
         $chartdata = $this->Pc_record_model->getChartData($email);
 
         log_message('debug',print_r($chartdata,TRUE));
-        echo json_encode(array("chartData"=>$chartdata, "result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
-        // echo json_encode(array("chartdata"=>$chartdata),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
+        echo json_encode(array("chartData"=>$chartdata, "result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+        // echo json_encode(array("chartdata"=>$chartdata),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 
     }
 
