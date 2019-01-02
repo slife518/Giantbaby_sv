@@ -281,11 +281,11 @@ class Pc_login extends My_Controller {
 
         $new_password = 't12345!';
         $hash = password_hash($new_password, PASSWORD_BCRYPT);
-        $data = array(
-                    'email'=>$toEmail,
-                    'password'=>$hash
-                );
-        $result = $this->pc_user_model->update($data);
+        $data = array('password'=>$hash);        
+        
+        $this->db->set('updated', 'NOW()', false);
+        $this->db->where('email',  $toEmail);
+        $result = $this->db->update('user', $data);   //update(테이블, 데이터, where)  결과가 1 이면 성공   
 
         //운영
         // $emailText="<h2><a href='http://slife705.cafe24.com/index.php/pc_login/email_auth?email=".$toEmail."authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> ";
