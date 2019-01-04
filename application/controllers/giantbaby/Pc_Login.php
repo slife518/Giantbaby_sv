@@ -49,10 +49,10 @@ class Pc_login extends My_Controller {
                     'email'=>$this->input->post('email'),
                     'password'=>$hash,
                     'nickname'=>$this->input->post('name'),
-                    'address1'=>$this->input->post('address'),
                     'tel'=>$this->input->post('mobile')
                 );
         $result = $this->db->insert('user', $data);
+        log_message('debug', $this->db->last_query());
         if($result){
             echo $result;
 

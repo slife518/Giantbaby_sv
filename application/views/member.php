@@ -4,8 +4,7 @@
 <div class="main">
   <div class="container tim-container">
       <form id="form_member" method="post">
-        <button  class="btn btn-default pull-right" type='button' id='record' name='record'><i class="fas fa-edit"></i> 기록하기</button>
-        <a href="<?=base_url("record_list")?>" type="button" role="button" class="btn btn-default pull-left"><i class="fas fa-chart-bar"></i> 목록</a>
+        <button  class="btn btn-default pull-right" type='button' id='record' name='record'><i class="fas fa-edit"></i> 기록하기</button>        
          <div class="form-group">
            <input type="email" class="form-control input-lg" id="email" name="email" value="<?=$userinfo->email?>"  readonly>
          </div>
