@@ -42,7 +42,7 @@ class Pc_record_model extends CI_Model {
                                   where baby_id = ( select baby_id
                                                              from user
                                                             WHERE email = ?)
-                                    group by record_date order by record_date desc", $option)->result_array();
+                                    group by record_date order by record_date", $option)->result_array();
       log_message('debug', $this->db->last_query());
       // log_message('debug',print_r($result, TRUE));
       return $result;

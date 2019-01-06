@@ -22,7 +22,7 @@ class Pc_login extends My_Controller {
                 $output = json_encode($user);;   //맴버정보
                 echo $output;
           }else{
-            $output = '{"result": "false"} ';   //맴버정보  -- json 은 맴버정보 뿐 아니라 센터 정도도 한번에 조회해서 보낼 수 있다.
+            // $output = '{"result": "false"} ';   //맴버정보  -- json 은 맴버정보 뿐 아니라 센터 정도도 한번에 조회해서 보낼 수 있다.
             echo $output;
           }
       }
@@ -56,7 +56,7 @@ class Pc_login extends My_Controller {
         if($result){
             echo $result;
 
-            //메일발송을 실행하면 회원등록 function 이 다시 실행되는 오류가 있어서 일단 메일 인증을 하지 않기로 함. 
+            //메일발송을 실행하면 회원등록 function 이 다시 실행되는 오류가 있어서 일단 메일 인증을 하지 않기로 함.
             // $result = $this->send_auth_email($this->input->post('email'));   //이메일 인증 후 로그인 가능
         }else{
             echo $result;
@@ -281,11 +281,11 @@ class Pc_login extends My_Controller {
 
         $new_password = 't12345!';
         $hash = password_hash($new_password, PASSWORD_BCRYPT);
-        $data = array('password'=>$hash);        
-        
+        $data = array('password'=>$hash);
+
         $this->db->set('updated', 'NOW()', false);
         $this->db->where('email',  $toEmail);
-        $result = $this->db->update('user', $data);   //update(테이블, 데이터, where)  결과가 1 이면 성공   
+        $result = $this->db->update('user', $data);   //update(테이블, 데이터, where)  결과가 1 이면 성공
 
         //운영
         // $emailText="<h2><a href='http://slife705.cafe24.com/index.php/pc_login/email_auth?email=".$toEmail."authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> ";
