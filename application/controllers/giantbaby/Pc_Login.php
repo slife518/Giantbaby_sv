@@ -228,7 +228,7 @@ class Pc_login extends My_Controller {
            $message['message']="잘못된 접근입니다.";
         }
 
-       echo true;
+       echo "true";
     }
 
 
@@ -248,7 +248,7 @@ class Pc_login extends My_Controller {
 
         $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
 
-        return true;
+        return "true";
 
     }
 
@@ -291,7 +291,7 @@ class Pc_login extends My_Controller {
         // $emailText="<h2><a href='http://slife705.cafe24.com/index.php/pc_login/email_auth?email=".$toEmail."authcode=".$register_email_code."'>이메일 인증을 위해 여기를 클릭바랍니다.</a></h2> ";
 
         //개발
-        $emailText="<h2>비밀번호가 " . $new_password . " 로 초기화 되었습니다.</h2> "; ;
+        $emailText="<h2>비밀번호가 " . $new_password . " 로 초기화 되었습니다.</h2> ";
 
         $to=$toEmail;   //받는 이메일 주소
         $from="자이언트베이비";   //보내는 사람 이름
@@ -299,10 +299,12 @@ class Pc_login extends My_Controller {
         $body=$emailText;    //내용
 
 
-        $result = $this->sendmail($to, $from, $subject, $body);
+        $this->sendmail($to, $from, $subject, $body);
+        
+        log_message('debug' , 'send_mail_pw 끝 '  . $result);
 
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
-        log_message('debug' , 'send_mail_pw 끝 ' );
+        
 
     }
 }
