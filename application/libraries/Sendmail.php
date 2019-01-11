@@ -60,9 +60,7 @@ class Sendmail {
         preg_match("/^([0-9]+).(.*)$/", $line, $matches);
         $this->lastmsg = $matches[0];
         if($this->debug) {
-           echo htmlspecialchars($cmd)."
-".$this->lastmsg."
-";
+           //echo htmlspecialchars($cmd)." ".$this->lastmsg." ";
             flush();
         }
         if($matches[1] != $code) return false;
@@ -71,7 +69,7 @@ class Sendmail {
      /*   smptp 서버에 접속을 한다. */
     function connect($host='') {
         if($this->debug) {
-            echo "SMTP(".$host.") Connecting...";
+           // echo "SMTP(".$host.") Connecting...";
             flush();
         }
         if(!$host) $host = $this->host;
@@ -84,8 +82,7 @@ class Sendmail {
         $this->lastmsg = $matches[0];
         if($matches[1] != "220") return false;
         if($this->debug) {
-            echo $this->lastmsg."
-";
+           // echo $this->lastmsg." ";
             flush();
         }
         $this->dialogue(250, "HELO phpmail");
@@ -228,7 +225,7 @@ class Sendmail {
     }
     /* 메일을 전송한다. */
     function send_mail($to, $from, $subject, $body,$cc_mail=false,$bcc_mail=false) {
-        log_message('debug', '메일발송.. send_mailsend_mail 전송 됐음. ');
+        log_message('debug', '메일발송.. send_mailsend_mail 전송 됐음. ' . $to);
 
 		$from.=" <".$this->smtp_id.">";
 

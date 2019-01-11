@@ -46,8 +46,7 @@ class Pc_baby extends My_Controller {
       $email = $this->input->post('email');
       $this->db->where('email', $email);
       $result = $this->db->update('user', array('baby_id'=>$baby_id));
-      // echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
-      echo $result;
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
 
     }
     function modifyBaby(){
