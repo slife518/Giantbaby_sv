@@ -49,6 +49,23 @@ class Pc_record_model extends CI_Model {
 
     }
 
+
+    function getMaxData($option){
+
+      log_message('debug',print_r($option, TRUE));
+      $result = $this->db->query("SELECT  MAX(mothermilk) as max_mothermilk, MIN(mothermilk) as min_mothermilk, MAX(milk) as max_milk,
+		MIN(milk) as min_milk, MAX(rice) as max_rice,   MIN(rice) as min_rice
+    from ( SELECT sum(milk) as milk,sum(mothermilk) as mothermilk, sum(rice) as rice from record
+                                  where baby_id = ( select baby_id
+                                                             from user
+                                                            WHERE email = ?)
+                                    group by record_date) as a", $option)->result_array();
+      log_message('debug', $this->db->last_query());
+      // log_message('debug',print_r($result, TRUE));
+      return $result;
+
+    }
+
     function addRecord($option, $id){    //신규기록 저장 또는 수정
       $this->db->set('created', 'NOW()', false);
     //  var_dump($option);
