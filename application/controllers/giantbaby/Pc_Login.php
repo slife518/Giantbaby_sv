@@ -246,9 +246,11 @@ class Pc_login extends My_Controller {
         $cc_mail="";   //참조
         $bcc_mail="";  //참조
 
-        $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
+        $result = $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
 
-        return "true";
+        log_message('debug', $result);
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+
 
     }
 
@@ -295,12 +297,12 @@ class Pc_login extends My_Controller {
 
 
         $result = $this->sendmail($to, $from, $subject, $body);
-        
+
         log_message('debug' , 'send_mail_pw 끝 '  . $result);
 
-        //echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
-        echo false;
-        
+        echo json_encode(array("result"=>"true"),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+        // echo false;
+
 
     }
 }
