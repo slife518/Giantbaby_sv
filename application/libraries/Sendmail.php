@@ -22,7 +22,7 @@ class Sendmail {
 	var $smtp_pw="jkjkjk7878";
 
     /* 디버그모드 - 활성 :1, 비활성 : 0; */
-    var $debug = 1;
+    var $debug = 0;
 	/* 문자 인코딩 종류 설정*/
     var $charset="UTF-8";
 	/* 메일의 기본 타입을 설정 */
@@ -55,12 +55,15 @@ class Sendmail {
 
      /*  smtp 통신을 한다. */
     function dialogue($code, $cmd) {
-        fputs($this->fp, $cmd."\r\n");
-        $line = fgets($this->fp, 1024);
+        fputs($this->fp, $cmd."\r\n");  
+        $line = fgets($this->fp, 1024);    // 두번 function 이 실행되는 원인은 이거 때문으로 확인 됨.. 
+
+        log_message('debug', $line);
+        
         preg_match("/^([0-9]+).(.*)$/", $line, $matches);
         $this->lastmsg = $matches[0];
         if($this->debug) {
-           //echo htmlspecialchars($cmd)." ".$this->lastmsg." ";
+           log_message('debug',htmlspecialchars($cmd)." ".$this->lastmsg." ");
             flush();
         }
         if($matches[1] != $code) return false;
@@ -95,7 +98,7 @@ class Sendmail {
         return true;
     }
      /*  메시지를 보낸다. */
-    function smtp_send($email, $from, $data,$cc_mail,$bcc_mail,$rel_to=false) {
+    function smtp_send($email, $from, $data,$cc_mail,$bcc_mail,$rel_to=false) {  
 
 		$id = $this->smtp_id;
         $pwd = $this->smtp_pw;
@@ -120,19 +123,18 @@ class Sendmail {
             return false;
         }
 
-		if($rel_to==false){ $rel_to=$email;}
+		if($rel_to==false){ $rel_to=$email;} 
 
 
-		$this->dialogue(354, "DATA");
+        $this->dialogue(354, "DATA"); //이거를 실행하면 두번 발송된다. 
+        
         $mime = "Message-ID: <".$this->get_message_id().">\r\n";
         $mime .= "From: ".$from."\r\n";
         $mime .= "To: ".$rel_to."\r\n";
 
 		/* CC 메일 이 있을경우 */
         if($cc_mail!=false){
-
 			 $mime .= "Cc: ".$cc_mail. "\r\n";
-
 		}
         /* BCC 메일 이 있을경우 */
 		if($bcc_mail!=false) $mime .= "Bcc: ".$bcc_mail. "\r\n";
@@ -225,7 +227,6 @@ class Sendmail {
     }
     /* 메일을 전송한다. */
     function send_mail($to, $from, $subject, $body,$cc_mail=false,$bcc_mail=false) {
-        log_message('debug', '메일발송.. send_mailsend_mail 전송 됐음. ' . $to);
 
 		$from.=" <".$this->smtp_id.">";
 
@@ -252,11 +253,10 @@ class Sendmail {
             }
         } else {
 
-
-
             foreach($to as $key=>$email){
+
 			 $this->connect($this->host);
-			 $this->smtp_send($email, $from, $data,$cc_mail,$bcc_mail,$rel_to);
+			 $this->smtp_send($email, $from, $data,$cc_mail,$bcc_mail,$rel_to);  //문제가 발생되는 곳 두번 보내지는 원인 
 			 $this->close();
 			}
 

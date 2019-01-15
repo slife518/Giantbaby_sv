@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Pc_login extends My_Controller {
+    var $email_sended = 0;
      function __construct(){
           parent::__construct();
           $this->load->database();
@@ -243,16 +244,30 @@ class Pc_login extends My_Controller {
         // $from="신용협동조합";   //보내는 사람 이름
         // $subject="테스트메일발송";    //제목
         // $body="첨부파일이 추가되었습니다.";    //내용
-        $cc_mail="";   //참조
-        $bcc_mail="";  //참조
+        // $cc_mail="";   //참조
+        // $bcc_mail="";  //참조
 
-        $result = $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
-
-        log_message('debug', $result);
-        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
-
-
+        $sendmail->send_mail($to, $from, $subject, $body);
     }
+
+    // function sendmail($to, $from, $subject, $body){
+
+    //     $this->load->library('email');
+
+    //     $this->email->from($from, '공동육아');
+    //     $this->email->to($to); 
+    //     // $this->email->cc('another@another-example.com'); 
+    //     // $this->email->bcc('them@their-example.com'); 
+        
+    //     $this->email->subject($subject);
+    //     $this->email->message($body);	
+        
+    //     $this->email->send();
+
+    //     log_message('debug',print_r($this->email->print_debugger(), TRUE));
+    //     // log_message('debug', $this->email->print_debugger());
+    // }
+
 
     function find_user(){
         log_message('debug' , 'find_user 시작');
@@ -276,12 +291,11 @@ class Pc_login extends My_Controller {
 
     function send_mail_pw(){
 
-        $toEmail = $this->input->post('email');
-
         log_message('debug' , 'send_mail_pw 시작' .$toEmail );
 
+        $toEmail = $this->input->post('email');
 
-        $new_password = 't12345!';
+        $new_password = $this->generateRandomString(7);
         $hash = password_hash($new_password, PASSWORD_BCRYPT);
         $data = array('password'=>$hash);
 
@@ -296,13 +310,29 @@ class Pc_login extends My_Controller {
         $body=$emailText;    //내용
 
 
-        $result = $this->sendmail($to, $from, $subject, $body);
+        $this->load->library('Sendmail');
 
-        log_message('debug' , 'send_mail_pw 끝 '  . $result);
+        $sendmail = new Sendmail();
+
+        $sendmail->send_mail($to, $from, $subject, $body);
+
+        // $this->sendmail($to, $from, $subject, $body);
+
+        log_message('debug' , 'send_mail_pw 끝 ');
 
         echo json_encode(array("result"=>"true"),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
         // echo false;
 
 
+    }
+
+    function generateRandomString($length = 6) {   
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }
