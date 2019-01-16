@@ -58,12 +58,9 @@ class Sendmail {
         fputs($this->fp, $cmd."\r\n");  
         $line = fgets($this->fp, 1024);    // 두번 function 이 실행되는 원인은 이거 때문으로 확인 됨.. 
 
-        log_message('debug', $line);
-        
         preg_match("/^([0-9]+).(.*)$/", $line, $matches);
         $this->lastmsg = $matches[0];
-        if($this->debug) {
-           log_message('debug',htmlspecialchars($cmd)." ".$this->lastmsg." ");
+        if($this->debug) {          
             flush();
         }
         if($matches[1] != $code) return false;
@@ -76,9 +73,14 @@ class Sendmail {
             flush();
         }
         if(!$host) $host = $this->host;
+        log_message('debug', print_r($this->lastmsg = "SMTP(".$host.") 서버접속 중.. ", true));
         if(!$this->fp = fsockopen($host, 465, $errno, $errstr, 10)) {
             $this->lastmsg = "SMTP(".$host.") 서버접속에 실패했습니다.[".$errno.":".$errstr."]";
+            log_message('debug', print_r($this->lastmsg = "SMTP(".$host.") 서버접속실패", true));
             return false;
+        }else{
+            log_message('debug', print_r($this->lastmsg = "SMTP(".$host.") 서버접속성공", true));
+            $this->lastmsg = "SMTP(".$host.") 서버접속성공";
         }
         $line = fgets($this->fp, 1024);
         preg_match("/^([0-9]+).(.*)$/", $line, $matches);
@@ -103,18 +105,16 @@ class Sendmail {
 		$id = $this->smtp_id;
         $pwd = $this->smtp_pw;
 
-
-
 		/* 이메일 형식 검사 구간*/
         if(!$mail_from = $this->get_email($from)) return false;
         if(!$rcpt_to = $this->get_email($email)) return false;
 
-
-
 		/* smtp  검사 구간 */
 		if(!$this->dialogue(334, "AUTH LOGIN")) { return false; }
         if(!$this->dialogue(334, base64_encode($id)))  return false;
-        if(!$this->dialogue(235, base64_encode($pwd)))  return false;
+        if(!$this->dialogue(235, base64_encode($pwd)))  return false;  //이거를 실행하면 두번 발송된다. 
+                
+        
         if(!$this->dialogue(250, "MAIL FROM:".$mail_from)) return false;
         if(!$this->dialogue(250, "RCPT TO:".$rcpt_to)) {
             $this->dialogue(250, "RCPT TO:");
@@ -126,18 +126,18 @@ class Sendmail {
 		if($rel_to==false){ $rel_to=$email;} 
 
 
-        $this->dialogue(354, "DATA"); //이거를 실행하면 두번 발송된다. 
+        $this->dialogue(354, "DATA"); 
         
         $mime = "Message-ID: <".$this->get_message_id().">\r\n";
         $mime .= "From: ".$from."\r\n";
         $mime .= "To: ".$rel_to."\r\n";
 
-		/* CC 메일 이 있을경우 */
-        if($cc_mail!=false){
-			 $mime .= "Cc: ".$cc_mail. "\r\n";
-		}
-        /* BCC 메일 이 있을경우 */
-		if($bcc_mail!=false) $mime .= "Bcc: ".$bcc_mail. "\r\n";
+		// /* CC 메일 이 있을경우 */
+        // if($cc_mail!=false){
+		// 	 $mime .= "Cc: ".$cc_mail. "\r\n";
+		// }
+        // /* BCC 메일 이 있을경우 */
+		// if($bcc_mail!=false) $mime .= "Bcc: ".$bcc_mail. "\r\n";
 
 
 
@@ -149,6 +149,7 @@ class Sendmail {
 
 
     }
+    
     /* Message ID 를 얻는다. */
     function get_message_id() {
         $id = date("YmdHis",time());

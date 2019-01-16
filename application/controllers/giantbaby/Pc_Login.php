@@ -123,6 +123,14 @@ class Pc_login extends My_Controller {
 
        }
 
+       function confirm_email(){
+        $email = $this->input->post('email');
+        $result = $this->db->get_where('user', array('email'=>$email))->row_array();
+        // $result = $this->pc_user_model->getByEmail($email);
+        log_message('debug',print_r($result,TRUE));
+
+        echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
+       }
 
        // 메일인증번호 생성함수
        function _coupon_generator(){
@@ -233,7 +241,7 @@ class Pc_login extends My_Controller {
     }
 
 
-    function sendmail($to, $from, $subject, $body){
+    function sendMail($to, $from, $subject, $body){
 
         // include "Sendmail.php";
         $this->load->library('Sendmail');
@@ -250,9 +258,9 @@ class Pc_login extends My_Controller {
         $sendmail->send_mail($to, $from, $subject, $body);
     }
 
-    // function sendmail($to, $from, $subject, $body){
+    // function sendMail($to, $from, $subject, $body){
 
-    //     $this->load->library('email');
+    //     $this->load->library('email', $config);
 
     //     $this->email->from($from, '공동육아');
     //     $this->email->to($to); 
@@ -261,7 +269,16 @@ class Pc_login extends My_Controller {
         
     //     $this->email->subject($subject);
     //     $this->email->message($body);	
+    //     $this->email->set_newline("\r\n");	
         
+    //     $this->email->SMTPOptions = array(
+    //         'ssl' => array(
+    //         'verify_peer' => false,
+    //         'verify_peer_name' => false,
+    //         'allow_self_signed' => true
+    //         )
+    //         ); 
+
     //     $this->email->send();
 
     //     log_message('debug',print_r($this->email->print_debugger(), TRUE));
@@ -289,9 +306,9 @@ class Pc_login extends My_Controller {
 
     }
 
-    function send_mail_pw(){
+    function sendMailPw(){
 
-        log_message('debug' , 'send_mail_pw 시작' .$toEmail );
+        log_message('debug' , 'sendMailPw 시작' .$toEmail );
 
         $toEmail = $this->input->post('email');
 
@@ -309,16 +326,9 @@ class Pc_login extends My_Controller {
         $subject="비밀번호초기화";    //제목
         $body=$emailText;    //내용
 
+        $this->sendMail($to, $from, $subject, $body);
 
-        $this->load->library('Sendmail');
-
-        $sendmail = new Sendmail();
-
-        $sendmail->send_mail($to, $from, $subject, $body);
-
-        // $this->sendmail($to, $from, $subject, $body);
-
-        log_message('debug' , 'send_mail_pw 끝 ');
+        log_message('debug' , 'sendMailPw 끝 ');
 
         echo json_encode(array("result"=>"true"),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
         // echo false;
