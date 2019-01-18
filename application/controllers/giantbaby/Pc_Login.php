@@ -20,10 +20,14 @@ class Pc_login extends My_Controller {
           }
            $log = 'email: ' .$user['email'] .' password: ' .$user['password'];
           if( $email == $user['email'] && password_verify($password, $user['password'])){
-                $output = json_encode($user);;   //맴버정보
-                echo $output;
-          }else{
-            // $output = '{"result": "false"} ';   //맴버정보  -- json 은 맴버정보 뿐 아니라 센터 정도도 한번에 조회해서 보낼 수 있다.
+                
+                $baby = $this->db->get_where('baby', array('baby_id'=>$user['baby_id']))->row_array();
+
+                
+                echo json_encode(array("memberinfo"=>$user, "babyinfo"=>$baby),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  //결과값 보내기
+                // $output = json_encode($user);;   //맴버정보
+                // echo $output;
+          }else{           
             echo $output;
           }
       }
