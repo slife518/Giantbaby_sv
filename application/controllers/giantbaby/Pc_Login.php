@@ -11,23 +11,26 @@ class Pc_login extends My_Controller {
      }
 
      function signin(){
-        log_message('debug', "로그인페이지시작");
+
           $email = $this->input->post('email');
           $password = $this->input->post('password');
+
+          log_message('debug', "로그인페이지시작" . $email );
+
           $user = $this->db->get_where('user', array('email'=>$email))->row_array();
           if(!function_exists('password_hash')){
               $this->load->helper('password');
           }
            $log = 'email: ' .$user['email'] .' password: ' .$user['password'];
           if( $email == $user['email'] && password_verify($password, $user['password'])){
-                
+
                 $baby = $this->db->get_where('baby', array('baby_id'=>$user['baby_id']))->row_array();
 
-                
+
                 echo json_encode(array("memberinfo"=>$user, "babyinfo"=>$baby),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  //결과값 보내기
                 // $output = json_encode($user);;   //맴버정보
                 // echo $output;
-          }else{           
+          }else{
             echo $output;
           }
       }
@@ -133,7 +136,7 @@ class Pc_login extends My_Controller {
         // $result = $this->pc_user_model->getByEmail($email);
         log_message('debug',print_r($result,TRUE));
 
-        echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);  
+        echo json_encode($result,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
        }
 
        // 메일인증번호 생성함수
@@ -267,21 +270,21 @@ class Pc_login extends My_Controller {
     //     $this->load->library('email', $config);
 
     //     $this->email->from($from, '공동육아');
-    //     $this->email->to($to); 
-    //     // $this->email->cc('another@another-example.com'); 
-    //     // $this->email->bcc('them@their-example.com'); 
-        
+    //     $this->email->to($to);
+    //     // $this->email->cc('another@another-example.com');
+    //     // $this->email->bcc('them@their-example.com');
+
     //     $this->email->subject($subject);
-    //     $this->email->message($body);	
-    //     $this->email->set_newline("\r\n");	
-        
+    //     $this->email->message($body);
+    //     $this->email->set_newline("\r\n");
+
     //     $this->email->SMTPOptions = array(
     //         'ssl' => array(
     //         'verify_peer' => false,
     //         'verify_peer_name' => false,
     //         'allow_self_signed' => true
     //         )
-    //         ); 
+    //         );
 
     //     $this->email->send();
 
@@ -340,7 +343,7 @@ class Pc_login extends My_Controller {
 
     }
 
-    function generateRandomString($length = 6) {   
+    function generateRandomString($length = 6) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
