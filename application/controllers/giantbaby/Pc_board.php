@@ -13,8 +13,9 @@ class Pc_board extends My_Controller {
               log_message('debug' , 'send_ask 시작' .$toEmail );
 
               $to= "slife705@naver.com";   //받는 이메일 주소
-              $from="자이언트베이비";   //보내는 사람 이름
-              $subject=$this->input->post('title');;    //제목
+              $from ="자이언트베이비";   //보내는 사람 이름
+              //$subject=$this->input->post('title');;    //제목
+              $subject= "공동육아 사용자 질문";    //제목
 
               $body= $this->input->post('contents') . "  보낸 사람 메일주소는 "  .$this->input->post('email');;  // ㄴㅐ용
 

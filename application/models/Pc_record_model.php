@@ -9,26 +9,33 @@ class Pc_record_model extends CI_Model {
 
     function gets($email){
       log_message('debug', "gets 시작");
-      log_message('debug',print_r($option, TRUE));
-      $this->db->order_by("record_date", "desc");
-      $this->db->order_by("record_time", "desc");
-      $result = $this->db->get_where('record', array('baby_id'=>$option))->result_array();
+      // log_message('debug',print_r($option, TRUE));
+      // $this->db->order_by("record_date", "desc");
+      // $this->db->order_by("record_time", "desc");
+      // $result = $this->db->get_where('record', array('baby_id'=>$option))->result_array();
 
-      $result =  $this->db->query("SELECT a.record_date,
-                                             a.record_time,
-                                             milk,mothermilk, rice, description, a.id, b.nickname as author
-                                       FROM record AS a join user AS b on a.author = b.email
-                                       WHERE a.baby_id = ( select baby_id
-                                                             from user
-                                                            WHERE email = ?)
-                                         AND a.author in ( select email
-                                                             from relation
-                                                            where baby_id = ( select baby_id
-                                                                                  from user
-                                                                                 WHERE email = ?)
-                                                              and approval = 1 )
-                                       ORDER BY record_date DESC, record_time DESC, a.created DESC", array($email, $email))->result_array();   //result_array 로도 가능
+      //관계가 끊어지면 기록도 보이지 않는 로직 
+      // $result =  $this->db->query("SELECT a.record_date, a.record_time, milk,mothermilk, rice, description, a.id, b.nickname as author
+      //                                FROM record AS a join user AS b on a.author = b.email
+      //                               WHERE a.baby_id = ( select baby_id
+      //                                                        from user
+      //                                                       WHERE email = ?)
+      //                                   AND a.author in ( select email
+      //                                                        from relation
+      //                                                       where baby_id = ( select baby_id
+      //                                                                             from user
+      //                                                                            WHERE email = ?)
+      //                                                         and approval = 1 )
+      //                                  ORDER BY record_date DESC, record_time DESC, a.created DESC", array($email, $email))->result_array();   //result_array 로도 가능
 
+      // 관계가 끊어져도 기록은 보여지는 로직 
+       $result =  $this->db->query("SELECT a.record_date, a.record_time, milk,mothermilk, rice, description, a.id, b.nickname as author
+                                      FROM record AS a join user AS b on a.author = b.email
+                                     WHERE a.baby_id = ( select baby_id
+                                                              from user
+                                                             WHERE email = ?)                                        
+                                      ORDER BY record_date DESC, record_time DESC, a.created DESC", array($email))->result_array();   //result_array 로도 가능
+        
       log_message('debug', $this->db->last_query());
     // log_message('debug',print_r($result, TRUE));
       return $result;
@@ -53,8 +60,8 @@ class Pc_record_model extends CI_Model {
     function getMaxData($option){
 
       log_message('debug',print_r($option, TRUE));
-      $result = $this->db->query("SELECT  MAX(mothermilk) as max_mothermilk, MIN(mothermilk) as min_mothermilk, MAX(milk) as max_milk,
-		MIN(milk) as min_milk, MAX(rice) as max_rice,   MIN(rice) as min_rice
+      $result = $this->db->query("SELECT IFNULL(MAX(mothermilk), 0) as max_mothermilk, IFNULL(MIN(mothermilk), 0) as min_mothermilk, IFNULL(MAX(milk), 0) as max_milk,
+		IFNULL(MIN(milk),0) as min_milk, IFNULL(MAX(rice), 0) as max_rice,   IFNULL(MIN(rice),0) as min_rice
     from ( SELECT sum(milk) as milk,sum(mothermilk) as mothermilk, sum(rice) as rice from record
                                   where baby_id = ( select baby_id
                                                              from user
