@@ -104,24 +104,37 @@ CREATE TABLE `buy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-//게시판   - 회사에서만 만들었음. 
+//게시판   - 회사에서만 만들었음.
   CREATE TABLE board (
       id  int(11) NOT NULL AUTO_INCREMENT,
+      parentid  int(11) NOT NULL DEFAULT 0 COMMENT '댓글의경우부모id',   //대댓글인 경우 댓글의 키값
+      email varchar(50) NOT NULL COMMENT '작성자',
+      title varchar(30) COMMENT '제목',
+      content text NULL COMMENT '내용',
+      viewCount int(5),
+      updated  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      created  datetime DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (year, id)
+  );
+
+
+  CREATE TABLE comments (
+      id  int(11) NOT NULL AUTO_INCREMENT,
+      board_id int(11) not null,  // board 의 키값
+      parent int(11) NULL,   //대댓글인 경우 댓글의 키값
       email varchar(50) NOT NULL,
-      title varchar(30),
       content text NULL,
       updated  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
       created  datetime DEFAULT CURRENT_TIMESTAMP,
       PRIMARY KEY (id)
   );
 
-
-  CREATE TABLE comments (
-      id  int(11) NOT NULL AUTO_INCREMENT,
-      board_id int(11) not null,  // board 의 키값 
-      parent int(11) NULL,   //대댓글인 경우 댓글의 키값 
-      email varchar(50) NOT NULL,      
-      content text NULL,
+  CREATE TABLE boardlike (
+      id  int(11) NOT NULL,
+      email varchar(50) NOT NULL COMMENT '작성자',
+      title varchar(30) COMMENT '제목',
+      content text NULL COMMENT '내용',
+      viewCount int(5),
       updated  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
       created  datetime DEFAULT CURRENT_TIMESTAMP,
       PRIMARY KEY (id)
@@ -130,7 +143,7 @@ CREATE TABLE `buy` (
 
 //공지사항
   CREATE TABLE notice (
-      id  int(11) NOT NULL AUTO_INCREMENT,      
+      id  int(11) NOT NULL AUTO_INCREMENT,
       title varchar(30),
       content text NULL,
       updated  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -138,7 +151,7 @@ CREATE TABLE `buy` (
       PRIMARY KEY (id)
   );
 
-  
+
 
 
 
