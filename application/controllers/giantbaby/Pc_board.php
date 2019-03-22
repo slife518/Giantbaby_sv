@@ -18,7 +18,7 @@ class Pc_board extends My_Controller {
               $subject= "공동육아 사용자 질문";    //제목
 
               $body= $this->input->post('contents') . "  보낸 사람 메일주소는 "  .$this->input->post('email');;  // ㄴㅐ용
-
+              
               $this->sendMail($to, $from, $subject, $body);
 
               log_message('debug' , 'send_ask 끝 '.$body);
@@ -36,5 +36,83 @@ class Pc_board extends My_Controller {
           $sendmail->send_mail($to, $from, $subject, $body);
       }
 
+      function get_talklist(){
+        $email = $this->input->post('email');
+        log_message('debug', print_r($email, TRUE));
+
+        $result = $this->db->query('SELECT a.id, a.email, a.title, a.contents, a.eyes, a.talk, a.good ,
+                                              CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked, 
+                                              IF (date(created) = date(now()), 
+                                              CASE WHEN ( HOUR(now()) - HOUR(created) ) = 0 THEN "조금전" 
+                                              ELSE CONCAT((HOUR(now()) - HOUR(created) ) , "시간전") END, 
+                                              CASE WHEN YEAR(now()) = YEAR(created)  THEN CONCAT(MONTH(created), "월 ", DAY(created) ,"일") 
+                                              ELSE date(created) END
+                                              ) AS createDate
+                                      FROM talk as a  LEFT OUTER JOIN ( SELECT id, email FROM gooder WHERE email = ?) as b ON a.id = b.id 
+                                      ORDER BY created DESC', $email)->result_array();
+                                 
+        // $result = $this->db->get()->result_array();
+       
+        log_message('debug', $this->db->last_query());
+        log_message('debug',print_r($result,TRUE));
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+      }
+
+      function get_talk_detail(){
+        $id = $this->input->post('id');
+        $email = $this->input->post('email');
+        log_message('debug', print_r($email, TRUE));
+
+        $result = $this->db->query('SELECT a.id, a.email, a.title, a.contents, a.eyes, a.talk, a.good ,
+                                              CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked, 
+                                              IF (date(created) = date(now()), 
+                                              CASE WHEN ( HOUR(now()) - HOUR(created) ) = 0 THEN "조금전" 
+                                              ELSE CONCAT((HOUR(now()) - HOUR(created) ) , "시간전") END, 
+                                              CASE WHEN YEAR(now()) = YEAR(created)  THEN CONCAT(MONTH(created), "월 ", DAY(created) ,"일") 
+                                              ELSE date(created) END
+                                              ) AS createDate
+                                      FROM talk as a  LEFT OUTER JOIN ( SELECT id, email FROM gooder WHERE email = ?) as b ON a.id = b.id 
+                                      WHERE a.id = ?
+                                      ORDER BY created DESC', $email, $id)->result_array();
+                                 
+        // $result = $this->db->get()->result_array();
+       
+        log_message('debug', $this->db->last_query());
+        log_message('debug',print_r($result,TRUE));
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+      }
+
+      function add_talk_good(){
+        $email = $this->input->post('email');
+        $id = $this->input->post('id');
+        log_message('debug', print_r($email, TRUE));
+        $array = array( 'id' =>  $id, 'email' =>  $email);        
+        $result = $this->db->insert('gooder', $array); 
+        $this->db->query(
+          'update talk 
+          set good = good + 1 
+          WHERE id = ?', $id
+        );                                
+        log_message('debug', $this->db->last_query());
+        log_message('debug',print_r($result,TRUE));
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+      }
+
+      
+      function delete_talk_good(){
+        $email = $this->input->post('email');
+        $id = $this->input->post('id');
+        log_message('debug', print_r($email, TRUE));
+        $array = array( 'id' =>  $id, 'email' =>  $email);        
+        $result = $this->db->delete('gooder', $array);                                 
+        $this->db->query(
+          'update talk 
+          set good = good - 1  
+          WHERE id = ?', $id
+        );                   
+        log_message('debug', $this->db->last_query());
+        log_message('debug',print_r($result,TRUE));
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+      }
 }
 ?>
