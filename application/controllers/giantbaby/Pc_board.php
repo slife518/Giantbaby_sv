@@ -40,7 +40,7 @@ class Pc_board extends My_Controller {
         $email = $this->input->post('email');
         log_message('debug', print_r($email, TRUE));
 
-        $result = $this->db->query('SELECT a.id, a.email, a.title, a.contents, a.eyes, a.talk, a.good ,
+        $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level,  a.email, a.title, a.contents, a.eyes, a.talk, a.good ,
                                               CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
                                               IF (date(created) = date(now()),
                                               CASE WHEN ( HOUR(now()) - HOUR(created) ) = 0 THEN "조금전"
@@ -63,7 +63,7 @@ class Pc_board extends My_Controller {
         $email = $this->input->post('email');
         log_message('debug', print_r($email, TRUE));
 
-        $result = $this->db->query('SELECT a.id, a.email, a.title, a.contents, a.eyes, a.talk, a.good ,
+        $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title, a.contents, a.eyes, a.talk, a.good ,
                                               CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
                                               IF (date(created) = date(now()),
                                               CASE WHEN ( HOUR(now()) - HOUR(created) ) = 0 THEN "조금전"
@@ -124,15 +124,49 @@ class Pc_board extends My_Controller {
 
           if($reply_id == 0){ //신규 댓글
             $this->db->query('update talk set talk = talk + 1 WHERE id = ?', $id ); //댓글카운트 추가하기
-            $this->db->query('INSERT INTO talk (`id`, `reply_id`, `reply_level`,`email`,`contents`)
-                              VALUES (?, SELECT reply_id + 1 from talk where id = ?, ?, ?, ?)', $id, $id, $reply_level, $email, $contents);
+            $result = $this->db->query('INSERT INTO talk (id, reply_id, reply_level,email,contents)
+                              VALUES (?, SELECT reply_id + 1 from talk where id = ?, ?, ?, ?)', 
+                               array(
+                                '0'=> $id, 
+                                '1'=> $id, 
+                                '2'=> $reply_level, 
+                                '3'=> $email, 
+                                '4'=> $contents)
+                               );
           }else if($reply_id <> 0 && $reply_level == 0) {   //신규 대댓글
-            $this->db->query('INSERT INTO talk (`id`, `reply_id`, `reply_level`,`email`,`contents`)
-                              VALUES (?, ?, SELECT reply_id + 1 from talk where id = ? and reply_id = ?, ?, ?)', $id, $reply_id, $id, $reply_id, , $email, $contents);
+            $result = $this->db->query('INSERT INTO talk (id, reply_id, reply_level,email,contents)
+                              VALUES (?, ?, SELECT reply_id + 1 from talk where id = ? and reply_id = ?, ?, ?)',
+                              array(
+                                '0'=> $id, 
+                                '1'=> $reply_id, 
+                                '2'=> $id, 
+                                '3'=> $reply_id, 
+                                '4'=> $email, 
+                                '5'=> $contents
+                                )
+                              );
           }else{  //기존댓글 수정
-            $this->db->query('REPLACE INTO talk (`id`, `reply_id`, `reply_level`,`email`,`contents`)
-                              VALUES (?, ?, ?, ?, ?)', $id, $reply_id, $reply_level, $email, $contents' );
+            $result = $this->db->query('REPLACE INTO talk (id, reply_id, reply_level, email, contents)
+                              VALUES (?, ?, ?, ?, ?)', 
+                              array(
+                                '0'=> $id, 
+                                '1'=> $reply_id, 
+                                '2'=> $reply_level, 
+                                '3'=> $email, 
+                                '4'=> $contents)
+                              );
           }
+          log_message('debug', $this->db->last_query());
+          echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+      }
+
+      function add_new(){
+        $email = $this->input->post('email');
+        $title = $this->input->post('title');        
+        $contents = $this->input->post('contents');        
+        $result = $this->db->query('INSERT INTO talk (id, email, title, contents) VALUES (( SELECT IFNULL(MAX(id) + 1, 1) FROM talk t), ?, ?, ?)',array('0'=>$email, '1'=>$title, '2'=>$contents) );
+        log_message('debug', $this->db->last_query());
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 
       }
 }
