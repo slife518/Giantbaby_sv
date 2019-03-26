@@ -163,10 +163,14 @@ class Pc_board extends My_Controller {
       function add_new(){
         $email = $this->input->post('email');
         $title = $this->input->post('title');        
-        $contents = $this->input->post('contents');        
-        $result = $this->db->query('INSERT INTO talk (id, email, title, contents) VALUES (( SELECT IFNULL(MAX(id) + 1, 1) FROM talk t), ?, ?, ?)',array('0'=>$email, '1'=>$title, '2'=>$contents) );
+        $contents = $this->input->post('contents');   
+        
+        //  $result = $this->db->query('INSERT INTO talk (email, title, contents) VALUES (?, ?, ?)',array('0'=>$email, '1'=>$title, '2'=>$contents) );
+         $result = $this->db->insert('talk',array('email'=>$email, 'title'=>$title, 'contents'=>$contents));
+         $new_id = $this->db->insert_id('id');
         log_message('debug', $this->db->last_query());
-        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+        // echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+        echo $new_id;
 
       }
 }
