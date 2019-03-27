@@ -40,7 +40,7 @@ class Pc_board extends My_Controller {
         $email = $this->input->post('email');
         log_message('debug', print_r($email, TRUE));
 
-        $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level,  a.email, a.title, a.contents, a.eyes, a.talk, a.good ,
+        $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level,  a.email, a.title,  ( SELECT nickname FROM user WHERE email = a.email ) as "author", a.contents, a.eyes, a.talk, a.good ,
                                               CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
                                               IF (date(created) = date(now()),
                                               CASE WHEN ( HOUR(now()) - HOUR(created) ) = 0 THEN "조금전"
@@ -49,6 +49,7 @@ class Pc_board extends My_Controller {
                                               ELSE date(created) END
                                               ) AS createDate
                                       FROM talk as a  LEFT OUTER JOIN ( SELECT id, email FROM gooder WHERE email = ?) as b ON a.id = b.id
+                                      WHERE a.reply_id = 0
                                       ORDER BY created DESC', $email)->result_array();
 
         // $result = $this->db->get()->result_array();
@@ -63,7 +64,7 @@ class Pc_board extends My_Controller {
         $email = $this->input->post('email');
         log_message('debug', print_r($email, TRUE));
 
-        $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title, a.contents, a.eyes, a.talk, a.good ,
+        $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title,  ( SELECT nickname FROM user WHERE email = a.email ) as "author", a.contents, a.eyes, a.talk, a.good ,
                                               CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
                                               IF (date(created) = date(now()),
                                               CASE WHEN ( HOUR(now()) - HOUR(created) ) = 0 THEN "조금전"
@@ -73,7 +74,7 @@ class Pc_board extends My_Controller {
                                               ) AS createDate
                                       FROM talk as a  LEFT OUTER JOIN ( SELECT id, email FROM gooder WHERE email = ?) as b ON a.id = b.id
                                       WHERE a.id = ?
-                                      ORDER BY created DESC', $email, $id)->result_array();
+                                      ORDER BY a.reply_id ASC, a.reply_level', array('1'=>$email, '2'=>$id))->result_array();
 
         // $result = $this->db->get()->result_array();
 
@@ -125,7 +126,7 @@ class Pc_board extends My_Controller {
           if($reply_id == 0){ //신규 댓글
             $this->db->query('update talk set talk = talk + 1 WHERE id = ?', $id ); //댓글카운트 추가하기
             $result = $this->db->query('INSERT INTO talk (id, reply_id, reply_level,email,contents)
-                              VALUES (?, SELECT reply_id + 1 from talk where id = ?, ?, ?, ?)', 
+                              VALUES (?, ( SELECT reply_id + 1  from talk AS A where id = ? ), ?, ?, ?)', 
                                array(
                                 '0'=> $id, 
                                 '1'=> $id, 
@@ -135,7 +136,7 @@ class Pc_board extends My_Controller {
                                );
           }else if($reply_id <> 0 && $reply_level == 0) {   //신규 대댓글
             $result = $this->db->query('INSERT INTO talk (id, reply_id, reply_level,email,contents)
-                              VALUES (?, ?, SELECT reply_id + 1 from talk where id = ? and reply_id = ?, ?, ?)',
+                              VALUES (?, ?, SELECT reply_id + 1 from talk AS A where id = ? and reply_id = ?, ?, ?)',
                               array(
                                 '0'=> $id, 
                                 '1'=> $reply_id, 
