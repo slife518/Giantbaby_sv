@@ -121,12 +121,12 @@ class Pc_board extends My_Controller {
         $id = $this->input->post('id');
         $reply_id = $this->input->post('reply_id');
         $reply_level = $this->input->post('reply_level');
-        $contents = $this->input->post('$contents');
+        $contents = $this->input->post('contents');
 
           if($reply_id == 0){ //신규 댓글
             $this->db->query('update talk set talk = talk + 1 WHERE id = ?', $id ); //댓글카운트 추가하기
             $result = $this->db->query('INSERT INTO talk (id, reply_id, reply_level,email,contents)
-                              VALUES (?, ( SELECT reply_id + 1  from talk AS A where id = ? ), ?, ?, ?)', 
+                              VALUES (?, ( SELECT MAX(reply_id) + 1  from talk AS A where id = ? ), ?, ?, ?)', 
                                array(
                                 '0'=> $id, 
                                 '1'=> $id, 
@@ -136,7 +136,7 @@ class Pc_board extends My_Controller {
                                );
           }else if($reply_id <> 0 && $reply_level == 0) {   //신규 대댓글
             $result = $this->db->query('INSERT INTO talk (id, reply_id, reply_level,email,contents)
-                              VALUES (?, ?, SELECT reply_id + 1 from talk AS A where id = ? and reply_id = ?, ?, ?)',
+                              VALUES (?, ?, SELECT MAX(reply_level) + 1 from talk AS A where id = ? and reply_id = ?, ?, ?)',
                               array(
                                 '0'=> $id, 
                                 '1'=> $reply_id, 
