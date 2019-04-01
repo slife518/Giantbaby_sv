@@ -64,7 +64,25 @@ class Pc_board extends My_Controller {
         $email = $this->input->post('email');
         log_message('debug', print_r($email, TRUE));
 
-        $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title,  ( SELECT nickname FROM user WHERE email = a.email ) as "author", a.contents, a.eyes, a.talk, a.good ,
+        // $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title,  ( SELECT nickname FROM user WHERE email = a.email ) as "author", a.contents, a.eyes, a.talk, a.good ,
+        //                                       CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
+        //                                       IF (date(created) = date(now()),
+        //                                       CASE WHEN ( HOUR(now()) - HOUR(created) ) = 0 THEN "조금전"
+        //                                       ELSE CONCAT((HOUR(now()) - HOUR(created) ) , "시간전") END,
+        //                                       CASE WHEN YEAR(now()) = YEAR(created)  THEN CONCAT(MONTH(created), "월 ", DAY(created) ,"일")
+        //                                       ELSE date(created) END
+        //                                       ) AS createDate
+        //                               FROM talk as a  LEFT OUTER JOIN ( SELECT id, email FROM gooder WHERE email = ?) as b ON a.id = b.id
+        //                               WHERE a.id = ?
+        //                               ORDER BY a.reply_id ASC, a.reply_level', array('1'=>$email, '2'=>$id))->result_array();
+
+        $result = $this->get_talk_detail_query($email, $id);       
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+      }
+
+      function get_talk_detail_query($email, $id){
+        
+         $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title,  ( SELECT nickname FROM user WHERE email = a.email ) as "author", a.contents, a.eyes, a.talk, a.good ,
                                               CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
                                               IF (date(created) = date(now()),
                                               CASE WHEN ( HOUR(now()) - HOUR(created) ) = 0 THEN "조금전"
@@ -72,28 +90,33 @@ class Pc_board extends My_Controller {
                                               CASE WHEN YEAR(now()) = YEAR(created)  THEN CONCAT(MONTH(created), "월 ", DAY(created) ,"일")
                                               ELSE date(created) END
                                               ) AS createDate
-                                      FROM talk as a  LEFT OUTER JOIN ( SELECT id, email FROM gooder WHERE email = ?) as b ON a.id = b.id
+                                      FROM talk as a  LEFT OUTER JOIN ( SELECT id, reply_id, reply_level, email FROM gooder WHERE email = ?) as b ON a.id = b.id
+                                      AND a.reply_id = b.reply_id AND a.reply_level = b.reply_level
                                       WHERE a.id = ?
                                       ORDER BY a.reply_id ASC, a.reply_level', array('1'=>$email, '2'=>$id))->result_array();
 
-        // $result = $this->db->get()->result_array();
+          log_message('debug', $this->db->last_query());
+          log_message('debug',print_r($result,TRUE));
+          return $result;
 
-        log_message('debug', $this->db->last_query());
-        log_message('debug',print_r($result,TRUE));
-        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
       }
-
       function add_talk_good(){
         $email = $this->input->post('email');
         $id = $this->input->post('id');
+        $reply_id = $this->input->post('reply_id');
+        $reply_level = $this->input->post('reply_level');
+
         log_message('debug', print_r($email, TRUE));
-        $array = array( 'id' =>  $id, 'email' =>  $email);
+
+        $array = array( 'id' =>  $id, 'reply_id' => $reply_id, 'reply_level' => $reply_level, 'email' =>  $email);
         $result = $this->db->insert('gooder', $array);
-        $this->db->query(
-          'update talk
-          set good = good + 1
-          WHERE id = ?', $id
-        );
+
+        unset($array["email"]);
+
+        $this->db->where($array);
+        $this->db->set('good', 'good + 1', FALSE);
+        $this->db->update('talk');
+
         log_message('debug', $this->db->last_query());
         log_message('debug',print_r($result,TRUE));
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
@@ -103,14 +126,18 @@ class Pc_board extends My_Controller {
       function delete_talk_good(){
         $email = $this->input->post('email');
         $id = $this->input->post('id');
-        log_message('debug', print_r($email, TRUE));
-        $array = array( 'id' =>  $id, 'email' =>  $email);
+        $reply_id = $this->input->post('reply_id');
+        $reply_level = $this->input->post('reply_level');          
+        
+        $array = array( 'id' =>  $id, 'reply_id' => $reply_id, 'reply_level' => $reply_level, 'email' =>  $email);
         $result = $this->db->delete('gooder', $array);
-        $this->db->query(
-          'update talk
-          set good = good - 1
-          WHERE id = ?', $id
-        );
+
+        unset($array["email"]);
+        
+        $this->db->where($array);
+        $this->db->set('good', 'good - 1', FALSE);
+        $this->db->update('talk');
+
         log_message('debug', $this->db->last_query());
         log_message('debug',print_r($result,TRUE));
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
@@ -157,7 +184,9 @@ class Pc_board extends My_Controller {
                                 '4'=> $contents)
                               );
           }
-          log_message('debug', $this->db->last_query());
+          
+
+          $return = $this->get_talk_detail_query($id, $email);
           echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
       }
 
