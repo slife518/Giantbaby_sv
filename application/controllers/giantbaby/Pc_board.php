@@ -48,7 +48,7 @@ class Pc_board extends My_Controller {
                                               CASE WHEN YEAR(now()) = YEAR(created)  THEN CONCAT(MONTH(created), "월 ", DAY(created) ,"일")
                                               ELSE date(created) END
                                               ) AS createDate
-                                      FROM talk as a  LEFT OUTER JOIN ( SELECT id, email FROM gooder WHERE email = ?) as b ON a.id = b.id
+                                      FROM talk as a  LEFT OUTER JOIN ( SELECT id, email FROM gooder WHERE email = ? and reply_id = 0) as b ON a.id = b.id
                                       WHERE a.reply_id = 0
                                       ORDER BY created DESC', $email)->result_array();
 
@@ -63,6 +63,13 @@ class Pc_board extends My_Controller {
         $id = $this->input->post('id');
         $email = $this->input->post('email');
         log_message('debug', print_r($email, TRUE));
+
+        
+        $array = array( 'id' =>  $id, 'reply_id' => '0', 'reply_level' => '0');
+        $this->db->where($array);
+        $this->db->set('eyes', 'eyes + 1', FALSE);
+        $this->db->update('talk');
+
 
         // $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title,  ( SELECT nickname FROM user WHERE email = a.email ) as "author", a.contents, a.eyes, a.talk, a.good ,
         //                                       CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
@@ -100,6 +107,30 @@ class Pc_board extends My_Controller {
           return $result;
 
       }
+
+      function modify_talk_detail(){
+        $id = $this->input->post('id');
+        $email = $this->input->post('email');
+
+        $result = $this->modify_talk_detail_query($email, $id);       
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+
+      }
+
+      function modify_talk_detail_query($email, $id){
+        
+        $result = $this->db->query('SELECT title, contents
+                                     FROM talk 
+                                     WHERE id = ? and reply_id = 0 and reply_level = 0'
+                                     , array('1'=>$id))->result_array();
+
+         log_message('debug', $this->db->last_query());
+         log_message('debug',print_r($result,TRUE));
+         return $result;
+
+     }
+
+
       function add_talk_good(){
         $email = $this->input->post('email');
         $id = $this->input->post('id');
@@ -190,18 +221,39 @@ class Pc_board extends My_Controller {
           echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
       }
 
-      function add_new(){
+      function add_new(){  //신규글 입력 또는 수정 
+        $id = $this->input->post('id');
+        $reply_id = $this->input->post('reply_id');
+        $reply_level = $this->input->post('reply_level');
+
         $email = $this->input->post('email');
         $title = $this->input->post('title');        
         $contents = $this->input->post('contents');   
-        
+
+        if(empty($id) ){   //신규등록
+          
         //  $result = $this->db->query('INSERT INTO talk (email, title, contents) VALUES (?, ?, ?)',array('0'=>$email, '1'=>$title, '2'=>$contents) );
          $result = $this->db->insert('talk',array('email'=>$email, 'title'=>$title, 'contents'=>$contents));
          $new_id = $this->db->insert_id('id');
+         
+        }else{  // 수정 
+           
+          $array = array( 'id' =>  $id, 'reply_id' => '0', 'reply_level' => '0');
+          $this->db->where($array);
+          $this->db->set( 'title' , $title);
+          $this->db->set( 'contents' , $contents);        
+          $this->db->update('talk');
+
+          $new_id = $id;
+
+        }
+
         log_message('debug', $this->db->last_query());
         // echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
         echo $new_id;
 
       }
+
+
 }
 ?>
