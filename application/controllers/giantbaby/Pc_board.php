@@ -131,6 +131,17 @@ class Pc_board extends My_Controller {
      }
 
 
+     function delete_talk(){
+
+      $id = $this->input->post('id');
+      
+      $array = array( 'id' =>  $id);
+      $result = $this->db->delete('gooder', $array);
+      $result = $this->db->delete('talk', $array);      
+      log_message('debug', $this->db->last_query());
+      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+    }
+
       function add_talk_good(){
         $email = $this->input->post('email');
         $id = $this->input->post('id');
