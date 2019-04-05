@@ -71,18 +71,6 @@ class Pc_board extends My_Controller {
         $this->db->update('talk');
 
 
-        // $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title,  ( SELECT nickname FROM user WHERE email = a.email ) as "author", a.contents, a.eyes, a.talk, a.good ,
-        //                                       CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
-        //                                       IF (date(created) = date(now()),
-        //                                       CASE WHEN ( HOUR(now()) - HOUR(created) ) = 0 THEN "조금전"
-        //                                       ELSE CONCAT((HOUR(now()) - HOUR(created) ) , "시간전") END,
-        //                                       CASE WHEN YEAR(now()) = YEAR(created)  THEN CONCAT(MONTH(created), "월 ", DAY(created) ,"일")
-        //                                       ELSE date(created) END
-        //                                       ) AS createDate
-        //                               FROM talk as a  LEFT OUTER JOIN ( SELECT id, email FROM gooder WHERE email = ?) as b ON a.id = b.id
-        //                               WHERE a.id = ?
-        //                               ORDER BY a.reply_id ASC, a.reply_level', array('1'=>$email, '2'=>$id))->result_array();
-
         $result = $this->get_talk_detail_query($email, $id);       
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
       }
@@ -107,6 +95,38 @@ class Pc_board extends My_Controller {
           return $result;
 
       }
+
+      function get_talk_detail_reply(){   //대댓글화면에 뿌려줄 데이터 가져오기 
+
+        $id = $this->input->post('id');
+        $reply_id = $this->input->post('reply_id');
+        $email = $this->input->post('email');        
+        
+        $result = $this->get_talk_detail_rere_query($email, $id, $reply_id);       
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+
+      }
+
+      function get_talk_detail_rere_query($email, $id, $reply_id){
+        
+        $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title,  ( SELECT nickname FROM user WHERE email = a.email ) as "author", a.contents, a.eyes, a.talk, a.good ,
+                                             CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
+                                             IF (date(created) = date(now()),
+                                             CASE WHEN ( HOUR(now()) - HOUR(created) ) = 0 THEN "조금전"
+                                             ELSE CONCAT((HOUR(now()) - HOUR(created) ) , "시간전") END,
+                                             CASE WHEN YEAR(now()) = YEAR(created)  THEN CONCAT(MONTH(created), "월 ", DAY(created) ,"일")
+                                             ELSE date(created) END
+                                             ) AS createDate
+                                     FROM talk as a  LEFT OUTER JOIN ( SELECT id, reply_id, reply_level, email FROM gooder WHERE email = ?) as b ON a.id = b.id
+                                     AND a.reply_id = b.reply_id AND a.reply_level = b.reply_level
+                                     WHERE a.id = ? and a.reply_id = ?
+                                     ORDER BY a.reply_id ASC, a.reply_level', array('1'=>$email, '2'=>$id, '3'=>$reply_id))->result_array();
+
+         log_message('debug', $this->db->last_query());
+         log_message('debug',print_r($result,TRUE));
+         return $result;
+
+     }
 
       function modify_talk_detail(){
         $id = $this->input->post('id');
@@ -133,14 +153,24 @@ class Pc_board extends My_Controller {
 
      function delete_talk(){
 
-      $id = $this->input->post('id');
-      
-      $array = array( 'id' =>  $id);
-      $result = $this->db->delete('gooder', $array);
-      $result = $this->db->delete('talk', $array);      
-      log_message('debug', $this->db->last_query());
-      echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+        $id = $this->input->post('id');
+        $reply_id = $this->input->post('reply_id');
+        $reply_level = $this->input->post('reply_level');
+
+        $array = array( 'id' =>  $id, 'reply_id' => $reply_id, 'reply_level' => $reply_level);
+       
+        if(empty($reply_level)){
+          unset($array["reply_level"]);
+        }
+        if(empty($reply_id)){
+          unset($array["reply_id"]);
+        }
+        $result = $this->db->delete('gooder', $array);
+        $result = $this->db->delete('talk', $array);      
+        log_message('debug', $this->db->last_query());
+        echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
     }
+
 
       function add_talk_good(){
         $email = $this->input->post('email');
