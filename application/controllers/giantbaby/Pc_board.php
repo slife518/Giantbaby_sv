@@ -64,19 +64,19 @@ class Pc_board extends My_Controller {
         $email = $this->input->post('email');
         log_message('debug', print_r($email, TRUE));
 
-        
+
         $array = array( 'id' =>  $id, 'reply_id' => '0', 'reply_level' => '0');
         $this->db->where($array);
         $this->db->set('eyes', 'eyes + 1', FALSE);
         $this->db->update('talk');
 
 
-        $result = $this->get_talk_detail_query($email, $id);       
+        $result = $this->get_talk_detail_query($email, $id);
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
       }
 
       function get_talk_detail_query($email, $id){
-        
+
          $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title,  ( SELECT nickname FROM user WHERE email = a.email ) as "author", a.contents, a.eyes, a.talk, a.good ,
                                               CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
                                               IF (date(created) = date(now()),
@@ -96,19 +96,19 @@ class Pc_board extends My_Controller {
 
       }
 
-      function get_talk_detail_reply(){   //대댓글화면에 뿌려줄 데이터 가져오기 
+      function get_talk_detail_reply(){   //대댓글화면에 뿌려줄 데이터 가져오기
 
         $id = $this->input->post('id');
         $reply_id = $this->input->post('reply_id');
-        $email = $this->input->post('email');        
-        
-        $result = $this->get_talk_detail_rere_query($email, $id, $reply_id);       
+        $email = $this->input->post('email');
+
+        $result = $this->get_talk_detail_rere_query($email, $id, $reply_id);
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 
       }
 
       function get_talk_detail_rere_query($email, $id, $reply_id){
-        
+
         $result = $this->db->query('SELECT a.id, a.reply_id, a.reply_level, a.email, a.title,  ( SELECT nickname FROM user WHERE email = a.email ) as "author", a.contents, a.eyes, a.talk, a.good ,
                                              CASE WHEN b.email is NOT NULL THEN "true" else "false" END as goodChecked,
                                              IF (date(created) = date(now()),
@@ -132,15 +132,15 @@ class Pc_board extends My_Controller {
         $id = $this->input->post('id');
         $email = $this->input->post('email');
 
-        $result = $this->modify_talk_detail_query($email, $id);       
+        $result = $this->modify_talk_detail_query($email, $id);
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 
       }
 
       function modify_talk_detail_query($email, $id){
-        
+
         $result = $this->db->query('SELECT title, contents
-                                     FROM talk 
+                                     FROM talk
                                      WHERE id = ? and reply_id = 0 and reply_level = 0'
                                      , array('1'=>$id))->result_array();
 
@@ -157,16 +157,18 @@ class Pc_board extends My_Controller {
         $reply_id = $this->input->post('reply_id');
         $reply_level = $this->input->post('reply_level');
 
+log_message('debug', "id" .$id ."reply_id" .$reply_id ."reply_level" .$reply_level);
+
         $array = array( 'id' =>  $id, 'reply_id' => $reply_id, 'reply_level' => $reply_level);
-       
-        if(empty($reply_level)){
+
+        if(empty($reply_level) || $reply_level == 0){
           unset($array["reply_level"]);
         }
-        if(empty($reply_id)){
+        if(empty($reply_id) || $reply_id == 0){
           unset($array["reply_id"]);
         }
         $result = $this->db->delete('gooder', $array);
-        $result = $this->db->delete('talk', $array);      
+        $result = $this->db->delete('talk', $array);
         log_message('debug', $this->db->last_query());
         echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
     }
@@ -199,13 +201,13 @@ class Pc_board extends My_Controller {
         $email = $this->input->post('email');
         $id = $this->input->post('id');
         $reply_id = $this->input->post('reply_id');
-        $reply_level = $this->input->post('reply_level');          
-        
+        $reply_level = $this->input->post('reply_level');
+
         $array = array( 'id' =>  $id, 'reply_id' => $reply_id, 'reply_level' => $reply_level, 'email' =>  $email);
         $result = $this->db->delete('gooder', $array);
 
         unset($array["email"]);
-        
+
         $this->db->where($array);
         $this->db->set('good', 'good - 1', FALSE);
         $this->db->update('talk');
@@ -225,64 +227,64 @@ class Pc_board extends My_Controller {
           if($reply_id == 0){ //신규 댓글
             $this->db->query('update talk set talk = talk + 1 WHERE id = ?', $id ); //댓글카운트 추가하기
             $result = $this->db->query('INSERT INTO talk (id, reply_id, reply_level,email,contents)
-                              VALUES (?, ( SELECT MAX(reply_id) + 1  from talk AS A where id = ? ), ?, ?, ?)', 
+                              VALUES (?, ( SELECT MAX(reply_id) + 1  from talk AS A where id = ? ), ?, ?, ?)',
                                array(
-                                '0'=> $id, 
-                                '1'=> $id, 
-                                '2'=> $reply_level, 
-                                '3'=> $email, 
+                                '0'=> $id,
+                                '1'=> $id,
+                                '2'=> $reply_level,
+                                '3'=> $email,
                                 '4'=> $contents)
                                );
           }else if($reply_id <> 0 && $reply_level == 0) {   //신규 대댓글
             $result = $this->db->query('INSERT INTO talk (id, reply_id, reply_level,email,contents)
-                              VALUES (?, ?, SELECT MAX(reply_level) + 1 from talk AS A where id = ? and reply_id = ?, ?, ?)',
+                              VALUES (?, ?, (SELECT MAX(reply_level) + 1 from talk AS A where id = ? and reply_id = ?), ?, ?)',
                               array(
-                                '0'=> $id, 
-                                '1'=> $reply_id, 
-                                '2'=> $id, 
-                                '3'=> $reply_id, 
-                                '4'=> $email, 
+                                '0'=> $id,
+                                '1'=> $reply_id,
+                                '2'=> $id,
+                                '3'=> $reply_id,
+                                '4'=> $email,
                                 '5'=> $contents
                                 )
                               );
           }else{  //기존댓글 수정
             $result = $this->db->query('REPLACE INTO talk (id, reply_id, reply_level, email, contents)
-                              VALUES (?, ?, ?, ?, ?)', 
+                              VALUES (?, ?, ?, ?, ?)',
                               array(
-                                '0'=> $id, 
-                                '1'=> $reply_id, 
-                                '2'=> $reply_level, 
-                                '3'=> $email, 
+                                '0'=> $id,
+                                '1'=> $reply_id,
+                                '2'=> $reply_level,
+                                '3'=> $email,
                                 '4'=> $contents)
                               );
           }
-          
+
 
           $return = $this->get_talk_detail_query($id, $email);
           echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
       }
 
-      function add_new(){  //신규글 입력 또는 수정 
+      function add_new(){  //신규글 입력 또는 수정
         $id = $this->input->post('id');
         $reply_id = $this->input->post('reply_id');
         $reply_level = $this->input->post('reply_level');
 
         $email = $this->input->post('email');
-        $title = $this->input->post('title');        
-        $contents = $this->input->post('contents');   
+        $title = $this->input->post('title');
+        $contents = $this->input->post('contents');
 
         if(empty($id) ){   //신규등록
-          
+
         //  $result = $this->db->query('INSERT INTO talk (email, title, contents) VALUES (?, ?, ?)',array('0'=>$email, '1'=>$title, '2'=>$contents) );
          $result = $this->db->insert('talk',array('email'=>$email, 'title'=>$title, 'contents'=>$contents));
          $new_id = $this->db->insert_id('id');
-         
-        }else{  // 수정 
-           
+
+        }else{  // 수정
+
           $array = array( 'id' =>  $id, 'reply_id' => '0', 'reply_level' => '0');
           $this->db->where($array);
           $this->db->set( 'title' , $title);
-          $this->db->set( 'contents' , $contents);        
+          $this->db->set( 'contents' , $contents);
           $this->db->update('talk');
 
           $new_id = $id;

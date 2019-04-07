@@ -118,44 +118,46 @@ CREATE TABLE `buy` (
   );
 
 
-  CREATE TABLE talk (
-      id  int(11) NOT NULL,      
-      reply_id int(11) NOT NULL COMMENT '댓글의 키값' ,
-      reply_level int(11) NOT NULL COMMENT '대댓글의 들여쓰기 순서' ,
-      email varchar(50) NOT NULL,      
-      title varchar(50) null, 
-      contents text NULL,
-      eyes int(3) not null, 
-      talk int(3) null, 
-      good int(5) null,
-      updated  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      created  datetime DEFAULT CURRENT_TIMESTAMP,
-      PRIMARY KEY (id, reply_id, reply_level)
-  );
 
-//글 목록 
+  CREATE TABLE `talk` (
+    `id` int(11) NOT NULL,
+    `reply_id` int(11) NOT NULL DEFAULT '0' COMMENT '댓글의 키값',
+    `reply_level` int(11) NOT NULL DEFAULT '0' COMMENT '대댓글의 들여쓰기 순서',
+    `email` varchar(50) NOT NULL,
+    `title` varchar(50) DEFAULT NULL,
+    `contents` text,
+    `eyes` int(3) DEFAULT '0',
+    `talk` int(3) DEFAULT '0',
+    `good` int(5) DEFAULT '0',
+    `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `created` datetime DEFAULT CURRENT_TIMESTAMP
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+//글 목록
   select * from talk
   where reply_id = 0
-  order by id desc 
+  order by id desc
 
 //글 상세 (댓글포함)
   select * from talk
   where id = $
   order by reply_id, reply_level
-  
-  // 좋아요를 한 사람들 
-CREATE TABLE `gooder` (
-  `id` int(11) NOT NULL,
-  `reply_id` int(11) NOT NULL,
-  `reply_level` int(3) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `created` datetime DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+  // 좋아요를 한 사람들
+
+  CREATE TABLE `gooder` (
+    `id` int(11) NOT NULL,
+    `reply_id` int(11) NOT NULL,
+    `reply_level` int(3) NOT NULL,
+    `email` varchar(50) NOT NULL,
+    `created` datetime DEFAULT CURRENT_TIMESTAMP
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 ALTER TABLE `gooder`
   ADD PRIMARY KEY (`id`,`reply_id`,`reply_level`,`email`);
 
-  
+
   CREATE TABLE boardlike (
       id  int(11) NOT NULL,
       email varchar(50) NOT NULL COMMENT '작성자',
