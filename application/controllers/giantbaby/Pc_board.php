@@ -167,6 +167,11 @@ log_message('debug', "id" .$id ."reply_id" .$reply_id ."reply_level" .$reply_lev
         if(empty($reply_id) || $reply_id == 0){
           unset($array["reply_id"]);
         }
+
+        if($reply_id > 0){
+          $this->db->query('update talk set talk = talk - 1 WHERE id = ?', $id ); //댓글카운트 빼기
+        }
+        
         $result = $this->db->delete('gooder', $array);
         $result = $this->db->delete('talk', $array);
         log_message('debug', $this->db->last_query());

@@ -69,16 +69,25 @@ class Pc_baby extends My_Controller {
             $result = $this->db->insert('relation', $relationinfo);
             $this->db->where('email', $array['owner']);
             $this->db->update('user', array('baby_id'=>$baby_id));  // 성공이면 1
-            $result = $baby_id;
+            $array = array(
+              'result'=>$baby_id,
+              'type'=>'new'              
+            );
+
+            // $result = $baby_id;
 
           }else{    //기존 아기정보 변경
 
             $this->db->where('baby_id', $baby_id);
             $result = $this->db->update('baby', $array);  // 성공이면 1
+            $array = array(
+              'result'=>$result,
+              'type'=>'update'              
+            );
 
           }
 
-          echo json_encode(array("result"=>$result),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
+          echo json_encode($array,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);   // 1을 넘기면 true Boolean 으로 넘어간다.
 
     }
 
