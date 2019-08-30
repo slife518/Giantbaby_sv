@@ -45,6 +45,27 @@ class Pc_user_model extends CI_Model {
         return $result;
     }
 
+    function update_visit($email)
+    {
+      //  $this->db->set('email', $option['email']);
+        // $this->db->set('nickname', $option['nickname']);
+        // $this->db->set('updated', 'NOW()', false);
+        // if(!empty($option['password']))
+        // {
+        //   $this->db->set('password', $option['password']);
+        // }
+       
+        $this->db->set('lastvisit', 'NOW()', false);
+        $this->db->set('visitcount', 'visitcount + 1', false);
+        $this->db->where('email',  $email);
+        $result = $this->db->update('user', $option);   //update(테이블, 데이터, where)  결과가 1 이면 성공   
+        
+
+        log_message('debug', $this->db->last_query());
+        log_message('debug', $result);     
+        return $result;
+    }
+
     // function getByEmail($email){
     // //     log_message('debug', 'getByEmail 시작 ');
     // //   $result = $this->db->get_where('user', array('email'=>$email))->row_array();
